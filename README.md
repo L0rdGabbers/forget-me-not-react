@@ -178,7 +178,6 @@ By forking the GitHub Repository we make a copy of the original repository on ou
 ### Content
 
 -   All content was written by the developer.
-
 ### Media
 
 -   All Images were created by the developer.
