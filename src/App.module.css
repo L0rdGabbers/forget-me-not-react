@@ -38,3 +38,8 @@ i:hover {
     transition: color ease-in-out 0.3s;
     color: #2142b2;
 }
+
+.Header {
+    color: #6F6AA3;
+    margin-bottom: 1rem;
+}

@@ -1,0 +1,15 @@
+.FormContainer {
+    margin-top: 2rem;
+    background-color: #ffffff;
+    background-size: cover;
+    height: 80vh;
+    border: 1px solid #dadada;
+}
+
+.Row {
+    width: 80%;
+}
+
+.Form {
+    width: 100%;
+}
