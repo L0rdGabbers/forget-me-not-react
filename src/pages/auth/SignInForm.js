@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import styles from "../../styles/SignUpInForm.module.css";
 import appStyles from "../../App.module.css";
 
@@ -12,37 +11,34 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { useSetCurrentUser } from "../../contexts/CurrentUserContext";
 
-const SignUpForm = () => {
-  const [signUpData, setSignUpData] = useState({
+const SignInForm = () => {
+  const setCurrentUser = useSetCurrentUser();
+
+  const [signInData, setSignInData] = useState({
     username: "",
-    email: "",
-    password1: "",
-    password2: "",
-  });
-  const { username, email, password1, password2 } = signUpData;
+    password: "",
+  })
+
+  const { username, password } = signInData;
   const [errors, setErrors] = useState({});
-  const history = useHistory();
+  const hisotry = useHistory();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const { data } = await axios.post("/dj-rest-auth/login/", signInData);
+      setCurrentUser(data.user);
+      hisotry.push("/");
+    } catch (err) {}
+  };
   const handleChange = (event) => {
-    setSignUpData({
-      ...signUpData,
+    setSignInData({
+      ...signInData,
       [event.target.name]: event.target.value,
     });
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      await axios.post("/dj-rest-auth/registration/", signUpData);
-      history.push("/signin");
-    } catch (err) {
-      console.error('Error submitting form:', err);
-      console.log('Response data:', err.response?.data);
-      console.log('Status code:', err.response?.status);
-      console.log('Status text:', err.response?.statusText);
-      setErrors(err.response?.data || {});
-    }
-  };
 
   return (
     <Container
@@ -70,55 +66,24 @@ const SignUpForm = () => {
             </Alert>
           ))}
 
-          <Form.Group controlId="email">
-            <Form.Label className="d-none">Email address</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              name="email"
-              value={email}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          {errors.email?.map((message, idx) => (
-            <Alert variant="warning" key={idx}>
-              {message}
-            </Alert>
-          ))}
-
-          <Form.Group controlId="password1">
+          <Form.Group controlId="password">
             <Form.Label className="d-none">Password</Form.Label>
             <Form.Control
               type="password"
               placeholder="Enter Password"
-              name="password1"
-              value={password1}
+              name="password"
+              value={password}
               onChange={handleChange}
             />
           </Form.Group>
-          {errors.password1?.map((message, idx) => (
+          {errors.password?.map((message, idx) => (
             <Alert variant="warning" key={idx}>
               {message}
             </Alert>
           ))}
 
-          <Form.Group controlId="password2">
-            <Form.Label className="d-none">Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Enter Password Again"
-              name="password2"
-              value={password2}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          {errors.password2?.map((message, idx) => (
-            <Alert variant="warning" key={idx}>
-              {message}
-            </Alert>
-          ))}
           <Button variant="primary" type="submit">
-            Sign Up
+            Sign In
           </Button>
           {errors.non_field_errors?.map((message, idx) => (
             <Alert variant="warning" key={idx} className="mt-3">
@@ -131,4 +96,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default SignInForm
