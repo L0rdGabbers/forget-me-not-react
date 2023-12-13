@@ -1,45 +1,20 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import styles from '../styles/NavBar.module.css'
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useCurrentUser, useSetCurrentUser } from '../contexts/CurrentUserContext';
 import Avatar from './Avatar';
 import axios from 'axios';
+import useDropdown from '../hooks/useDropdown';
+import useClickOutsideToggle from '../hooks/useClickOutsideToggle';
 
 const NavBar = () => {
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
 
-  const [projectDropdownOpen, setProjectDropdownOpen] = useState(false)
-  const [friendDropdownOpen, setFriendDropdownOpen] = useState(false)
-  const handleProjectMouseEnter = () => {
-    setProjectDropdownOpen(true);
-  }
-  const handleProjectMouseLeave = () => {
-    setProjectDropdownOpen(false);
-  }
-  const handleFriendMouseEnter = () => {
-    setFriendDropdownOpen(true);
-  }
-  const handleFriendMouseLeave = () => {
-    setFriendDropdownOpen(false);
-  }
+  const { expanded, setExpanded, ref } = useClickOutsideToggle();
 
-
-  const [expanded, setExpanded] = useState(false);
-  const ref = useRef(null)
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (ref.current && !ref.current.contains(event.target)){
-        setExpanded(false)
-      }
-    }
-
-    document.addEventListener('mouseup', handleClickOutside)
-    return () => {
-      document.removeEventListener('mouseup', handleClickOutside)
-    }
-  }, [ref])
+  const { dropdownOpen, handleMouseEnter, handleMouseLeave } = useDropdown();
 
   const location = useLocation();
 
@@ -80,9 +55,9 @@ const NavBar = () => {
           </span>
         }
         id="project-dropdown"
-        show={projectDropdownOpen}
-        onMouseEnter={handleProjectMouseEnter}
-        onMouseLeave={handleProjectMouseLeave}
+        show={dropdownOpen === 'project-id'}
+        onMouseEnter={() => handleMouseEnter('project-id')}
+        onMouseLeave={handleMouseLeave}
       >
         <NavDropdown.Item as={NavLink} to="/projects/create">
           Create Project
@@ -103,9 +78,9 @@ const NavBar = () => {
           </span>
         }
         id="friend-dropdown"
-        show={friendDropdownOpen}
-        onMouseEnter={handleFriendMouseEnter}
-        onMouseLeave={handleFriendMouseLeave}
+        show={dropdownOpen === 'friend-id'}
+        onMouseEnter={() => handleMouseEnter('friend-id')}
+        onMouseLeave={handleMouseLeave}
       >
         <NavDropdown.Item as={NavLink} to="/friends/send-request">
           Add Friend
