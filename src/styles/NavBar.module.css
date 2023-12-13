@@ -17,3 +17,19 @@
 .Active, .Active i {
     color: #2142b2;
 }
+
+.navItem {
+    display: inline-block;
+    vertical-align: middle; /* This will align the icon and text vertically */
+  }
+  
+  .icon {
+    font-size: 20px; /* Adjust this value as needed */
+    margin-right: 5px; /* Adjust the margin between the icon and text as needed */
+    line-height: 0.5;
+  }
+  
+  .navText {
+    font-size: 20px; /* Adjust this value as needed */
+    color: black;
+  }
