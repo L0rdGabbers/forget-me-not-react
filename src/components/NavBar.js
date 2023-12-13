@@ -82,7 +82,7 @@ const NavBar = () => {
         onMouseEnter={() => handleMouseEnter('friend-id')}
         onMouseLeave={handleMouseLeave}
       >
-        <NavDropdown.Item as={NavLink} to="/friends/send-request">
+        <NavDropdown.Item as={NavLink} to="/friends/create">
           Add Friend
         </NavDropdown.Item>
         <NavDropdown.Item as={NavLink} to="/friends/view-friends">

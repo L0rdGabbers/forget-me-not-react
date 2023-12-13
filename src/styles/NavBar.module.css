@@ -15,7 +15,7 @@
 }
   
 .Active, .Active i {
-    color: #2142b2;
+    color: #63336B;
 }
 
 .navItem {
@@ -32,4 +32,8 @@
   .navText {
     font-size: 20px; /* Adjust this value as needed */
     color: black;
+  }
+
+  .navText:hover {
+    color:#63336B
   }
