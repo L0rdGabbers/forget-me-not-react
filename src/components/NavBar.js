@@ -10,6 +10,22 @@ const NavBar = () => {
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
 
+  const [projectDropdownOpen, setProjectDropdownOpen] = useState(false)
+  const [friendDropdownOpen, setFriendDropdownOpen] = useState(false)
+  const handleProjectMouseEnter = () => {
+    setProjectDropdownOpen(true);
+  }
+  const handleProjectMouseLeave = () => {
+    setProjectDropdownOpen(false);
+  }
+  const handleFriendMouseEnter = () => {
+    setFriendDropdownOpen(true);
+  }
+  const handleFriendMouseLeave = () => {
+    setFriendDropdownOpen(false);
+  }
+
+
   const [expanded, setExpanded] = useState(false);
   const ref = useRef(null)
   useEffect(() => {
@@ -64,6 +80,9 @@ const NavBar = () => {
           </span>
         }
         id="project-dropdown"
+        show={projectDropdownOpen}
+        onMouseEnter={handleProjectMouseEnter}
+        onMouseLeave={handleProjectMouseLeave}
       >
         <NavDropdown.Item as={NavLink} to="/projects/create">
           Create Project
@@ -84,6 +103,9 @@ const NavBar = () => {
           </span>
         }
         id="friend-dropdown"
+        show={friendDropdownOpen}
+        onMouseEnter={handleFriendMouseEnter}
+        onMouseLeave={handleFriendMouseLeave}
       >
         <NavDropdown.Item as={NavLink} to="/friends/send-request">
           Add Friend
