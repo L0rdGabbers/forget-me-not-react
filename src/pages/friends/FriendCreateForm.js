@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { axiosReq } from '../../api/axiosDefaults';
 import { useHistory } from 'react-router-dom';
+import { useCurrentUser } from '../../contexts/CurrentUserContext';
+import { response } from 'msw';
 
 const FriendCreateForm = () => {
-  const [friendUsername, setFriendUsername] = useState("");
-  const [profileData, setProfileData] = useState([]);
-  const [friendId, setFriendId] = useState("");
+  const currentUser = useCurrentUser();
+
+  const [ friendUsername, setFriendUsername ] = useState("");
+  const [ profileData, setProfileData ] = useState([]);
+  const [ friendId, setFriendId ] = useState("");
+  const [ friendListData, setFriendListData ] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
@@ -21,6 +26,15 @@ const FriendCreateForm = () => {
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
+      }
+      try {
+        const friends = await axiosReq.get('/friends/')
+        if (friends.status === 200) {
+          const data = friends.data.friend_details;
+          console.log(data)
+        }
+      } catch (error) {
+        console.error("Error fetching friend data:", error)
       }
     };
     fetchData();
@@ -40,15 +54,17 @@ const FriendCreateForm = () => {
     }
   };
 
-
   const sendFriendRequest = async (receiverId) => {
     try {
-      const response = await axiosReq.post('/send-friend-request/', { receiver: receiverId });
-      console.log('Friend request sent successfully:', response.data);
-      history.push('/') //Update later to push to friend requests page.
+      if (receiverId !== currentUser.pk) {
+        const response = await axiosReq.post('/send-friend-request/', { receiver: receiverId });
+        console.log('Friend request sent successfully:', response.data);
+        history.push('/') // Update later to push to friend requests page.
+      } else {
+        console.log("Cannot send a friend request to yourself.");
+      }
     } catch (error) {
       console.error('Error sending friend request:', error);
-      
     }
   };
 
