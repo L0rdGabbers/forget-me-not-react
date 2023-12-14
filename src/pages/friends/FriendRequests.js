@@ -11,6 +11,7 @@ const FriendRequests = () => {
   const history = useHistory();
 
   useEffect(() => {
+    let isMounted = true;
     const fetchData = async () => {
         try {
           const response = await axiosReq.get(`/friend-requests/`);
@@ -26,6 +27,10 @@ const FriendRequests = () => {
         }
     }
     fetchData();
+
+    return () => {
+      isMounted = false;
+    } 
   }, [])
 
   const FriendRequestRow = ({ request }) => {

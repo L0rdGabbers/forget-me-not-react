@@ -10,6 +10,7 @@ import ProjectCreateForm from "./pages/projects/ProjectCreateForm";
 import FriendCreateForm from "./pages/friends/FriendCreateForm";
 import axios from "axios";
 import FriendRequests from "./pages/friends/FriendRequests";
+import FriendList from "./pages/friends/FriendList";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route exact path="/signup" render={() => <SignUpForm />} />
           <Route exact path="/signin" render={() => <SignInForm />} />
           <Route exact path="/projects/create" render={() => <ProjectCreateForm />} />
+          <Route exact path="/friends/list" render={() => <FriendList />} />
           <Route exact path="/friends/create" render={() => <FriendCreateForm />} />
           <Route exact path= "/friends/requests/" render={() => <FriendRequests />} />
           <Route render={() => <p>Page not found!</p>} />

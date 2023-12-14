@@ -13,6 +13,8 @@ const FriendCreateForm = () => {
   const history = useHistory();
 
   useEffect(() => {
+    let isMounted = true;
+    
     const fetchData = async () => {
       try {
         const response = await axiosReq.get(`/profiles/`);
@@ -37,6 +39,10 @@ const FriendCreateForm = () => {
       }
     };
     fetchData();
+
+    return () => {
+      isMounted = false;
+    };
   }, []); 
 
   const findProfileByUsername = () => {
