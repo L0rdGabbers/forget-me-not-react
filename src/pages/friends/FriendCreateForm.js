@@ -1,46 +1,64 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { axiosReq } from '../../api/axiosDefaults';
-import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 const FriendCreateForm = () => {
-    const [friendUsername, setFriendUsername] = useState('');
-    const [profileData, setProfileData] = useState([]);
+  const [friendUsername, setFriendUsername] = useState("");
+  const [profileData, setProfileData] = useState([]);
+  const [friendId, setFriendId] = useState("");
+  const history = useHistory();
 
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await axiosReq.get(`/profiles/`);
-          if (response.status === 200) {
-            const data = response.data;
-            console.log(data)
-            setProfileData(data);
-          } else {
-            console.error('Failed to fetch user data');
-          }
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-        }
-      };
-      fetchData();
-    }, []); 
-
-    const handleUsernameChange = (event) => {
-      setFriendUsername(event.target.value)
-    }
-
-    const findProfileByUsername = () => {
-      if (profileData && friendUsername) {
-        const profilesArray = Object.values(profileData.results)
-        const foundProfile = profilesArray.find(profile => profile && profile.owner === friendUsername)
-
-
-        if (foundProfile) {
-          console.log('Profile found', foundProfile);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosReq.get(`/profiles/`);
+        if (response.status === 200) {
+          const data = response.data;
+          console.log(data);
+          setProfileData(data);
         } else {
-          console.log('Profile not found');
+          console.error("Failed to fetch user data");
         }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
       }
     };
+    fetchData();
+  }, []); 
+
+  const findProfileByUsername = () => {
+    if (profileData && friendUsername) {
+      const profilesArray = Object.values(profileData.results)
+      const foundProfile = profilesArray.find(profile => profile && profile.owner === friendUsername)
+
+      if (foundProfile) {
+        console.log('Profile found', foundProfile);
+        setFriendId(foundProfile.id)
+      } else {
+        console.log('Profile not found');
+      }
+    }
+  };
+
+
+  const sendFriendRequest = async (receiverId) => {
+    try {
+      const response = await axiosReq.post('/send-friend-request/', { receiver: receiverId });
+      console.log('Friend request sent successfully:', response.data);
+      history.push('/') //Update later to push to friend requests page.
+    } catch (error) {
+      console.error('Error sending friend request:', error);
+      
+    }
+  };
+
+  const handleUsernameChange = (event) => {
+    setFriendUsername(event.target.value);
+  };
+
+  const handleSendFriendRequest = () => {
+    sendFriendRequest(friendId);
+  };
 
   return (
     <div>
@@ -49,9 +67,10 @@ const FriendCreateForm = () => {
         Enter Friend Username:
         <input type="text" value={friendUsername} onChange={handleUsernameChange} />
       </label>
-      <button onClick={findProfileByUsername} disabled={!friendUsername.trim()}>Get data</button>
+      <button onClick={findProfileByUsername}>Check for Username</button>
+      <button onClick={handleSendFriendRequest}>Send Friend Request</button>
     </div>
-  )
-}
+  );
+};
 
-export default FriendCreateForm
+export default FriendCreateForm;
