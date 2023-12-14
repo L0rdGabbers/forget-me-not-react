@@ -104,7 +104,7 @@ const NavBar = () => {
         className={styles.NavLink}
         to={`/profiles/${currentUser?.profile_id}`}
       >
-        <Avatar src={currentUser?.profile_image} text="Profile" height={40} />
+        <Avatar src={currentUser?.profile_image} text={currentUser?.username} height={40} />
       </NavLink>
     </>
   );
@@ -128,7 +128,7 @@ const NavBar = () => {
   );
 
   return (
-    <Navbar expanded={expanded} className={styles.NavBar} collapseOnSelect expand="lg">
+    <Navbar expanded={expanded} className={styles.NavBar} collapseOnSelect expand="xl">
       <NavLink to="/">
         <Navbar.Brand className={styles.Title}>Forget Me Not</Navbar.Brand>
       </NavLink>

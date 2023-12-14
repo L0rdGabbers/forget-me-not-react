@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { axiosReq  } from '../../api/axiosDefaults'
 import Avatar from '../../components/Avatar';
+import { Button } from 'react-bootstrap';
 
 const FriendList = () => {
   const [ friendList, setFriendList ] = useState({});
   const [ friendProfiles, setFriendProfiles ] = useState({});
+  const [ unfriendedFriends, setUnfriendedFriends ] = useState([])
 
 
   useEffect(() => {
@@ -42,7 +44,20 @@ const FriendList = () => {
     return () => {
       isMounted = false;
     }
-  }, [])
+  }, []);
+
+  const handleUnfriend = async (friendId) => {
+    try {
+      const response = await axiosReq.put(`/friends/${friendId}/`, {unfriend: true});
+      if (response.status == 200) {
+        setUnfriendedFriends((prevUnfriendedFriends) => [...prevUnfriendedFriends, friendId]);
+      } else {
+        console.error('Failed to unfriend');
+      }
+    } catch(error) {
+      console.error('Error unfriending:', error)
+    }
+  };
 
   return (
     <div>
@@ -53,7 +68,14 @@ const FriendList = () => {
             {friendUsername}
             {friendProfiles[friendId] && (
               <>
-                <Avatar src={friendProfiles[friendId].image} height={40} />
+                {unfriendedFriends.includes(friendId) ? (
+                  <div style={{ color: 'red' }}>Unfriended</div>
+                ) : (
+                  <>
+                    <Avatar src={friendProfiles[friendId].image} height={40} />
+                    <Button onClick={() => handleUnfriend(friendId)} variant="danger">Unfriend</Button>
+                  </>
+                )}
               </>
             )}
           </li>

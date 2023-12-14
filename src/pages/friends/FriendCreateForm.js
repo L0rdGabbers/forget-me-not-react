@@ -9,12 +9,11 @@ const FriendCreateForm = () => {
   const [ friendUsername, setFriendUsername ] = useState("");
   const [ profileData, setProfileData ] = useState([]);
   const [ friendId, setFriendId ] = useState("");
-  const [ friendListData, setFriendListData ] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
     let isMounted = true;
-    
+
     const fetchData = async () => {
       try {
         const response = await axiosReq.get(`/profiles/`);
