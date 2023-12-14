@@ -88,7 +88,7 @@ const NavBar = () => {
         <NavDropdown.Item as={NavLink} to="/friends/view-friends">
           Friend List
         </NavDropdown.Item>
-        <NavDropdown.Item as={NavLink} to="/friends/view-requests">
+        <NavDropdown.Item as={NavLink} to="/friends/requests">
           Friend Requests
         </NavDropdown.Item>
       </NavDropdown>

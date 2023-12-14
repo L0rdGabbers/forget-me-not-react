@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { axiosReq } from '../../api/axiosDefaults';
 import { useHistory } from 'react-router-dom';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
-import { response } from 'msw';
 
 const FriendCreateForm = () => {
   const currentUser = useCurrentUser();
