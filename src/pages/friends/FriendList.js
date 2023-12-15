@@ -16,7 +16,6 @@ const FriendList = () => {
           const response = await axiosReq.get(`/friends/`);
           if (response.status === 200) {
             const data = response.data.friend_details;
-            console.log(data);
             setFriendList(data);
 
             const profilesPromises = Object.keys(data).map((friendId) =>

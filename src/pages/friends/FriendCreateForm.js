@@ -7,6 +7,7 @@ const FriendCreateForm = () => {
   const currentUser = useCurrentUser();
 
   const [ friendUsername, setFriendUsername ] = useState("");
+  const [ friendList, setFriendList ] = useState({})
   const [ profileData, setProfileData ] = useState([]);
   const [ friendId, setFriendId ] = useState("");
   const history = useHistory();
@@ -32,6 +33,7 @@ const FriendCreateForm = () => {
         if (friends.status === 200) {
           const data = friends.data.friend_details;
           console.log(data)
+          setFriendList(data)
         }
       } catch (error) {
         console.error("Error fetching friend data:", error)
@@ -60,13 +62,15 @@ const FriendCreateForm = () => {
 
   const sendFriendRequest = async (receiverId) => {
     try {
-      if (receiverId !== currentUser.pk) {
+      if (receiverId == currentUser.pk) {
+        console.log("Cannot send a friend request to yourself.");
+      } if (friendList[receiverId]) {
+        console.log("Cannot send a request to pre-existing friend")
+      } else {
         const response = await axiosReq.post('/send-friend-request/', { receiver: receiverId });
         console.log('Friend request sent successfully:', response.data);
-        history.push('/') // Update later to push to friend requests page.
-      } else {
-        console.log("Cannot send a friend request to yourself.");
-      }
+        history.push('/friends/requests')
+      } 
     } catch (error) {
       console.error('Error sending friend request:', error);
     }

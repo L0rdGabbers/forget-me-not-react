@@ -24,7 +24,7 @@ function App() {
           <Route exact path="/projects/create" render={() => <ProjectCreateForm />} />
           <Route exact path="/friends/list" render={() => <FriendList />} />
           <Route exact path="/friends/create" render={() => <FriendCreateForm />} />
-          <Route exact path= "/friends/requests/" render={() => <FriendRequests />} />
+          <Route exact path= "/friends/requests" render={() => <FriendRequests />} />
           <Route render={() => <p>Page not found!</p>} />
         </Switch>
       </Container>

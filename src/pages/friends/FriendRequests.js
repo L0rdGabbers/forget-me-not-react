@@ -39,7 +39,7 @@ const FriendRequests = () => {
     const handleAction = async (action) => {
       try {
         await axiosReq.put(`/friend-requests/${id}/`, {[action]: true});
-        history.push('/')
+        history.push('/friends/list')
       } catch(error) {
         console.error(`Error performing ${action}:`, error)
       }
