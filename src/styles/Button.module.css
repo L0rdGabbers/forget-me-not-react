@@ -1,6 +1,6 @@
 .Button {
     width: 24rem;
-    height: 4 rem;
+    height: 4rem;
     border-radius: 15px;
     margin: 0.5rem;
     background-color: #63336b;
@@ -11,4 +11,10 @@
 .Button:hover {
     background-color: #d4af37;
     border-color: #996515;
+}
+
+.Sml {
+    width: 10rem;
+    height: 2rem;  
+    line-height: 1; 
 }

@@ -48,7 +48,7 @@ const FriendList = () => {
   const handleUnfriend = async (friendId) => {
     try {
       const response = await axiosReq.put(`/friends/${friendId}/`, {unfriend: true});
-      if (response.status == 200) {
+      if (response.status === 200) {
         setUnfriendedFriends((prevUnfriendedFriends) => [...prevUnfriendedFriends, friendId]);
       } else {
         console.error('Failed to unfriend');

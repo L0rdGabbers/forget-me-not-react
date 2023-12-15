@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -11,7 +11,6 @@ import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css"
 
 const ProjectCreateForm = () => {
-  const [errors, setErrors] = useState({});
 
   const textFields = (
     <div className="text-center">

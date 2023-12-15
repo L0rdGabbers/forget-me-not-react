@@ -8,7 +8,6 @@ import SignUpForm from "./pages/auth/SignUpForm";
 import SignInForm from "./pages/auth/SignInForm";
 import ProjectCreateForm from "./pages/projects/ProjectCreateForm";
 import FriendCreateForm from "./pages/friends/FriendCreateForm";
-import axios from "axios";
 import FriendRequests from "./pages/friends/FriendRequests";
 import FriendList from "./pages/friends/FriendList";
 

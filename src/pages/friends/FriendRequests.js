@@ -16,7 +16,7 @@ const FriendRequests = () => {
         try {
           const response = await axiosReq.get(`/friend-requests/`);
           if (response.status === 200) {
-            const data = response.data.results;
+            const data = response.data;
             console.log(data);
             setFriendRequestsData(data);
           } else {
@@ -50,7 +50,7 @@ const FriendRequests = () => {
         <p>Sender: {sender_username}</p>
         <p>Receiver: {receiver_username}</p>
         <p>Sent: {created_at}</p>
-        {receiver_username == currentUser.username ? (
+        {receiver_username === currentUser.username ? (
           <div>
             <button onClick={() => handleAction("accept")}>Accept</button>
             <button onClick={() => handleAction("decline")}>Decline</button>
