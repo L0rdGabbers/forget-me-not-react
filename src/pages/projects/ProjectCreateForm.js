@@ -24,9 +24,7 @@ const ProjectCreateForm = () => {
     collaborators: []
   });
 
-  const [ selectedCollaborators, setSelectedCollaborators ] = useState([]);
-
-  const { title, summary, dueDate } = projectData;
+  const { title, summary, dueDate, collaborators } = projectData;
 
   const history = useHistory();
 
@@ -39,12 +37,14 @@ const ProjectCreateForm = () => {
   };
 
   const handleCheck = (event) => {
-    const { value } = event.target;
-    setSelectedCollaborators((prevSelectedCollaborators) =>
-      prevSelectedCollaborators.includes(value)
-        ? prevSelectedCollaborators.filter((c) => c !== value)
-        : [...prevSelectedCollaborators, parseInt(value, 10)]
-    );
+    const collaboratorId = event.target.value;
+  
+    setProjectData((prevData) => ({
+      ...prevData,
+      collaborators: prevData.collaborators.includes(collaboratorId)
+        ? prevData.collaborators.filter((c) => c !== collaboratorId)
+        : [...prevData.collaborators, collaboratorId],
+    }));
   };
 
 
@@ -52,22 +52,24 @@ const ProjectCreateForm = () => {
     event.preventDefault();
     const formData = new FormData();
 
-    formData.append("title", title)
-    formData.append("summary", summary)
-    formData.append("dueDate", dueDate)
-    selectedCollaborators.forEach((collaboratorId) => {
-      formData.append("collaborators", collaboratorId);
+    const collaboratorsArray = projectData.collaborators;
+
+    collaboratorsArray.forEach((collaboratorId) => {
+        formData.append("collaborators", collaboratorId);
     });
+    formData.append("title", title);
+    formData.append("summary", summary);
+    formData.append("dueDate", dueDate);
     try {
-      const data = await axiosReq.post('/projects/', formData)
-      if (data.status === 201) {
-        console.log("Project created", formData)
-        history.push('/')
+      await axiosReq.post("/projects/", formData);
+      history.push(`/`);
+    } catch (err) {
+      console.log(err);
+      if (err.response?.status !== 401) {
+        setErrors(err.response?.data);
       }
-    } catch(error) {
-      console.error("Project failed to create:", error)
     }
-  }
+  };
 
   
   
