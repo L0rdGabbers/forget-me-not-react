@@ -24,7 +24,7 @@ const ProjectCreateForm = () => {
     collaborators: []
   });
 
-  const { title, summary, dueDate, collaborators } = projectData;
+  const { title, summary, dueDate } = projectData;
 
   const history = useHistory();
 
@@ -59,10 +59,10 @@ const ProjectCreateForm = () => {
     });
     formData.append("title", title);
     formData.append("summary", summary);
-    formData.append("dueDate", dueDate);
+    formData.append("due_date", dueDate);
     try {
       await axiosReq.post("/projects/", formData);
-      history.push(`/`);
+      history.push(`/projects/view-projects`);
     } catch (err) {
       console.log(err);
       if (err.response?.status !== 401) {

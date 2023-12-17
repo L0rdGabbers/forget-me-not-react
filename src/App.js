@@ -10,6 +10,7 @@ import ProjectCreateForm from "./pages/projects/ProjectCreateForm";
 import FriendCreateForm from "./pages/friends/FriendCreateForm";
 import FriendRequests from "./pages/friends/FriendRequests";
 import FriendList from "./pages/friends/FriendList";
+import ProjectList from "./pages/projects/ProjectList";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route exact path="/signup" render={() => <SignUpForm />} />
           <Route exact path="/signin" render={() => <SignInForm />} />
           <Route exact path="/projects/create" render={() => <ProjectCreateForm />} />
+          <Route exact path="/projects/view-projects" render={() => <ProjectList />} />
           <Route exact path="/friends/list" render={() => <FriendList />} />
           <Route exact path="/friends/create" render={() => <FriendCreateForm />} />
           <Route exact path= "/friends/requests" render={() => <FriendRequests />} />
