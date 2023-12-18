@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { axiosReq } from '../../api/axiosDefaults';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const ProjectList = () => {
@@ -38,25 +38,32 @@ const ProjectList = () => {
             marginBottom: "10px",
           }}
         >
-          <Row>
-            <h2>
-              <Link to={`/projects/details/${project.id}`}>
-                {project.title}
-              </Link>
-            </h2>
-            <p>
-              Due: {project.due_date}
-            </p>
-            <p>
-              Last Updated: {project.updated_at}
-            </p>
-            <p>
-              Tasks remaining: {project.uncompleted_task_count}
-            </p>
-            <p>
-              Tasks completed: {project.completed_task_count}
-            </p>
-          </Row>
+          <Container>
+            <Row>
+              <Col>
+                <h2>
+                  <Link to={`/projects/details/${project.id}`}>
+                    {project.title}
+                  </Link>
+                </h2>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <p>Due: {project.due_date}</p>
+                <p>Last Updated: {project.updated_at}</p>
+                <p>Tasks remaining: {project.uncompleted_task_count}</p>
+                <p>Tasks completed: {project.completed_task_count}</p>
+              </Col>
+              <Col>
+              {project.is_owner ? (
+                  <p>Your role: Project Owner</p>
+                ) : (
+                  <p>Your role: Collaborator</p>
+                )}
+              </Col>
+            </Row>
+          </Container>
         </div>
       ))}
     </div>
