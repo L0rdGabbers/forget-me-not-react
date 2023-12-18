@@ -62,7 +62,7 @@ const NavBar = () => {
         <NavDropdown.Item as={NavLink} to="/projects/create">
           Create Project
         </NavDropdown.Item>
-        <NavDropdown.Item as={NavLink} to="/projects/view-projects">
+        <NavDropdown.Item as={NavLink} to="/projects/list">
           My Projects
         </NavDropdown.Item>
       </NavDropdown>

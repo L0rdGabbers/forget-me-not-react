@@ -11,6 +11,8 @@ import FriendCreateForm from "./pages/friends/FriendCreateForm";
 import FriendRequests from "./pages/friends/FriendRequests";
 import FriendList from "./pages/friends/FriendList";
 import ProjectList from "./pages/projects/ProjectList";
+import ProjectDetail from "./pages/projects/ProjectDetail";
+import TaskCreateForm from "./pages/tasks/TaskCreateForm";
 
 function App() {
   return (
@@ -22,7 +24,10 @@ function App() {
           <Route exact path="/signup" render={() => <SignUpForm />} />
           <Route exact path="/signin" render={() => <SignInForm />} />
           <Route exact path="/projects/create" render={() => <ProjectCreateForm />} />
-          <Route exact path="/projects/view-projects" render={() => <ProjectList />} />
+          <Route exact path="/projects/list" render={() => <ProjectList />} />
+          <Route exact path="/projects/" render={() => <ProjectList />} />
+          <Route exact path="/projects/:projectId" component={ProjectDetail} />
+          <Route exact path="/tasks/create" render={() => <TaskCreateForm />} />
           <Route exact path="/friends/list" render={() => <FriendList />} />
           <Route exact path="/friends/create" render={() => <FriendCreateForm />} />
           <Route exact path= "/friends/requests" render={() => <FriendRequests />} />

@@ -1,0 +1,14 @@
+.Container {
+    margin: 1rem 0 0 0;
+    border: 1px solid #dadadf;
+    background-color: #fff;
+    padding: 0.5rem 2rem;
+  }
+
+.HeadContainer {
+    margin-top: 2rem;
+}
+
+.Container Button {
+    margin-right: 10px; 
+}
