@@ -12,7 +12,9 @@ import FriendRequests from "./pages/friends/FriendRequests";
 import FriendList from "./pages/friends/FriendList";
 import ProjectList from "./pages/projects/ProjectList";
 import ProjectDetail from "./pages/projects/ProjectDetail";
+import ProjectEditForm from "./pages/projects/ProjectEditForm";
 import TaskCreateForm from "./pages/tasks/TaskCreateForm";
+
 
 function App() {
   return (
@@ -27,6 +29,7 @@ function App() {
           <Route exact path="/projects/list" render={() => <ProjectList />} />
           <Route exact path="/projects/" render={() => <ProjectList />} />
           <Route exact path="/projects/:projectId" component={ProjectDetail} />
+          <Route exact path="/projects/edit/:projectId" component={ProjectEditForm} />
           <Route exact path="/tasks/create" render={() => <TaskCreateForm />} />
           <Route exact path="/friends/list" render={() => <FriendList />} />
           <Route exact path="/friends/create" render={() => <FriendCreateForm />} />

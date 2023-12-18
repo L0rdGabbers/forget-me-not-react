@@ -13,33 +13,32 @@ import btnStyles from "../../styles/Button.module.css"
 import { axiosReq } from "../../api/axiosDefaults";
 import { useHistory } from "react-router-dom";
 
-const ProjectCreateForm = () => {
+const ProjectEditForm = ({ location }) => {
+  const projectData = location.state.projectData || {};
   const [ errors, setErrors ] = useState({});
   const [ friendList, setFriendList ] = useState([]);
 
-  const [ projectData, setProjectData ] = useState({
-    title: "",
-    summary: "",
-    dueDate: "",
-    collaborators: []
+  const [formData, setFormData] = useState({
+    title: projectData.title || "",
+    summary: projectData.summary || "",
+    dueDate: projectData.due_date || "",
+    collaborators: projectData.collaborators.map((collaborator) => collaborator.profile_id) || [],
+    complete: projectData.complete || false,
   });
-
-  const { title, summary, dueDate } = projectData;
 
   const history = useHistory();
 
   const handleChange = (event) => {
-    setProjectData({
-      ...projectData,
+    setFormData({
+      ...formData,
       [event.target.name]: event.target.value,
     });
-    console.log(projectData)
   };
 
   const handleCheck = (event) => {
     const collaboratorId = event.target.value;
-  
-    setProjectData((prevData) => ({
+
+    setFormData((prevData) => ({
       ...prevData,
       collaborators: prevData.collaborators.includes(collaboratorId)
         ? prevData.collaborators.filter((c) => c !== collaboratorId)
@@ -47,21 +46,27 @@ const ProjectCreateForm = () => {
     }));
   };
 
+  const handleCompleteCheck = (event) => {
+    setFormData({
+      ...formData,
+      complete: event.target.checked,
+    });
+  };
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData();
+    
+    const updatedProject = {
+      title: formData.title,
+      summary: formData.summary,
+      due_date: formData.dueDate,
+      collaborators: formData.collaborators,
+      complete: formData.complete,
+    };
 
-    const collaboratorsArray = projectData.collaborators;
-
-    collaboratorsArray.forEach((collaboratorId) => {
-        formData.append("collaborators", collaboratorId);
-    });
-    formData.append("title", title);
-    formData.append("summary", summary);
-    formData.append("due_date", dueDate);
     try {
-      await axiosReq.post("/projects/", formData);
+      await axiosReq.put(`/projects/${projectData.id}/`, updatedProject);
       history.push(`/projects/list`);
     } catch (err) {
       console.log(err);
@@ -80,6 +85,7 @@ const ProjectCreateForm = () => {
         <Form.Control
           type="text"
           name="title"
+          value={formData.title}
           onChange={handleChange}
           >
         </Form.Control>
@@ -96,6 +102,7 @@ const ProjectCreateForm = () => {
           as="textarea"
           rows={6}
           name="summary"
+          value={formData.summary}
           >
         </Form.Control>
       </Form.Group>
@@ -110,6 +117,7 @@ const ProjectCreateForm = () => {
           type="date"
           name="dueDate"
           onChange={handleChange}
+          value={formData.dueDate}
           >
         </Form.Control>
       </Form.Group>
@@ -127,9 +135,20 @@ const ProjectCreateForm = () => {
           id={friend.username}
           label={friend.username}
           value={friend.profile_id}
+          checked={formData.collaborators.includes(friend.profile_id)}
           onChange={handleCheck}
           />
           ))}
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Complete</Form.Label>
+          <Form.Check
+          type="checkbox"
+          id="complete"
+          checked={projectData.complete}
+          onChange={handleCompleteCheck}
+          value={formData.complete}
+          />
       </Form.Group>
     </div>
   );
@@ -196,4 +215,4 @@ const ProjectCreateForm = () => {
   );
 }
 
-export default ProjectCreateForm
+export default ProjectEditForm

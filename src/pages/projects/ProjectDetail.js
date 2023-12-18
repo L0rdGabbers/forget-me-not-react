@@ -7,14 +7,13 @@ import styles from '../../styles/ProjectDetail.module.css'
 
 const ProjectDetail = ({ match }) => {
   const [project, setProject] = useState(null);
-
   const history = useHistory();
 
   useEffect(() => {
     const fetchProjectDetails = async () => {
       try {
         const response = await axiosReq.get(`/projects/${match.params.projectId}`);
-        setProject(response.data); // Assuming the API response contains project details
+        setProject(response.data);
       } catch (error) {
         console.error('Error fetching project details:', error);
       }
@@ -35,6 +34,13 @@ const ProjectDetail = ({ match }) => {
         state: {projectId: project.id}
     })
   }
+
+  const handleEditClick = () => {
+    history.push({
+      pathname: `/projects/edit/${project.id}`,
+      state: { projectData: project },
+    });
+  };
 
   return (
     <div>
@@ -66,7 +72,7 @@ const ProjectDetail = ({ match }) => {
             <h4>Collaborators</h4>
             <Row>
               {project.collaborator_usernames.map((collaborator) => (
-                <Col key={collaborator} className='col-md-4 col-sm-4'>
+                <Col key={collaborator} className="col-md-4 col-sm-4">
                   <p>{collaborator}</p>
                 </Col>
               ))}
@@ -104,7 +110,9 @@ const ProjectDetail = ({ match }) => {
 
       <Container fluid className={styles.Container}>
         <Row>
-          <Button variant="warning">Edit Details</Button>
+          <Button variant="warning" onClick={handleEditClick}>
+            Edit Details
+          </Button>
           <Button variant="danger">Delete</Button>
         </Row>
       </Container>
