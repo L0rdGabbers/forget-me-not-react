@@ -23,10 +23,28 @@
     font-size: 1.5rem
 }
 
-.TopLeft {
-    width: 16rem;
-    position: absolute;
-    top: 12%;
-    left: 2%;
-    margin: '2px';
+.BackButton {
+    width: 12vw;
+    position: fixed;
+    top: 9rem;
+    left: 2.5rem;
+    margin: 2px;
+  }
+
+.BackButtonBottom {
+  display: none;
 }
+  
+  @media screen and (max-width: 1700px) {
+    .BackButton {
+      display: none;
+    }
+
+    .BackButtonBottom {
+      display: block;
+      width: 16vw;
+      margin-top: 2rem;
+      bottom: 35vw;
+    }
+  }
+

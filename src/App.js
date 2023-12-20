@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./App.module.css";
 import NavBar from "./components/NavBar";
-import BackButton from "./components/BackButton";
+import BackButton from "./components/BackButtonSide";
 import Container from "react-bootstrap/Container";
 import { Route, Switch } from "react-router-dom";
 import './api/axiosDefaults';
@@ -20,6 +20,8 @@ import Error403 from "./pages/errors/Error403";
 import Error500 from "./pages/errors/Error500";
 import DeletedPage from "./pages/other/DeletedPage";
 import TaskEditForm from "./pages/tasks/TaskEditForm";
+import ProfilePage from "./pages/other/ProfilePage";
+import BackButtonBottom from "./components/BackButtonBottom";
 
 
 function App() {
@@ -27,9 +29,10 @@ function App() {
     <div className={styles.App}>
       <NavBar />
       <BackButton />
-      <Container>
+      <Container className={styles.Container}>
         <Switch>
           <Route exact path="/" render={() => <h1>Home</h1>} />
+          <Route exact path="/profiles/:profileId" component={ProfilePage} />
           <Route exact path="/signup" render={() => <SignUpForm />} />
           <Route exact path="/signin" render={() => <SignInForm />} />
           <Route exact path="/projects/create" render={() => <ProjectCreateForm />} />
@@ -48,6 +51,7 @@ function App() {
           <Route exact path="/deleted" render={() => <DeletedPage />} />
           <Route render={() => <p>Page not found!</p>} />
         </Switch>
+        <BackButtonBottom />
       </Container>
     </div>
   );

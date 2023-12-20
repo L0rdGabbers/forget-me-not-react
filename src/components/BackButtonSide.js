@@ -4,7 +4,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import styles from '../styles/Button.module.css'
 
-const BackButton = () => {
+const BackButtonSide = () => {
   const history = useHistory();
   const location = useLocation();
 
@@ -19,11 +19,11 @@ const BackButton = () => {
 
   return shouldRenderButton ? (
     <div>
-      <Button variant="secondary" className={`${styles.Button} ${styles.TopLeft}`} onClick={handleGoBack}>
+      <Button variant="secondary" className={`${styles.Button} ${styles.BackButton}`} onClick={handleGoBack}>
         Go Back
       </Button>
     </div>
   ) : null;
 };
 
-export default BackButton;
+export default BackButtonSide;
