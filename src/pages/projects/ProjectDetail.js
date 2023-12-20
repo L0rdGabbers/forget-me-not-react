@@ -47,7 +47,7 @@ const ProjectDetail = ({ match }) => {
   const handleDelete = async () => {
     try {
       await axiosReq.delete(`/projects/${project.id}/`)
-      history.push('/delete')
+      history.push('/deleted')
     } catch (err) {
       if (err.response?.status !== 401) {
         setErrors(err.response?.data);
