@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./App.module.css";
 import NavBar from "./components/NavBar";
+import BackButton from "./components/BackButton";
 import Container from "react-bootstrap/Container";
 import { Route, Switch } from "react-router-dom";
 import './api/axiosDefaults';
@@ -25,6 +26,7 @@ function App() {
   return (
     <div className={styles.App}>
       <NavBar />
+      <BackButton />
       <Container>
         <Switch>
           <Route exact path="/" render={() => <h1>Home</h1>} />
@@ -41,7 +43,7 @@ function App() {
           <Route exact path="/friends/list" render={() => <FriendList />} />
           <Route exact path="/friends/create" render={() => <FriendCreateForm />} />
           <Route exact path="/friends/requests" render={() => <FriendRequests />} />
-          <Route exact path="/forbidden" render={() => <Error403 />} />
+          <Route exact path="/error/403" render={() => <Error403 />} />
           <Route exact path="/error/500" render={() => <Error500 />} />
           <Route exact path="/deleted" render={() => <DeletedPage />} />
           <Route render={() => <p>Page not found!</p>} />

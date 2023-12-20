@@ -22,3 +22,11 @@
 .BigText {
     font-size: 1.5rem
 }
+
+.TopLeft {
+    width: 16rem;
+    position: absolute;
+    top: 12%;
+    left: 2%;
+    margin: '2px';
+}
