@@ -21,7 +21,7 @@ const ProjectEditForm = ({ location }) => {
   const [formData, setFormData] = useState({
     title: projectData.title || "",
     summary: projectData.summary || "",
-    dueDate: projectData.due_date || "",
+    dueDate: formatDate(projectData.due_date) || "",
     collaborators: projectData.collaborators.map((collaborator) => collaborator.profile_id) || [],
     complete: projectData.complete || false,
   });
@@ -76,6 +76,14 @@ const ProjectEditForm = ({ location }) => {
     }
   };
 
+  function formatDate(dateString) {
+    const originalDate = new Date(dateString);
+    const year = originalDate.getFullYear();
+    const month = String(originalDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(originalDate.getDate()).padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+  }
   
   
   const textFields = (
@@ -190,6 +198,11 @@ const ProjectEditForm = ({ location }) => {
       isMounted = false;
     }
   }, [])
+
+  useEffect(() => {
+    console.log(projectData)
+    console.log(formData)
+  }, [projectData])
 
   return (
     <Form onSubmit={handleSubmit}>

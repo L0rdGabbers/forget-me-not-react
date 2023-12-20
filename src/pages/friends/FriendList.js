@@ -4,8 +4,7 @@ import Avatar from '../../components/Avatar';
 import { Button } from 'react-bootstrap';
 
 const FriendList = () => {
-  const [friendList, setFriendList] = useState([]);
-  const [friendProfiles, setFriendProfiles] = useState([]);
+  const [ friendList, setFriendList ] = useState([])
   const [unfriendedFriends, setUnfriendedFriends] = useState([]);
 
   useEffect(() => {
@@ -16,18 +15,7 @@ const FriendList = () => {
         const response = await axiosReq.get(`/friends/`);
         if (response.status === 200) {
           const friendDetails = response.data.friend_details;
-          const profileIds = Object.values(friendDetails).map(
-            (friend) => friend.profile_id
-          );
-          const profilesPromises = profileIds.map((profileId) =>
-            axiosReq.get(`/profiles/${profileId}/`)
-          );
-          const profilesResponses = await Promise.all(profilesPromises);
-          const profilesData = profilesResponses.map(
-            (profileResponse) => profileResponse.data
-          );
-          setFriendProfiles(profilesData);
-          console.log(profilesData)
+          setFriendList(friendDetails)
         } else {
           console.error('Failed to fetch friend request data');
         }
@@ -61,20 +49,22 @@ const FriendList = () => {
     }
   };
 
+  console.log(friendList)
+
   return (
     <div>
       <h2>Friend List</h2>
       <ul>
-        {friendProfiles.map((profile) => (
-          <li key={profile.id}>
-            {profile.owner}
-            {unfriendedFriends.includes(profile.id) ? (
+        {friendList.map((profile) => (
+          <li key={profile.friend_id}>
+            {profile.username}
+            {unfriendedFriends.includes(profile.friend_id) ? (
               <div style={{ color: 'red' }}>Unfriended</div>
             ) : (
               <>
-                <Avatar src={profile.image} height={40} />
+                <Avatar src={profile.friend_image} height={40} />
                 <Button
-                  onClick={() => handleUnfriend(profile.id)}
+                  onClick={() => handleUnfriend(profile.friend_id)}
                   variant="danger"
                 >
                   Unfriend
