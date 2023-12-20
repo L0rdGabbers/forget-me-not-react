@@ -14,6 +14,9 @@ import ProjectList from "./pages/projects/ProjectList";
 import ProjectDetail from "./pages/projects/ProjectDetail";
 import ProjectEditForm from "./pages/projects/ProjectEditForm";
 import TaskCreateForm from "./pages/tasks/TaskCreateForm";
+import TaskDetail from "./pages/tasks/TaskDetail";
+import Error403 from "./pages/errors/Error403";
+import Error500 from "./pages/errors/Error500";
 
 
 function App() {
@@ -31,9 +34,12 @@ function App() {
           <Route exact path="/projects/:projectId" component={ProjectDetail} />
           <Route exact path="/projects/edit/:projectId" component={ProjectEditForm} />
           <Route exact path="/tasks/create" render={() => <TaskCreateForm />} />
+          <Route exact path="/tasks/:taskId" component={TaskDetail} />
           <Route exact path="/friends/list" render={() => <FriendList />} />
           <Route exact path="/friends/create" render={() => <FriendCreateForm />} />
-          <Route exact path= "/friends/requests" render={() => <FriendRequests />} />
+          <Route exact path="/friends/requests" render={() => <FriendRequests />} />
+          <Route exact path="/forbidden" render={() => <Error403 />} />
+          <Route exact path="/error/500" render={() => <Error500 />} />
           <Route render={() => <p>Page not found!</p>} />
         </Switch>
       </Container>

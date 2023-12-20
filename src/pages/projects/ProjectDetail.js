@@ -7,6 +7,8 @@ import styles from '../../styles/ProjectDetail.module.css'
 
 const ProjectDetail = ({ match }) => {
   const [project, setProject] = useState(null);
+  const [ errors, setErrors ] = useState();
+
   const history = useHistory();
 
   useEffect(() => {
@@ -40,6 +42,20 @@ const ProjectDetail = ({ match }) => {
       pathname: `/projects/edit/${project.id}`,
       state: { projectData: project },
     });
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axiosReq.delete(`/projects/${project.id}/`)
+      history.push('/delete')
+    } catch (err) {
+      if (err.response?.status !== 401) {
+        setErrors(err.response?.data);
+      }
+      if (err.response?.status === 403) {
+        history.push('/forbidden')
+      }
+    }
   };
 
   return (
@@ -78,32 +94,48 @@ const ProjectDetail = ({ match }) => {
               ))}
             </Row>
           </Col>
-          <Col className={`${styles.Container} col-md-6 col-sm-12`}>
-            <h4>Tasks</h4>
-            {project.uncompleted_tasks.length > 0 ||
-            project.completed_tasks.length > 0 ? (
-              <ul>
-                {project.uncompleted_tasks.map((task) => (
-                  <li key={task.id}>
-                    <Link to={`/tasks/${task.id}`}>
-                      <p>{task.name}</p>
+          <Col
+            className={`${styles.Container} col-md-6 col-sm-12`}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-start"
+            }}
+          >
+            <div className='mb-5' style={{ textAlign: "left" }}>
+              <h4>Tasks</h4>
+
+              {project.uncompleted_tasks.length > 0 ? (
+                <>
+                  <h5>Uncompleted Tasks</h5>
+                  {project.uncompleted_tasks.map((task) => (
+                    <Link to={`/tasks/${task.id}`} key={task.id}>
+                      <p className={styles.Link}>{task.name}</p>
                     </Link>
-                  </li>
-                ))}
-                {project.completed_tasks.map((task) => (
-                  <li key={task.id}>
-                    <Link to={`/tasks/${task.id}`}>
-                      <p>{task.name}</p>
+                  ))}
+                </>
+              ) : (
+                <p>No uncompleted tasks.</p>
+              )}
+
+              {project.completed_tasks.length > 0 ? (
+                <>
+                  <h5>Completed Tasks</h5>
+                  {project.completed_tasks.map((task) => (
+                    <Link to={`/tasks/${task.id}`} key={task.id}>
+                      <p className={styles.Link}>{task.name}</p>
                     </Link>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No tasks assigned.</p>
-            )}
-            <Button variant="primary" onClick={handleAddTask}>
-              Add Task
-            </Button>
+                  ))}
+                </>
+              ) : (
+                <></>
+              )}
+            </div>
+            <div className='mb-2' style={{ alignSelf: 'center' }}>
+              <Button variant="primary" onClick={handleAddTask}>
+                Add Task
+              </Button>
+            </div>
           </Col>
         </Row>
       </Container>
@@ -113,7 +145,7 @@ const ProjectDetail = ({ match }) => {
           <Button variant="warning" onClick={handleEditClick}>
             Edit Details
           </Button>
-          <Button variant="danger">Delete</Button>
+          <Button variant="danger" onClick={handleDelete}>Delete</Button>
         </Row>
       </Container>
     </div>

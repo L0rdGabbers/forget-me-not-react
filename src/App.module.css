@@ -40,11 +40,11 @@ a   {
   
 a:hover {
     text-decoration: none;
-    color: #63336B;
+    color: #A254B0;
 }
   
 a:hover i {
-    color: #63336B;
+    color: #A254B0;
     transition: color ease-in-out 0.3s;
 }
   

@@ -12,3 +12,11 @@
 .Container Button {
     margin-right: 10px; 
 }
+
+.Link {
+    color: #A254B0;
+}
+
+.Link:hover {
+    color: #B0545B;
+}

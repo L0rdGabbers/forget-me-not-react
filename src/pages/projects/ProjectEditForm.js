@@ -22,7 +22,7 @@ const ProjectEditForm = ({ location }) => {
     title: projectData.title || "",
     summary: projectData.summary || "",
     dueDate: formatDate(projectData.due_date) || "",
-    collaborators: projectData.collaborators.map((collaborator) => collaborator.profile_id) || [],
+    collaborators: projectData.collaborators.map((collaborator) => collaborator) || [],
     complete: projectData.complete || false,
   });
 
@@ -36,15 +36,19 @@ const ProjectEditForm = ({ location }) => {
   };
 
   const handleCheck = (event) => {
-    const collaboratorId = event.target.value;
-
-    setFormData((prevData) => ({
-      ...prevData,
-      collaborators: prevData.collaborators.includes(collaboratorId)
+    const collaboratorId = Number(event.target.value);
+    setFormData((prevData) => {
+      const updatedCollaborators = prevData.collaborators.includes(collaboratorId)
         ? prevData.collaborators.filter((c) => c !== collaboratorId)
-        : [...prevData.collaborators, collaboratorId],
-    }));
+        : [...prevData.collaborators, collaboratorId];
+  
+      return {
+        ...prevData,
+        collaborators: updatedCollaborators,
+      };
+    });
   };
+  
 
   const handleCompleteCheck = (event) => {
     setFormData({
@@ -67,11 +71,13 @@ const ProjectEditForm = ({ location }) => {
 
     try {
       await axiosReq.put(`/projects/${projectData.id}/`, updatedProject);
-      history.push(`/projects/list`);
+      history.push(`/projects/${projectData.id}`);
     } catch (err) {
-      console.log(err);
       if (err.response?.status !== 401) {
         setErrors(err.response?.data);
+      }
+      if (err.response?.status === 403) {
+        history.push('/forbidden')
       }
     }
   };
@@ -79,7 +85,7 @@ const ProjectEditForm = ({ location }) => {
   function formatDate(dateString) {
     const originalDate = new Date(dateString);
     const year = originalDate.getFullYear();
-    const month = String(originalDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const month = String(originalDate.getMonth() + 1).padStart(2, '0');
     const day = String(originalDate.getDate()).padStart(2, '0');
   
     return `${year}-${month}-${day}`;
@@ -95,8 +101,7 @@ const ProjectEditForm = ({ location }) => {
           name="title"
           value={formData.title}
           onChange={handleChange}
-          >
-        </Form.Control>
+        ></Form.Control>
       </Form.Group>
       {errors?.title?.map((message, idx) => (
         <Alert variant="warning" key={idx}>
@@ -111,8 +116,7 @@ const ProjectEditForm = ({ location }) => {
           rows={6}
           name="summary"
           value={formData.summary}
-          >
-        </Form.Control>
+        ></Form.Control>
       </Form.Group>
       {errors?.summary?.map((message, idx) => (
         <Alert variant="warning" key={idx}>
@@ -126,8 +130,7 @@ const ProjectEditForm = ({ location }) => {
           name="dueDate"
           onChange={handleChange}
           value={formData.dueDate}
-          >
-        </Form.Control>
+        ></Form.Control>
       </Form.Group>
       {errors?.dueDate?.map((message, idx) => (
         <Alert variant="warning" key={idx}>
@@ -138,25 +141,24 @@ const ProjectEditForm = ({ location }) => {
         <Form.Label>Collaborators</Form.Label>
         {friendList.map((friend) => (
           <Form.Check
-          key={friend.username}
-          type="checkbox"
-          id={friend.username}
-          label={friend.username}
-          value={friend.profile_id}
-          checked={formData.collaborators.includes(friend.profile_id)}
-          onChange={handleCheck}
+            type="checkbox"
+            key={friend.profile_id}
+            id={friend.username}
+            label={friend.username}
+            value={friend.profile_id}
+            checked={formData.collaborators.includes(friend.profile_id)}
+            onChange={handleCheck}
           />
-          ))}
+        ))}
       </Form.Group>
       <Form.Group>
         <Form.Label>Complete</Form.Label>
-          <Form.Check
-          type="checkbox"
-          id="complete"
-          checked={projectData.complete}
-          onChange={handleCompleteCheck}
-          value={formData.complete}
-          />
+        <Form.Check
+  type="checkbox"
+  id="complete"
+  checked={formData.complete}
+  onChange={handleCompleteCheck}
+/>
       </Form.Group>
     </div>
   );
@@ -165,7 +167,7 @@ const ProjectEditForm = ({ location }) => {
     <>
       <Row className="justify-content-center">
         <Button className={btnStyles.Button} type="submit">
-          Create
+          Update
         </Button>
       </Row>
       <Row className="justify-content-center">
@@ -177,7 +179,6 @@ const ProjectEditForm = ({ location }) => {
   );
 
   useEffect(() => {
-    let isMounted = true;
     const fetchData = async () => {
       try {
         const friends = await axiosReq.get('/friends/')
@@ -194,14 +195,11 @@ const ProjectEditForm = ({ location }) => {
       }
     };
     fetchData();
-    return () => {
-      isMounted = false;
-    }
   }, [])
 
   useEffect(() => {
-    console.log(projectData)
-    console.log(formData)
+    console.log("Project Data:", projectData)
+    console.log("Form Data:", formData)
   }, [projectData])
 
   return (
