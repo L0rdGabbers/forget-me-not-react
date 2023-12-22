@@ -20,7 +20,8 @@ import Error403 from "./pages/errors/Error403";
 import Error500 from "./pages/errors/Error500";
 import DeletedPage from "./pages/other/DeletedPage";
 import TaskEditForm from "./pages/tasks/TaskEditForm";
-import ProfilePage from "./pages/other/ProfilePage";
+import ProfilePage from "./pages/profiles/ProfilePage";
+import ProfileEditForm from "./pages/profiles/ProfileEditForm";
 import BackButtonBottom from "./components/BackButtonBottom";
 
 
@@ -32,6 +33,7 @@ function App() {
       <Container className={styles.Container}>
         <Switch>
           <Route exact path="/" render={() => <h1>Home</h1>} />
+          <Route exact path="/profiles/edit" render={() => <ProfileEditForm />} />
           <Route exact path="/profiles/:profileId" component={ProfilePage} />
           <Route exact path="/signup" render={() => <SignUpForm />} />
           <Route exact path="/signin" render={() => <SignInForm />} />

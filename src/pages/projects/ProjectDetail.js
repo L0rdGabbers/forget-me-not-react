@@ -9,6 +9,8 @@ const ProjectDetail = ({ match }) => {
   const [project, setProject] = useState(null);
   const [ errors, setErrors ] = useState();
 
+  const [ collaboratorData, setCollaboratorData ] = []
+
   const history = useHistory();
 
   useEffect(() => {
@@ -90,9 +92,19 @@ const ProjectDetail = ({ match }) => {
               <p>{project.owner}</p>
               <h4>Collaborators</h4>
               <Row>
-                {project.collaborator_usernames.map((collaborator) => (
-                  <Col key={collaborator} className="col-md-4 col-sm-4">
-                    <p>{collaborator}</p>
+                {project.collaborator_details.map((collaborator) => (
+                  <Col
+                    key={collaborator.collaborator_id}
+                    className="col-md-4 col-sm-4"
+                  >
+                    <Link
+                      to={{
+                        pathname: `/profiles/${collaborator.collaborator_id}`,
+                        state: { profileData: collaborator },
+                      }}
+                    >
+                      <p>{collaborator.collaborator_username}</p>
+                    </Link>
                   </Col>
                 ))}
               </Row>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from '../styles/NavBar.module.css'
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { NavLink, useLocation } from 'react-router-dom';
@@ -15,6 +15,10 @@ const NavBar = () => {
   const { expanded, setExpanded, ref } = useClickOutsideToggle();
 
   const { dropdownOpen, handleMouseEnter, handleMouseLeave } = useDropdown();
+
+  useEffect(() => {
+    console.log('Current user has changed:', currentUser);
+  }, [currentUser]);
 
   const location = useLocation();
 
@@ -102,9 +106,9 @@ const NavBar = () => {
       </NavLink>
       <NavLink
         className={styles.NavLink}
-        to={{ pathname: `/profiles/${currentUser?.profile_id}`, state: {profileData: currentUser}}}
+        to={{ pathname: `/profiles/${currentUser?.id}`, state: {profileData: currentUser}}}
       >
-        <Avatar src={currentUser?.profile_image} text={currentUser?.username} height={40} />
+        <Avatar src={currentUser?.image || currentUser?.profile_image || ""} text={currentUser?.username} height={40} />
       </NavLink>
     </>
   );

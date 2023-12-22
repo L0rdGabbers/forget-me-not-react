@@ -38,28 +38,28 @@ const ProjectCreateForm = () => {
 
   const handleCheck = (event) => {
     const collaboratorId = event.target.value;
+    const collaborator = friendList.find((friend) => String(friend.profile_id) === collaboratorId);
+    const collaboratorUsername = collaborator ? collaborator.username : "";
   
     setProjectData((prevData) => ({
       ...prevData,
-      collaborators: prevData.collaborators.includes(collaboratorId)
-        ? prevData.collaborators.filter((c) => c !== collaboratorId)
-        : [...prevData.collaborators, collaboratorId],
+      collaborators: prevData.collaborators.some((c) => c.collaborator_id === collaboratorId)
+        ? prevData.collaborators.filter((c) => c.collaborator_id !== collaboratorId)
+        : [...prevData.collaborators, { collaborator_id: collaboratorId, collaborator_username: collaboratorUsername }],
     }));
   };
-
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
 
-    const collaboratorsArray = projectData.collaborators;
-
-    collaboratorsArray.forEach((collaboratorId) => {
-        formData.append("collaborators", collaboratorId);
-    });
     formData.append("title", title);
     formData.append("summary", summary);
     formData.append("due_date", dueDate);
+    projectData.collaborators.forEach((collaborator) => {
+      formData.append("collaborators", collaborator.collaborator_id);
+    });
     try {
       await axiosReq.post("/projects/", formData);
       history.push(`/projects/list`);
