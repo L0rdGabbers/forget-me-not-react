@@ -68,7 +68,7 @@ function ProfileEditForm() {
       const response = await axiosReq.put(`/profiles/${currentUser.id}/`, formData);
       setCurrentUser(response.data);
       history.push({
-        pathname: `/profiles/${currentUser.id}`,
+        pathname: `/myprofile`,
         state: {profileData: response.data}
       });
       console.log(formData)

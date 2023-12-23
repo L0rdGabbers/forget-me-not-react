@@ -5,9 +5,18 @@
     margin: 4px;
 }
 
+.ProfileContainer {
+    margin-top: 8rem;
+}
+
+.Span {
+    border: 1 solid #fff;
+}
+
 .ProfileAvatar {
     border: 2px solid transparent;
     width: 200px;
+    margin: 1rem 0;
 }
 
 .ProfilePageAvatar {
@@ -15,6 +24,7 @@
     cursor: "pointer";
     border: 2px solid transparent;
     transition: border-color 0.3s ease-in-out;
+    margin: 1rem 0;
 }
 
 .ProfilePageAvatar:hover {

@@ -4,7 +4,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import { Button } from "react-bootstrap";
-import { Link, } from "react-router-dom";
+import { Link, useHistory, } from "react-router-dom";
 
 import styles from "../../styles/ProfilePage.module.css"
 import appStyles from "../../App.module.css";
@@ -22,15 +22,18 @@ function ProfilePage({ location }) {
   const [ isFriend, setIsFriend ] = useState(false);
   const [ friendRequestPending, setFriendRequestPending ] = useState(false);
   const [ friendRequestAwaiting, setFriendRequestAwaiting ] = useState(false);
+  const [ isUnknown, setIsUnknown ] = useState(false);
+  const [ friendRequestId, setFriendRequestId ] = useState(null);
+  const [ useEffectCounter, setUseEffectCounter ] = useState(0)
 
   const [profileImage, setProfileImage] = useState("");
 
   const [errors, setErrors] = useState();
+  const history = useHistory();
 
   const [relationProfile, setRelationProfile] = useState({});
 
   useEffect(() => {
-    console.log(relationProfile)
     const fetchData = async () => {
       try {
         const friendsResponse = await axiosReq.get('/friends/');
@@ -57,8 +60,9 @@ function ProfilePage({ location }) {
         setProfileData(location.state?.profileData || {});
         setProfileImage(profileData.image || profileData.profile_image || '');
 
-        checkUserRelation(); // Move checkUserRelation here
-        fetchProfile(); // Move fetchProfile here
+        checkUserRelation();
+        fetchProfile();
+        setDataLoaded(true)
       } catch (error) {
         console.error("Error fetching data:", error);
         if (error.response?.status !== 401) {
@@ -68,6 +72,7 @@ function ProfilePage({ location }) {
     };
 
     const fetchProfile = async () => {
+      console.log("Fetching profile")
       try {
         if (profileData.id) {
           const response = await axiosReq.get(`/profiles/${profileData.id}`);
@@ -85,95 +90,171 @@ function ProfilePage({ location }) {
     };
 
     const checkUserRelation = () => {
+      console.log("Checking user relation")
+      const friendRequestSender = requestList.find(
+        (request) => request.sender === profileData.id && request.is_active === true
+      );
+    
       if (friendList.some((friend) => friend.id === profileData.id)) {
         setIsFriend(true);
-      } else if (requestList.some((request) => request.sender === profileData.id)) {
+      } else if (friendRequestSender) {
         setFriendRequestAwaiting(true);
-      } else if (requestList.some((request) => request.receiver === profileData.id)) {
+        setFriendRequestId(friendRequestSender.id);
+      } else if (requestList.some((request) => request.receiver === profileData.id && request.is_active === true)) {
         setFriendRequestPending(true);
+      } else {
+        setIsUnknown(true);
       }
+      setUseEffectCounter(prevData => prevData + 1);
+      console.log(useEffectCounter)
+      console.log(isFriend, friendRequestAwaiting, friendRequestPending, isUnknown)
     };
 
     fetchData();
   }, [relationProfile.id]);
 
-  useEffect(() => {
-    if (relationProfile == null) {
-      setDataLoaded(false);
+
+  const handleFriendRequest = async () => {
+    try {
+      const response = await axiosReq.post('/send-friend-request/', { receiver: relationProfile.id });
+        console.log('Friend request sent successfully:', response.data);
+        history.push('/friends/requests');
+    } catch(error){
+      console.error(error)
     }
-    if (relationProfile !== null) {
-      setDataLoaded(true);
+  }
+
+  const handleAction = async (action) => {
+    try {
+      await axiosReq.put(`/friend-requests/${friendRequestId}/`, {[action]: true});
+      if (action == "accept") {
+        setFriendRequestAwaiting(false)
+        setIsFriend(true)
+        history.push('/friends/list')
+      } else if (action == "decline") {
+        setFriendRequestAwaiting(false)
+        setIsUnknown(true)
+      }
+    } catch(error) {
+      console.error(`Error performing ${action}:`, error)
     }
-  }, [dataLoaded]);
+  };
 
   const mainProfile = (
     <>
-      { isFriend ? (
-        <>
-          <Row noGutters className="px-3 text-center">
-            <Col lg={6} className="text-lg-left">
-              <img
-                className={styles.ProfileAvatar}
-                src={relationProfile.image}
-              />
-            </Col>
+      {isFriend ||
+      friendRequestAwaiting ||
+      friendRequestPending ||
+      isUnknown ? (
+        <Row noGutters className="px-3 text-center">
+          <Col lg={12} className="text-lg-center">
+            <img className={styles.ProfileAvatar} src={relationProfile.image} />
+            <h3 className="m-2">{relationProfile.owner}</h3>
 
-            <Col lg={6} className="text-lg-center">
-              <h3 className="m-2">{relationProfile.owner}</h3>
-
-              {profileData.bio ? (
-                profileData.bio
-              ) : (
-                <>
-                  <p>
-                    This user hasn't written a biography yet.
-                  </p>
-                </>
-              )}
-              <p>
-                You are working on {" "}
-                {projectList.filter((project) => ((!project.complete && project.owner === relationProfile.id) || (!project.complete && project.collaborators.includes(relationProfile.id)))).length}{" "}
-                project
-                {projectList.filter((project) => ((!project.complete && project.owner === relationProfile.id) || (!project.complete && project.collaborators.includes(relationProfile.id)))).length !== 1
-                  ? "s "
-                  : " "}
-                with this user.
-              </p>
-              <p>
-                You have completed{" "}
-                {projectList.filter((project) => ((project.complete && project.owner === relationProfile.id) || (project.complete && project.collaborators.includes(relationProfile.id)))).length}{" "}
-                project
-                {projectList.filter((project) => ((project.complete && project.owner === relationProfile.id) || (project.complete && project.collaborators.includes(relationProfile.id)))).length !== 1
-                  ? "s "
-                  : " "}
-                with this user.
-              </p>
-            </Col>
-          </Row>
-        </>
-      ) : friendRequestAwaiting ? (
-        <Button>Accept Friend Request</Button>
-      ) : friendRequestPending ? (
-        <Button>Send Friend Request</Button>
-      ) : (
-        <p>Loading profile data...</p>
-      )}
+            {profileData.bio ? (
+              profileData.bio
+            ) : (
+              <>
+                <p>This user hasn't written a biography yet.</p>
+              </>
+            )}
+            <p>
+              You are working on{" "}
+              {
+                projectList.filter(
+                  (project) =>
+                    (!project.complete &&
+                      project.owner === relationProfile.id) ||
+                    (!project.complete &&
+                      project.collaborators.includes(relationProfile.id))
+                ).length
+              }{" "}
+              project
+              {projectList.filter(
+                (project) =>
+                  (!project.complete && project.owner === relationProfile.id) ||
+                  (!project.complete &&
+                    project.collaborators.includes(relationProfile.id))
+              ).length !== 1
+                ? "s "
+                : " "}
+              with this user.
+            </p>
+            <p>
+              You have completed{" "}
+              {
+                projectList.filter(
+                  (project) =>
+                    (project.complete &&
+                      project.owner === relationProfile.id) ||
+                    (project.complete &&
+                      project.collaborators.includes(relationProfile.id))
+                ).length
+              }{" "}
+              project
+              {projectList.filter(
+                (project) =>
+                  (project.complete && project.owner === relationProfile.id) ||
+                  (project.complete &&
+                    project.collaborators.includes(relationProfile.id))
+              ).length !== 1
+                ? "s "
+                : " "}
+              with this user.
+            </p>
+            {isFriend ? (
+              <></>
+            ) : friendRequestAwaiting ? (
+              <>
+                <Button
+                  className={`${btnStyles.Button}`}
+                  onClick={() => handleAction("accept")}
+                >
+                  Accept Friend Request
+                </Button>
+                <Button
+                  className={`${btnStyles.Button}`}
+                  onClick={() => handleAction("decline")}
+                >
+                  Decline Friend Request
+                </Button>
+              </>
+            ) : friendRequestPending ? (
+              <>
+                <Button className={`${btnStyles.DisabledButton}`} disabled>
+                  Friend Request Pending
+                </Button>
+              </>
+            ) : isUnknown ? (
+              <>
+                <Button
+                  onClick={handleFriendRequest}
+                  className={`${btnStyles.Button}`}
+                >
+                  Send Friend Request
+                </Button>
+              </>
+            ) : (
+              <p>Profile data not found.</p>
+            )}
+          </Col>
+        </Row>
+      ) : null}
     </>
   );
+    
 
   return (
     <Row>
-      <Col className="py-2 p-0 p-lg-2" lg={10}>
-        <Container className={appStyles.Content}>
-          { dataLoaded == false ? (
+      <Col className="py-2 p-0 p-lg-2" lg={12}>
+        <Container className={`${appStyles.Content} ${styles.ProfileContainer}`}>
+          { useEffectCounter == 1 ? (
             <p>loading</p>
             ) : (
             mainProfile
             )
           }
         </Container>
-      </Col>
-      <Col lg={4} className="d-none d-lg-block p-0 p-lg-2">
       </Col>
     </Row>
   );

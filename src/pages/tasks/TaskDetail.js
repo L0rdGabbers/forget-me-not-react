@@ -2,12 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { axiosReq } from '../../api/axiosDefaults';
 import { Container, Row, Col, Button, } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useCurrentUser } from '../../contexts/CurrentUserContext';
 
 import styles from '../../styles/ProjectDetail.module.css'
+import btnStyles from '../../styles/Button.module.css'
 
 const TaskDetail = ({ match }) => {
   const [task, setTask] = useState(null);
   const [errors, setErrors] = useState();
+
+  const currentUser = useCurrentUser();
 
   const history = useHistory();
 
@@ -88,9 +93,29 @@ const TaskDetail = ({ match }) => {
               <h4>Assignees</h4>
             )}
             <Row>
-              {task.collaborator_usernames.map((collaborator) => (
-                <Col key={collaborator} className="col-md-4 col-sm-4">
-                  <p>{collaborator}</p>
+              {task.collaborator_details.map((collaborator) => (
+                <Col key={collaborator.id} className="col-md-4 col-sm-4">
+                  {collaborator.id !== currentUser.id ? (
+                    <>
+                      <Link
+                        to={{
+                          pathname: `/profiles/${collaborator.id}`,
+                          state: { profileData: collaborator },
+                        }}
+                      >
+                        <p>{collaborator.collaborator_username}</p>
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        to={{ pathname: `/myprofile/`, state: {profileData: currentUser},
+                        }}
+                      >
+                        <Button className={`${btnStyles.Button} ${btnStyles.Sml}`}>{collaborator.collaborator_username}</Button>
+                      </Link>
+                    </>
+                  )}
                 </Col>
               ))}
             </Row>

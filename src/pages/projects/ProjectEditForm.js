@@ -37,16 +37,14 @@ const ProjectEditForm = ({ location }) => {
 
   const handleCheck = (event) => {
     const collaboratorId = Number(event.target.value);
-    setFormData((prevData) => {
-      const updatedCollaborators = prevData.collaborators.includes(collaboratorId)
-        ? prevData.collaborators.filter((c) => c !== collaboratorId)
-        : [...prevData.collaborators, collaboratorId];
+    console.log(collaboratorId)
   
-      return {
-        ...prevData,
-        collaborators: updatedCollaborators,
-      };
-    });
+    setFormData((prevData) => ({
+      ...prevData,
+      collaborators: prevData.collaborators.includes(collaboratorId)
+        ? prevData.collaborators.filter((c) => c !== collaboratorId)
+        : [...prevData.collaborators, collaboratorId],
+    }));
   };
   
 
@@ -142,11 +140,11 @@ const ProjectEditForm = ({ location }) => {
         {friendList.map((friend) => (
           <Form.Check
             type="checkbox"
-            key={friend.profile_id}
+            key={friend.id}
             id={friend.username}
             label={friend.username}
-            value={friend.profile_id}
-            checked={formData.collaborators.includes(friend.profile_id)}
+            value={friend.id}
+            checked={formData.collaborators.includes(friend.id)}
             onChange={handleCheck}
           />
         ))}

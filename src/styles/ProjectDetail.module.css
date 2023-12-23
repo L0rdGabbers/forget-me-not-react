@@ -6,7 +6,11 @@
   }
 
 .HeadContainer {
-    margin-top: 2rem;
+    margin-top: 10rem;
+}
+
+.MiddleContainer {
+    height: 30rem;
 }
 
 .Container Button {

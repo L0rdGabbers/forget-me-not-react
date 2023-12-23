@@ -4,10 +4,13 @@ import { Container, Row, Col, Button, } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 
 import styles from '../../styles/ProjectDetail.module.css'
+import btnStyles from '../../styles/Button.module.css'
+import { useCurrentUser } from '../../contexts/CurrentUserContext';
 
 const ProjectDetail = ({ match }) => {
   const [project, setProject] = useState(null);
   const [ errors, setErrors ] = useState();
+  const currentUser = useCurrentUser();
 
   const [ collaboratorData, setCollaboratorData ] = []
 
@@ -63,7 +66,7 @@ const ProjectDetail = ({ match }) => {
   return (
     <>
       <div>
-        <Container fluid className={styles.Container}>
+        <Container fluid className={`${styles.Container}`}>
           <Row>
             <Col>
               <h2>{project.title}</h2>
@@ -84,7 +87,7 @@ const ProjectDetail = ({ match }) => {
         <Container>
           <Row>
             <Col
-              className={`${styles.Container} col-md-6 col-sm-12 col-xsl-12`}
+              className={`${styles.Container} ${styles.MiddleContainer} col-md-6 col-sm-12 col-xsl-12 `}
             >
               <h4>Summary</h4>
               <p>{project.summary}</p>
@@ -97,14 +100,27 @@ const ProjectDetail = ({ match }) => {
                     key={collaborator.id}
                     className="col-md-4 col-sm-4"
                   >
-                    <Link
-                      to={{
-                        pathname: `/profiles/${collaborator.id}`,
-                        state: { profileData: collaborator },
-                      }}
-                    >
-                      <p>{collaborator.collaborator_username}</p>
-                    </Link>
+                    {collaborator.id !== currentUser.id ? (
+                    <>
+                      <Link
+                        to={{
+                          pathname: `/profiles/${collaborator.id}`,
+                          state: { profileData: collaborator },
+                        }}
+                      >
+                        <Button className={`${btnStyles.Button} ${btnStyles.Sml}`}>{collaborator.collaborator_username}</Button>
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        to={{ pathname: `/myprofile/`, state: {profileData: currentUser},
+                        }}
+                      >
+                        <Button className={`${btnStyles.Button} ${btnStyles.Sml}`}>{collaborator.collaborator_username}</Button>
+                      </Link>
+                    </>
+                  )}
                   </Col>
                 ))}
               </Row>
@@ -147,7 +163,7 @@ const ProjectDetail = ({ match }) => {
                 )}
               </div>
               <div className="mb-2" style={{ alignSelf: "center" }}>
-                <Button variant="primary" onClick={handleAddTask}>
+                <Button onClick={handleAddTask} className={`${btnStyles.Button} ${btnStyles.Sml}`}>
                   Add Task
                 </Button>
               </div>

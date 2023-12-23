@@ -13,8 +13,17 @@
     border-color: #996515;
 }
 
+.DisabledButton {
+  width: 24rem;
+  height: 4rem;
+  border-radius: 15px;
+  background-color: #ffffff;
+  border-color: #ff0000;
+  margin: 0.5rem;
+}
+
 .Sml {
-    width: 10rem;
+    width: 9rem;
     height: 2rem;  
     line-height: 1; 
 }

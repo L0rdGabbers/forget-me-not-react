@@ -14,9 +14,7 @@ function MyProfilePage({ location }) {
     const [profileData, setProfileData] = useState(location.state?.profileData || {});
     const [dataLoaded, setDataLoaded] = useState(false);
   
-    const [ friendList, setFriendList ] = useState([]);
     const [ projectList, setProjectList ] = useState([]);
-    const [ requestList, setRequestList ] = useState([]);
   
     const [profileImage, setProfileImage] = useState("");
   
@@ -30,7 +28,7 @@ function MyProfilePage({ location }) {
           if (projectsResponse.status === 200) {
             const data = projectsResponse.data;
             const dataArray = Object.values(data);
-            setFriendList(dataArray);
+            setProjectList(dataArray);
           }
   
           setProfileData(location.state?.profileData || {});
@@ -52,20 +50,20 @@ function MyProfilePage({ location }) {
         { dataLoaded ? (
           <>
             <Row noGutters className="px-3 text-center">
-              <Col lg={6} className="text-lg-left">
+              <Col lg={12} className="text-lg-center">
+                <h3 className="m-2">{profileData.owner}</h3>
                 <img
                   className={styles.ProfilePageAvatar}
                   src={profileImage}
                 />
-              </Col>
-  
-              <Col lg={6} className="text-lg-center">
                 <h3 className="m-2">{profileData.username}</h3>
                 {profileData.bio ? (
-                  profileData.bio
+                  <p className='my-3'>
+                    {profileData.bio}
+                  </p>
                 ) : (
                   <>
-                    <p>
+                    <p className='my-2'>
                       You haven't written your bio yet, why not write one now?
                     </p>
                   </>
@@ -102,8 +100,8 @@ function MyProfilePage({ location }) {
   
     return (
       <Row>
-        <Col className="py-2 p-0 p-lg-2" lg={10}>
-          <Container className={appStyles.Content}>
+        <Col className="py-2 p-0 p-lg-2" lg={12}>
+          <Container className={`${appStyles.Content} ${styles.ProfileContainer}`}>
             { dataLoaded == false ? (
               <p>loading</p>
               ) : (
