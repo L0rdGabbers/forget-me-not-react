@@ -38,14 +38,14 @@ const ProjectCreateForm = () => {
 
   const handleCheck = (event) => {
     const collaboratorId = event.target.value;
-    const collaborator = friendList.find((friend) => String(friend.profile_id) === collaboratorId);
+    const collaborator = friendList.find((friend) => friend.id === collaboratorId);
     const collaboratorUsername = collaborator ? collaborator.username : "";
   
     setProjectData((prevData) => ({
       ...prevData,
-      collaborators: prevData.collaborators.some((c) => c.collaborator_id === collaboratorId)
-        ? prevData.collaborators.filter((c) => c.collaborator_id !== collaboratorId)
-        : [...prevData.collaborators, { collaborator_id: collaboratorId, collaborator_username: collaboratorUsername }],
+      collaborators: prevData.collaborators.some((c) => c.id === collaboratorId)
+        ? prevData.collaborators.filter((c) => c.id !== collaboratorId)
+        : [...prevData.collaborators, { id: collaboratorId, collaborator_username: collaboratorUsername }],
     }));
   };
   
@@ -58,7 +58,7 @@ const ProjectCreateForm = () => {
     formData.append("summary", summary);
     formData.append("due_date", dueDate);
     projectData.collaborators.forEach((collaborator) => {
-      formData.append("collaborators", collaborator.collaborator_id);
+      formData.append("collaborators", collaborator.id);
     });
     try {
       await axiosReq.post("/projects/", formData);
@@ -126,7 +126,7 @@ const ProjectCreateForm = () => {
           type="checkbox"
           id={friend.username}
           label={friend.username}
-          value={friend.profile_id}
+          value={friend.id}
           onChange={handleCheck}
           />
           ))}

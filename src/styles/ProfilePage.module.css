@@ -5,6 +5,11 @@
     margin: 4px;
 }
 
+.ProfileAvatar {
+    border: 2px solid transparent;
+    width: 200px;
+}
+
 .ProfilePageAvatar {
     width: 200px;
     cursor: "pointer";

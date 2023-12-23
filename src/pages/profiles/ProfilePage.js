@@ -4,8 +4,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import { Button } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
-import { Form } from "react-bootstrap";
+import { Link, } from "react-router-dom";
 
 import styles from "../../styles/ProfilePage.module.css"
 import appStyles from "../../App.module.css";
@@ -13,139 +12,151 @@ import btnStyles from "../../styles/Button.module.css";
 import { axiosReq } from "../../api/axiosDefaults";
 
 function ProfilePage({ location }) {
-  const profileData = location.state?.profileData || {};
-  const [ hasLoaded, setHasLoaded ] = useState(false);
+  const [profileData, setProfileData] = useState(location.state?.profileData || {});
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   const [ friendList, setFriendList ] = useState([]);
   const [ projectList, setProjectList ] = useState([]);
   const [ requestList, setRequestList ] = useState([]);
 
   const [ isFriend, setIsFriend ] = useState(false);
-  const [ isUser, setIsUser ] = useState(false);
   const [ friendRequestPending, setFriendRequestPending ] = useState(false);
   const [ friendRequestAwaiting, setFriendRequestAwaiting ] = useState(false);
 
-  const [ profileImage, setProfileImage ] = useState("")
+  const [profileImage, setProfileImage] = useState("");
 
-  const [ errors, setErrors ] = useState();
+  const [errors, setErrors] = useState();
 
-  const checkUserRelation = () => {
-    if (profileData.is_owner == true) {
-      setIsUser(true)
-    } else if (friendList.some(friend => friend.profile_id === profileData.id)) {
-      setIsFriend(true);
-    } else if (requestList.some(request => request.sender === profileData.id)) {
-      setFriendRequestAwaiting(true)
-    } else if (requestList.some(request => request.receiver === profileData.id)) {
-      setFriendRequestPending(true)
-    }
-  }
-
-  const fetchData = async () => {
-    try {
-      const friends = await axiosReq.get('/friends/')
-      if (friends.status === 200) {
-        const data = friends.data.friend_details;
-        const dataArray = Object.values(data);
-        setFriendList(dataArray)
-      }
-    } catch (error) {
-      console.error( error)
-      if (error.response?.status !== 401) {
-        setErrors(error.response?.data);
-      }
-    }
-    try {
-      const projects = await axiosReq.get('/projects/')
-      if (projects.status === 200) {
-        const data = projects.data;
-        const dataArray = Object.values(data);
-        setProjectList(dataArray)
-      }
-    } catch (error) {
-      console.error( error)
-      if (error.response?.status !== 401) {
-        setErrors(error.response?.data);
-      }
-    }
-    try {
-      const Requests = await axiosReq.get('/friend-requests/')
-      if (Requests.status === 200) {
-        const data = Requests.data
-        console.log(data)
-        setRequestList(data)
-      }
-    } catch (error) {
-      console.error("Error fetching friend request data:", error)
-    }
-    setProfileImage(profileData.image || profileData.profile_image || "");
-    setHasLoaded(true);
-    checkUserRelation();
-  };
+  const [relationProfile, setRelationProfile] = useState({});
 
   useEffect(() => {
-    const fetchDataAndSetImage = async () => {
-      await fetchData();
+    console.log(relationProfile)
+    const fetchData = async () => {
+      try {
+        const friendsResponse = await axiosReq.get('/friends/');
+        const projectsResponse = await axiosReq.get('/projects/');
+        const requestsResponse = await axiosReq.get('/friend-requests/');
+
+        if (friendsResponse.status === 200) {
+          const data = friendsResponse.data.friend_details;
+          const dataArray = Object.values(data);
+          setFriendList(dataArray);
+        }
+
+        if (projectsResponse.status === 200) {
+          const data = projectsResponse.data;
+          const dataArray = Object.values(data);
+          setProjectList(dataArray);
+        }
+
+        if (requestsResponse.status === 200) {
+          const data = requestsResponse.data;
+          setRequestList(data);
+        }
+
+        setProfileData(location.state?.profileData || {});
+        setProfileImage(profileData.image || profileData.profile_image || '');
+
+        checkUserRelation(); // Move checkUserRelation here
+        fetchProfile(); // Move fetchProfile here
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        if (error.response?.status !== 401) {
+          setErrors(error.response?.data);
+        }
+      }
     };
-  
-    fetchDataAndSetImage();
-  }, [profileData]);
+
+    const fetchProfile = async () => {
+      try {
+        if (profileData.id) {
+          const response = await axiosReq.get(`/profiles/${profileData.id}`);
+          if (response.status === 200) {
+            const data = response.data;
+            setRelationProfile((prevRelationProfile) => ({
+              ...prevRelationProfile,
+              ...data,
+            }));
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    };
+
+    const checkUserRelation = () => {
+      if (friendList.some((friend) => friend.id === profileData.id)) {
+        setIsFriend(true);
+      } else if (requestList.some((request) => request.sender === profileData.id)) {
+        setFriendRequestAwaiting(true);
+      } else if (requestList.some((request) => request.receiver === profileData.id)) {
+        setFriendRequestPending(true);
+      }
+    };
+
+    fetchData();
+  }, [relationProfile.id]);
+
+  useEffect(() => {
+    if (relationProfile == null) {
+      setDataLoaded(false);
+    }
+    if (relationProfile !== null) {
+      setDataLoaded(true);
+    }
+  }, [dataLoaded]);
 
   const mainProfile = (
     <>
-      {isUser ? (
+      { isFriend ? (
         <>
           <Row noGutters className="px-3 text-center">
             <Col lg={6} className="text-lg-left">
               <img
-                className={styles.ProfilePageAvatar}
-                src={profileImage}
+                className={styles.ProfileAvatar}
+                src={relationProfile.image}
               />
             </Col>
 
             <Col lg={6} className="text-lg-center">
-              <h3 className="m-2">{profileData.username}</h3>
+              <h3 className="m-2">{relationProfile.owner}</h3>
+
               {profileData.bio ? (
                 profileData.bio
               ) : (
                 <>
                   <p>
-                    You haven't written your bio yet, why not write one now?
+                    This user hasn't written a biography yet.
                   </p>
                 </>
               )}
               <p>
-                You are working on{" "}
-                {projectList.filter((project) => !project.complete).length}{" "}
+                You are working on {" "}
+                {projectList.filter((project) => ((!project.complete && project.owner === relationProfile.id) || (!project.complete && project.collaborators.includes(relationProfile.id)))).length}{" "}
                 project
-                {projectList.filter((project) => !project.complete).length !== 1
-                  ? "s"
-                  : ""}
+                {projectList.filter((project) => ((!project.complete && project.owner === relationProfile.id) || (!project.complete && project.collaborators.includes(relationProfile.id)))).length !== 1
+                  ? "s "
+                  : " "}
+                with this user.
               </p>
               <p>
                 You have completed{" "}
-                {projectList.filter((project) => project.complete).length}{" "}
+                {projectList.filter((project) => ((project.complete && project.owner === relationProfile.id) || (project.complete && project.collaborators.includes(relationProfile.id)))).length}{" "}
                 project
-                {projectList.filter((project) => project.complete).length !== 1
-                  ? "s"
-                  : ""}
+                {projectList.filter((project) => ((project.complete && project.owner === relationProfile.id) || (project.complete && project.collaborators.includes(relationProfile.id)))).length !== 1
+                  ? "s "
+                  : " "}
+                with this user.
               </p>
             </Col>
           </Row>
-          <Row className="justify-content-center">
-            <Link to="/profiles/edit">
-              <Button className={btnStyles.Button}>Edit Profile Details</Button>
-            </Link>
-          </Row>
         </>
-      ) : isFriend ? (
-        <p>This guy is your friend</p>
       ) : friendRequestAwaiting ? (
         <Button>Accept Friend Request</Button>
       ) : friendRequestPending ? (
-        <p>Send friend request</p>
-      ) : (
         <Button>Send Friend Request</Button>
+      ) : (
+        <p>Loading profile data...</p>
       )}
     </>
   );
@@ -154,13 +165,12 @@ function ProfilePage({ location }) {
     <Row>
       <Col className="py-2 p-0 p-lg-2" lg={10}>
         <Container className={appStyles.Content}>
-          {hasLoaded ? (
-            <>
-              {mainProfile}
-            </>
-          ) : (
-            <>Loading...</>
-          )}
+          { dataLoaded == false ? (
+            <p>loading</p>
+            ) : (
+            mainProfile
+            )
+          }
         </Container>
       </Col>
       <Col lg={4} className="d-none d-lg-block p-0 p-lg-2">

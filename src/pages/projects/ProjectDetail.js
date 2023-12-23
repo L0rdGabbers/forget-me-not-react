@@ -94,12 +94,12 @@ const ProjectDetail = ({ match }) => {
               <Row>
                 {project.collaborator_details.map((collaborator) => (
                   <Col
-                    key={collaborator.collaborator_id}
+                    key={collaborator.id}
                     className="col-md-4 col-sm-4"
                   >
                     <Link
                       to={{
-                        pathname: `/profiles/${collaborator.collaborator_id}`,
+                        pathname: `/profiles/${collaborator.id}`,
                         state: { profileData: collaborator },
                       }}
                     >
