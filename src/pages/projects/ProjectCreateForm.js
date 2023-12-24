@@ -12,6 +12,7 @@ import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css"
 import { axiosReq } from "../../api/axiosDefaults";
 import { useHistory } from "react-router-dom";
+import projectStartupImage from "../../assets/project-startup.jpg";
 
 const ProjectCreateForm = () => {
   const [ errors, setErrors ] = useState({});
@@ -179,13 +180,12 @@ const ProjectCreateForm = () => {
           <Container
             className={`${appStyles.Content} ${styles.Container} d-flex flex-column justify-content-center`}
             >
-            <Form.Group className="text-center">
-                <div>
-                    <h1>PLACEHOLDER FOR IMAGE</h1>
-                </div>
-                <div className="d-md-none">{textFields}</div>
-                <div>{submitButtons}</div>
-            </Form.Group>
+            <div className="text-center">
+              <h1 className="mt-5">Create New Project</h1>
+              <img className={`${styles.Image} my-5`} src={projectStartupImage} alt="Man facing a project board" />
+              <div className="d-md-none">{textFields}</div>
+              <div>{submitButtons}</div>
+            </div>
           </Container>
         </Col>
         <Col md={5} lg={4} className="d-none d-md-block p-0 p-md-2">

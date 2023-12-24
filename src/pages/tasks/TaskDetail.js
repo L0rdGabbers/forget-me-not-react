@@ -9,12 +9,23 @@ import styles from '../../styles/ProjectDetail.module.css'
 import btnStyles from '../../styles/Button.module.css'
 
 const TaskDetail = ({ match }) => {
-  const [task, setTask] = useState(null);
-  const [errors, setErrors] = useState();
+  const [ task, setTask ] = useState(null);
+  const [ errors, setErrors ] = useState();
+  const [ timeRemaining, setTimeRemaining ] = useState(null);
+  const [ importance, setImportance ] = useState(null);
 
   const currentUser = useCurrentUser();
 
   const history = useHistory();
+
+  function formatDate(dateString) {
+    const originalDate = new Date(dateString);
+    const year = originalDate.getFullYear();
+    const month = String(originalDate.getMonth() + 1).padStart(2, '0');
+    const day = String(originalDate.getDate()).padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+  }
 
   useEffect(() => {
     const fetchTaskDetails = async () => {
@@ -22,7 +33,14 @@ const TaskDetail = ({ match }) => {
         const response = await axiosReq.get(
           `/tasks/${match.params.taskId}`
         );
+        const dueDateObject = new Date(response.data.due_date);
+        const currentDate = new Date();
+        const timeDifference = dueDateObject.getTime() - currentDate.getTime();
+        const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+        const upperCaseStr = response.data.importance.charAt(0).toUpperCase() + response.data.importance.slice(1);
         setTask(response.data);
+        setTimeRemaining(daysDifference)
+        setImportance(upperCaseStr)
       } catch (error) {
         console.error("Error fetching task details:", error);
       }
@@ -43,6 +61,17 @@ const TaskDetail = ({ match }) => {
       state: { taskData: task },
     });
   };
+
+  const handleComplete = async () => {
+    try {
+      const response = await axiosReq.put(`/tasks/${task.id}/`, { ...task, complete: true, due_date: formatDate(task.due_date) });
+      if (response.status === 200) {
+        history.push(`/projects/${task.project}`)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   const handleDelete = async () => {
     try {
@@ -80,7 +109,7 @@ const TaskDetail = ({ match }) => {
       </Container>
       <Container>
         <Row>
-          <Col className={`${styles.Container} col-md-6 col-sm-12 col-xsl-12`}>
+          <Col className={`${styles.Container} ${styles.MiddleContainer} col-md-6 col-sm-12 col-xsl-12`}>
             <h4>Summary</h4>
             <p>{task.summary}</p>
             <h4>Owner</h4>
@@ -103,16 +132,26 @@ const TaskDetail = ({ match }) => {
                           state: { profileData: collaborator },
                         }}
                       >
-                        <p>{collaborator.collaborator_username}</p>
+                        <p
+                            className={styles.TextLink}
+                          >
+                            {collaborator.collaborator_username}
+                          </p>
                       </Link>
                     </>
                   ) : (
                     <>
                       <Link
-                        to={{ pathname: `/myprofile/`, state: {profileData: currentUser},
+                        to={{
+                          pathname: `/myprofile/`,
+                          state: { profileData: currentUser },
                         }}
                       >
-                        <Button className={`${btnStyles.Button} ${btnStyles.Sml}`}>{collaborator.collaborator_username}</Button>
+                        <p
+                            className={styles.TextLink}
+                          >
+                            {collaborator.collaborator_username}
+                          </p>
                       </Link>
                     </>
                   )}
@@ -121,30 +160,48 @@ const TaskDetail = ({ match }) => {
             </Row>
           </Col>
           <Col
-            className={`${styles.Container} col-md-6 col-sm-12`}
+            className={`${styles.Container} col-md-6 col-sm-12 text-center pt-2`}
             style={{
               display: "flex",
               flexDirection: "column",
-              justifyContent: "flex-start",
+              justifyContent: "space-evenly",
             }}
           >
-            <div className="mb-2" style={{ alignSelf: "center" }}>
-              <Button variant="success">Complete</Button>
-            </div>
+            <h4>Task Importance: {importance}</h4>
+            {task.complete === false && timeRemaining > 0 ? (
+              <h4>
+                This task is due in {timeRemaining} day
+                {timeRemaining !== 1 && "s"}.
+              </h4>
+            ) : task.complete === false && timeRemaining === 0 ? (
+              <h4>This task is due today</h4>
+            ) : task.complete === false && timeRemaining < 0 ? (
+              <h4>This task is overdue</h4>
+            ) : task.complete === true ? (
+              <h4>This task has been completed</h4>
+            ) : null}
+            {task.complete === false ? (
+              <div className="mb-2" style={{ alignSelf: "center" }}>
+                <Button onClick={handleComplete} variant="success">
+                  Complete
+                </Button>
+              </div>
+            ) : null}
           </Col>
         </Row>
       </Container>
-
-      <Container fluid className={styles.Container}>
-        <Row>
-          <Button variant="warning" onClick={handleEditClick}>
-            Edit Details
-          </Button>
-          <Button variant="danger" onClick={handleDelete}>
-            Delete
-          </Button>
-        </Row>
-      </Container>
+      {task.is_owner == true ? (
+        <Container fluid className={styles.Container}>
+          <Row>
+            <Button variant="warning" onClick={handleEditClick}>
+              Edit Details
+            </Button>
+            <Button variant="danger" onClick={handleDelete}>
+              Delete
+            </Button>
+          </Row>
+        </Container>
+      ) : null}
     </div>
   );
 };

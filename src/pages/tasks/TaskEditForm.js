@@ -6,12 +6,13 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import { Alert } from "react-bootstrap";
+import { axiosReq } from "../../api/axiosDefaults";
+import { useHistory } from "react-router-dom";
 
 import styles from "../../styles/ProjectCreateEditForm.module.css";
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css"
-import { axiosReq } from "../../api/axiosDefaults";
-import { useHistory } from "react-router-dom";
+import taskEditImage from "../../assets/task-edit.jpg"
 
 const TaskEditForm = ({ location }) => {
   const taskData = location.state.taskData || {};
@@ -256,14 +257,17 @@ const TaskEditForm = ({ location }) => {
         <Col className="py-2 p-0 p-md-2" md={7} lg={8}>
           <Container
             className={`${appStyles.Content} ${styles.Container} d-flex flex-column justify-content-center`}
-            >
-            <Form.Group className="text-center">
-                <div>
-                    <h1>PLACEHOLDER FOR IMAGE</h1>
-                </div>
-                <div className="d-md-none">{textFields}</div>
-                <div>{submitButtons}</div>
-            </Form.Group>
+          >
+            <div className="text-center">
+              <h1 className="mt-5">Edit {taskData.title}</h1>
+            <img
+              className={`${styles.Image} my-5`}
+              src={taskEditImage}
+              alt="Man facing a project board"
+            />
+            <div className="d-md-none">{textFields}</div>
+            <div>{submitButtons}</div>
+            </div>
           </Container>
         </Col>
         <Col md={5} lg={4} className="d-none d-md-block p-0 p-md-2">

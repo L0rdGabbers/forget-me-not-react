@@ -106,8 +106,6 @@ function ProfilePage({ location }) {
         setIsUnknown(true);
       }
       setUseEffectCounter(prevData => prevData + 1);
-      console.log(useEffectCounter)
-      console.log(isFriend, friendRequestAwaiting, friendRequestPending, isUnknown)
     };
 
     fetchData();

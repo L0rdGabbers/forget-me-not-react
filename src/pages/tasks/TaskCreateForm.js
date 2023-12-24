@@ -12,6 +12,7 @@ import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css"
 import { axiosReq } from "../../api/axiosDefaults";
 import { useHistory, useLocation } from "react-router-dom";
+import postItImage from "../../assets/post-it.jpg"
 
 const TaskCreateForm = () => {
   const [ errors, setErrors ] = useState({});
@@ -180,7 +181,6 @@ const TaskCreateForm = () => {
   );
 
   useEffect(() => {
-    let isMounted = true;
     const fetchData = async () => {
       try {
         const project = await axiosReq.get(`/projects/${projectId}`)
@@ -215,29 +215,22 @@ const TaskCreateForm = () => {
       }
     };
     fetchData();
-    return () => {
-      isMounted = false;
-    }
   }, [])
 
   return (
     <>
-    <h1>
-        {project}: Create New Task
-    </h1>
     <Form onSubmit={handleSubmit}>
       <Row>
         <Col className="py-2 p-0 p-md-2" md={7} lg={8}>
           <Container
             className={`${appStyles.Content} ${styles.Container} d-flex flex-column justify-content-center`}
             >
-            <Form.Group className="text-center">
-                <div>
-                    <h1>PLACEHOLDER FOR IMAGE</h1>
-                </div>
-                <div className="d-md-none">{textFields}</div>
-                <div>{submitButtons}</div>
-            </Form.Group>
+            <div className="text-center">
+              <h1 className="mt-5">Create new task for {project}</h1>
+              <img className={`${styles.Image} my-5`} src={postItImage} alt="Man facing a project board" />
+              <div className="d-md-none">{textFields}</div>
+              <div>{submitButtons}</div>
+            </div>
           </Container>
         </Col>
         <Col md={5} lg={4} className="d-none d-md-block p-0 p-md-2">

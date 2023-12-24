@@ -99,7 +99,7 @@ const NavBar = () => {
       <NavLink
         exact
         className={styles.NavLink}
-        to="/home"
+        to="/"
         onClick={handleSignOut}
       >
         <i className="fas fa-sign-out"></i>Sign Out

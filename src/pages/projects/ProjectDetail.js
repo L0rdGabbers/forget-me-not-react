@@ -12,7 +12,7 @@ const ProjectDetail = ({ match }) => {
   const [ errors, setErrors ] = useState();
   const currentUser = useCurrentUser();
 
-  const [ collaboratorData, setCollaboratorData ] = []
+  const [ timeRemaining, setTimeRemaining ] = useState(null);
 
   const history = useHistory();
 
@@ -20,6 +20,11 @@ const ProjectDetail = ({ match }) => {
     const fetchProjectDetails = async () => {
       try {
         const response = await axiosReq.get(`/projects/${match.params.projectId}`);
+        const dueDateObject = new Date(response.data.due_date);
+        const currentDate = new Date();
+        const timeDifference = dueDateObject.getTime() - currentDate.getTime();
+        const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+        setTimeRemaining(daysDifference)
         setProject(response.data);
       } catch (error) {
         console.error('Error fetching project details:', error);
@@ -87,7 +92,7 @@ const ProjectDetail = ({ match }) => {
         <Container>
           <Row>
             <Col
-              className={`${styles.Container} ${styles.MiddleContainer} col-md-6 col-sm-12 col-xsl-12 `}
+              className={`${styles.Container} ${styles.MiddleContainer} col-md-6 col-sm-12 col-xsl-12 pt-4`}
             >
               <h4>Summary</h4>
               <p>{project.summary}</p>
@@ -96,77 +101,122 @@ const ProjectDetail = ({ match }) => {
               <h4>Collaborators</h4>
               <Row>
                 {project.collaborator_details.map((collaborator) => (
-                  <Col
-                    key={collaborator.id}
-                    className="col-md-4 col-sm-4"
-                  >
+                  <Col key={collaborator.id} className="col-md-4 col-sm-4">
                     {collaborator.id !== currentUser.id ? (
-                    <>
-                      <Link
-                        to={{
-                          pathname: `/profiles/${collaborator.id}`,
-                          state: { profileData: collaborator },
-                        }}
-                      >
-                        <Button className={`${btnStyles.Button} ${btnStyles.Sml}`}>{collaborator.collaborator_username}</Button>
-                      </Link>
-                    </>
-                  ) : (
-                    <>
-                      <Link
-                        to={{ pathname: `/myprofile/`, state: {profileData: currentUser},
-                        }}
-                      >
-                        <Button className={`${btnStyles.Button} ${btnStyles.Sml}`}>{collaborator.collaborator_username}</Button>
-                      </Link>
-                    </>
-                  )}
+                      <>
+                        <Link
+                          to={{
+                            pathname: `/profiles/${collaborator.id}`,
+                            state: { profileData: collaborator },
+                          }}
+                        >
+                          <p
+                            className={styles.TextLink}
+                          >
+                            {collaborator.collaborator_username}
+                          </p>
+                        </Link>
+                      </>
+                    ) : (
+                      <>
+                        <Link
+                          to={{
+                            pathname: `/myprofile/`,
+                            state: { profileData: currentUser },
+                          }}
+                        >
+                          <Button
+                            className={`${btnStyles.Button} ${btnStyles.Sml}`}
+                          >
+                            {collaborator.collaborator_username}
+                          </Button>
+                        </Link>
+                      </>
+                    )}
                   </Col>
                 ))}
               </Row>
             </Col>
             <Col
-              className={`${styles.Container} col-md-6 col-sm-12`}
+              className={`${styles.Container} col-md-6 col-sm-12 pt-4 text-center`}
               style={{
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "flex-start",
+                justifyContent: "space-evenly",
               }}
             >
-              <div className="mb-5" style={{ textAlign: "left" }}>
-                <h4>Tasks</h4>
-
-                {project.uncompleted_tasks.length > 0 ? (
-                  <>
-                    <h5>Uncompleted Tasks</h5>
-                    {project.uncompleted_tasks.map((task) => (
-                      <Link to={`/tasks/${task.id}`} key={task.id}>
-                        <p className={styles.Link}>{task.name}</p>
-                      </Link>
-                    ))}
-                  </>
-                ) : (
-                  <p>No uncompleted tasks.</p>
-                )}
-
-                {project.completed_tasks.length > 0 ? (
-                  <>
-                    <h5>Completed Tasks</h5>
-                    {project.completed_tasks.map((task) => (
-                      <Link to={`/tasks/${task.id}`} key={task.id}>
-                        <p className={styles.Link}>{task.name}</p>
-                      </Link>
-                    ))}
-                  </>
-                ) : (
-                  <></>
-                )}
-              </div>
-              <div className="mb-2" style={{ alignSelf: "center" }}>
-                <Button onClick={handleAddTask} className={`${btnStyles.Button} ${btnStyles.Sml}`}>
-                  Add Task
-                </Button>
-              </div>
+              {project.complete === false && timeRemaining > 0 ? (
+                <h4>
+                  This project is due in {timeRemaining} day
+                  {timeRemaining !== 1 && "s"}.
+                </h4>
+              ) : project.complete === false && timeRemaining === 0 ? (
+                <h4>This project is due today</h4>
+              ) : project.complete === false && timeRemaining < 0 ? (
+                <h4> This project is overdue.</h4>
+              ) : project.complete ? (
+                <h4>This project has been completed by the owner.</h4>
+              ) : null}
+              {project.complete === false ? (
+                <>
+                  <div className="mb-5" style={{ textAlign: "left" }}>
+                    <h4>Tasks</h4>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        justifyContent: "flex-start",
+                      }}
+                    >
+                      {project.uncompleted_tasks.length > 0 ? (
+                        <>
+                          <h5>Uncompleted Tasks</h5>
+                          {project.uncompleted_tasks.map((task) => (
+                            <Link to={`/tasks/${task.id}`} key={task.id}>
+                              <Button
+                                className={`${btnStyles.Button} ${btnStyles.Sml}`}
+                              >
+                                {task.name}
+                              </Button>
+                            </Link>
+                          ))}
+                        </>
+                      ) : (
+                        <p className="mt-4" style={{ margin: "auto" }}>
+                          No uncompleted tasks.
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="mb-5" style={{ textAlign: "left" }}>
+                    {project.completed_tasks.length > 0 ? (
+                      <>
+                        <h4>Completed Tasks</h4>
+                        {project.completed_tasks.map((task) => (
+                          <Link to={`/tasks/${task.id}`} key={task.id}>
+                            <Button
+                              className={`${btnStyles.Button} ${btnStyles.Sml}`}
+                            >
+                              {task.name}
+                            </Button>
+                          </Link>
+                        ))}
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                  <div className="mb-2" style={{ alignSelf: "center" }}>
+                    <Button
+                      onClick={handleAddTask}
+                      className={`${btnStyles.Button} ${btnStyles.Sml}`}
+                    >
+                      Add Task
+                    </Button>
+                  </div>
+                </>
+              ) : null}
             </Col>
           </Row>
         </Container>

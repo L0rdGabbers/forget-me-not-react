@@ -5,12 +5,16 @@
     padding: 0.5rem 2rem;
   }
 
+.TextLink {
+    text-decoration:underline
+}
+
 .HeadContainer {
     margin-top: 10rem;
 }
 
 .MiddleContainer {
-    height: 30rem;
+    min-height: 25rem;
 }
 
 .Container Button {
