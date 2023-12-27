@@ -5,6 +5,7 @@ import BackButton from "./components/BackButtonSide";
 import Container from "react-bootstrap/Container";
 import { Route, Switch } from "react-router-dom";
 import './api/axiosDefaults';
+import HomePage from "./pages/other/HomePage";
 import SignUpForm from "./pages/auth/SignUpForm";
 import SignInForm from "./pages/auth/SignInForm";
 import ProjectCreateForm from "./pages/projects/ProjectCreateForm";
@@ -33,7 +34,7 @@ function App() {
       <BackButton />
       <Container className={styles.Container}>
         <Switch>
-          <Route exact path="/" render={() => <h1>Home</h1>} />
+          <Route exact path="/" render={() => <HomePage />} />
           <Route exact path="/profiles/edit" render={() => <ProfileEditForm />} />
           <Route exact path="/profiles/:profileId" component={ProfilePage} />
           <Route exact path="/myprofile" component={MyProfilePage} />

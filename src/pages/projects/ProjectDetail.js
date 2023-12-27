@@ -92,6 +92,8 @@ const ProjectDetail = ({ match }) => {
         <Container>
           <Row>
             <Col
+              sm={12}
+              md={6}
               className={`${styles.Container} ${styles.MiddleContainer} col-md-6 col-sm-12 col-xsl-12 pt-4`}
             >
               <h4>Summary</h4>
@@ -110,9 +112,7 @@ const ProjectDetail = ({ match }) => {
                             state: { profileData: collaborator },
                           }}
                         >
-                          <p
-                            className={styles.TextLink}
-                          >
+                          <p className={styles.TextLink}>
                             {collaborator.collaborator_username}
                           </p>
                         </Link>
@@ -125,11 +125,9 @@ const ProjectDetail = ({ match }) => {
                             state: { profileData: currentUser },
                           }}
                         >
-                          <Button
-                            className={`${btnStyles.Button} ${btnStyles.Sml}`}
-                          >
+                          <p className={styles.TextLink}>
                             {collaborator.collaborator_username}
-                          </Button>
+                          </p>
                         </Link>
                       </>
                     )}
@@ -138,6 +136,8 @@ const ProjectDetail = ({ match }) => {
               </Row>
             </Col>
             <Col
+              sm={12}
+              md={6}
               className={`${styles.Container} col-md-6 col-sm-12 pt-4 text-center`}
               style={{
                 display: "flex",
@@ -160,7 +160,8 @@ const ProjectDetail = ({ match }) => {
               {project.complete === false ? (
                 <>
                   <div className="mb-5" style={{ textAlign: "left" }}>
-                    <h4>Tasks</h4>
+                    <h3>Tasks</h3>
+                    <h5 style={{ textAlign: "center" }}>Uncompleted Tasks</h5>
                     <div
                       style={{
                         display: "flex",
@@ -171,16 +172,21 @@ const ProjectDetail = ({ match }) => {
                     >
                       {project.uncompleted_tasks.length > 0 ? (
                         <>
-                          <h5>Uncompleted Tasks</h5>
-                          {project.uncompleted_tasks.map((task) => (
-                            <Link to={`/tasks/${task.id}`} key={task.id}>
-                              <Button
-                                className={`${btnStyles.Button} ${btnStyles.Sml}`}
-                              >
-                                {task.name}
-                              </Button>
-                            </Link>
-                          ))}
+                          <Row>
+                            {project.uncompleted_tasks.map((task) => (
+                              <Col key={task.id} className="col-md-12 col-sm-12">
+                                <Link
+                                  to={{
+                                    pathname: `/tasks/${task.id}`,
+                                  }}
+                                >
+                                  <p className={styles.TextLink}>
+                                    {task.name}
+                                  </p>
+                                </Link>
+                              </Col>
+                            ))}
+                          </Row>
                         </>
                       ) : (
                         <p className="mt-4" style={{ margin: "auto" }}>
@@ -189,22 +195,28 @@ const ProjectDetail = ({ match }) => {
                       )}
                     </div>
                   </div>
+                  <h5>Completed Tasks</h5>
                   <div className="mb-5" style={{ textAlign: "left" }}>
-                    {project.completed_tasks.length > 0 ? (
-                      <>
-                        <h4>Completed Tasks</h4>
-                        {project.completed_tasks.map((task) => (
-                          <Link to={`/tasks/${task.id}`} key={task.id}>
-                            <Button
-                              className={`${btnStyles.Button} ${btnStyles.Sml}`}
-                            >
-                              {task.name}
-                            </Button>
-                          </Link>
-                        ))}
-                      </>
+                  {project.completed_tasks.length > 0 ? (
+                        <>
+                          <Row>
+                            {project.completed_tasks.map((task) => (
+                              <Col key={task.id} className="col-md-12 col-sm-12">
+                                <Link
+                                  to={{
+                                    pathname: `/tasks/${task.id}`,
+                                  }}
+                                >
+                                  <p className={styles.TextLink}>
+                                    {task.name}
+                                  </p>
+                                </Link>
+                              </Col>
+                            ))}
+                          </Row>
+                        </>
                     ) : (
-                      <></>
+                      <p>Your completed tasks will be listed here.</p>
                     )}
                   </div>
                   <div className="mb-2" style={{ alignSelf: "center" }}>

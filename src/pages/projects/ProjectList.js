@@ -7,7 +7,6 @@ const ProjectList = () => {
   const [ projectList, setProjectList ] = useState([]);
 
   useEffect(() => {
-    let isMounted = true;
     const fetchData = async () => {
         try {
           const response = await axiosReq.get(`/projects/`);
@@ -20,10 +19,6 @@ const ProjectList = () => {
         }
     };
     fetchData();
-
-    return () => {
-      isMounted = false;
-    }
   }, []);
 
   return (

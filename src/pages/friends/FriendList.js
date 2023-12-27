@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { axiosReq } from '../../api/axiosDefaults';
 import Avatar from '../../components/Avatar';
-import { Button } from 'react-bootstrap';
+import { Button, Container, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const FriendList = () => {
   const [ friendList, setFriendList ] = useState([])
@@ -56,22 +57,46 @@ const FriendList = () => {
       <h2>Friend List</h2>
       <ul>
         {friendList.map((profile) => (
-          <li key={profile.friend_id}>
-            {profile.username}
-            {unfriendedFriends.includes(profile.friend_id) ? (
-              <div style={{ color: 'red' }}>Unfriended</div>
-            ) : (
-              <>
-                <Avatar src={profile.friend_image} height={40} />
-                <Button
-                  onClick={() => handleUnfriend(profile.friend_id)}
-                  variant="danger"
-                >
-                  Unfriend
-                </Button>
-              </>
-            )}
-          </li>
+          <div
+            key={profile.id}
+            style={{
+              border: "1px solid #ccc",
+              padding: "15px 2rem 2px 5px",
+              marginBottom: "8px",
+              backgroundColor: "#fff",
+            }}
+          >
+            <Container>
+              <Row>
+                <Col sm={2} md={2}>
+                  <Avatar className="" src={profile.friend_image} height={50} />
+                </Col>
+                <Col sm={8} md={4}>
+                  <h2>
+                    <Link
+                      to={{
+                        pathname: `/profiles/${profile.id}`,
+                        state: { profileData: profile },
+                      }}
+                    >
+                      {profile.username}
+                    </Link>
+                  </h2>
+                </Col>
+                <Col sm={9} md={4}>
+                  <p>Collaborated on twenty projects</p>
+                </Col>
+                <Col sm={3} md={2}>
+                  <Button
+                    onClick={() => handleUnfriend(profile.friend_id)}
+                    variant="danger"
+                  >
+                    Unfriend
+                  </Button>
+                </Col>
+              </Row>
+            </Container>
+          </div>
         ))}
       </ul>
     </div>
