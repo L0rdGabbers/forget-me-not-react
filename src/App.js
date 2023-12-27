@@ -25,7 +25,8 @@ import ProfilePage from "./pages/profiles/ProfilePage";
 import MyProfilePage from "./pages/profiles/MyProfilePage";
 import ProfileEditForm from "./pages/profiles/ProfileEditForm";
 import BackButtonBottom from "./components/BackButtonBottom";
-import NotLoggedIn from "./components/NotLoggedIn";
+import NotLoggedIn from "./components/NotLoggedInPage";
+import RequireAuth from "./components/RequireAuth";
 
 
 function App() {
@@ -33,29 +34,49 @@ function App() {
     <div className={styles.App}>
       <NavBar />
       <BackButton />
-      <NotLoggedIn />
       <Container className={styles.Container}>
         <Switch>
           <Route exact path="/" render={() => <HomePage />} />
-          <Route exact path="/profiles/edit" render={() => <ProfileEditForm />} />
+          <Route
+            exact
+            path="/profiles/edit"
+            render={() => <ProfileEditForm />}
+          />
           <Route exact path="/profiles/:profileId" component={ProfilePage} />
           <Route exact path="/myprofile" component={MyProfilePage} />
           <Route exact path="/signup" render={() => <SignUpForm />} />
           <Route exact path="/signin" render={() => <SignInForm />} />
-          <Route exact path="/projects/create" render={() => <ProjectCreateForm />} />
+          <Route
+            exact
+            path="/projects/create"
+            render={() => <ProjectCreateForm />}
+          />
           <Route exact path="/projects/list" render={() => <ProjectList />} />
           <Route exact path="/projects/" render={() => <ProjectList />} />
           <Route exact path="/projects/:projectId" component={ProjectDetail} />
-          <Route exact path="/projects/edit/:projectId" component={ProjectEditForm} />
+          <Route
+            exact
+            path="/projects/edit/:projectId"
+            component={ProjectEditForm}
+          />
           <Route exact path="/tasks/create" render={() => <TaskCreateForm />} />
           <Route exact path="/tasks/:taskId" component={TaskDetail} />
           <Route exact path="/tasks/edit/:taskId" component={TaskEditForm} />
           <Route exact path="/friends/list" render={() => <FriendList />} />
-          <Route exact path="/friends/create" render={() => <FriendCreateForm />} />
-          <Route exact path="/friends/requests" render={() => <FriendRequests />} />
+          <Route
+            exact
+            path="/friends/create"
+            render={() => <FriendCreateForm />}
+          />
+          <Route
+            exact
+            path="/friends/requests"
+            render={() => <FriendRequests />}
+          />
           <Route exact path="/error/403" render={() => <Error403 />} />
           <Route exact path="/error/500" render={() => <Error500 />} />
           <Route exact path="/deleted" render={() => <DeletedPage />} />
+          <Route exact path="/loggedout" render={() => <NotLoggedIn />} />
           <Route render={() => <p>Page not found!</p>} />
         </Switch>
         <BackButtonBottom />

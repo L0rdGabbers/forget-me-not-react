@@ -6,10 +6,10 @@ import { Col, Row } from 'react-bootstrap';
 import Avatar from '../../components/Avatar';
 import { Button } from 'react-bootstrap/';
 import btnStyles from '../../styles/Button.module.css'
+import NotLoggedIn from '../../components/NotLoggedInPage';
 
 const FriendCreateForm = () => {
   const currentUser = useCurrentUser();
-
   const [ friendUsername, setFriendUsername ] = useState("");
   const [ friendList, setFriendList ] = useState({})
   const [ friendRequestData, setFriendRequestData ] = useState([])
@@ -18,6 +18,12 @@ const FriendCreateForm = () => {
   const [ friend, setFriend ] = useState("");
   const [ unSuccessfullSend, setUnsuccessfullSend ] = useState(0);
   const history = useHistory();
+
+  const renderLoggedOut = () => {
+    return (
+      <NotLoggedIn />
+    )
+  }
 
   useEffect(() => {
     const fetchData = async () => {
