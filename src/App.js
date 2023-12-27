@@ -25,6 +25,7 @@ import ProfilePage from "./pages/profiles/ProfilePage";
 import MyProfilePage from "./pages/profiles/MyProfilePage";
 import ProfileEditForm from "./pages/profiles/ProfileEditForm";
 import BackButtonBottom from "./components/BackButtonBottom";
+import NotLoggedIn from "./components/NotLoggedIn";
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
     <div className={styles.App}>
       <NavBar />
       <BackButton />
+      <NotLoggedIn />
       <Container className={styles.Container}>
         <Switch>
           <Route exact path="/" render={() => <HomePage />} />

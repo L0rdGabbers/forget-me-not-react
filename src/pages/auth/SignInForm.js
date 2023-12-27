@@ -23,13 +23,13 @@ const SignInForm = () => {
 
   const { username, password } = signInData;
   const [errors, setErrors] = useState({});
-  const hisotry = useHistory();
+  const history = useHistory();
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const { data } = await axios.post("/dj-rest-auth/login/", signInData);
       setCurrentUser(data.user);
-      hisotry.push("/");
+      history.push("/");
     } catch (err) {}
   };
   const handleChange = (event) => {
