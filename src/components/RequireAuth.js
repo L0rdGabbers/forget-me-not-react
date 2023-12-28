@@ -5,11 +5,17 @@ import { useCurrentUser } from '../contexts/CurrentUserContext';
 const RequireAuth = ({ children }) => {
   const currentUser = useCurrentUser();
 
+  const isLoading = currentUser === null;
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
   if (!currentUser) {
-    return <Redirect to="/signedout" />;
+    return <Redirect to="/loggedout" />;
   }
 
   return <>{children}</>;
 };
 
-export default RequireAuth;
+export default RequireAuth

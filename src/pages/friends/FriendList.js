@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { axiosReq } from '../../api/axiosDefaults';
 import Avatar from '../../components/Avatar';
-import { Button, Container, Row, Col } from 'react-bootstrap';
+import { Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const FriendList = () => {
-  const [ friendList, setFriendList ] = useState([])
+  const [friendList, setFriendList] = useState([]);
   const [unfriendedFriends, setUnfriendedFriends] = useState([]);
+  const [showUnfriendMessage, setShowUnfriendMessage] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -16,7 +17,7 @@ const FriendList = () => {
         const response = await axiosReq.get(`/friends/`);
         if (response.status === 200) {
           const friendDetails = response.data.friend_details;
-          setFriendList(friendDetails)
+          setFriendList(friendDetails);
         } else {
           console.error('Failed to fetch friend request data');
         }
@@ -38,32 +39,39 @@ const FriendList = () => {
         unfriend: true,
       });
       if (response.status === 200) {
+        setFriendList((prevFriendList) =>
+          prevFriendList.filter((friend) => friend.friend_id !== friendId)
+        );
         setUnfriendedFriends((prevUnfriendedFriends) => [
           ...prevUnfriendedFriends,
           friendId,
         ]);
+        setShowUnfriendMessage(true);
       } else {
-        console.error('Failed to unfriend');
+        console.error("Failed to unfriend");
       }
     } catch (error) {
-      console.error('Error unfriending:', error);
+      console.error("Error unfriending:", error);
     }
   };
-
-  console.log(friendList)
 
   return (
     <div>
       <h2>Friend List</h2>
+      {showUnfriendMessage && (
+        <Alert variant="success" onClose={() => setShowUnfriendMessage(false)} dismissible>
+          Friend has been unfriended successfully!
+        </Alert>
+      )}
       <ul>
         {friendList.map((profile) => (
           <div
             key={profile.id}
             style={{
-              border: "1px solid #ccc",
-              padding: "15px 2rem 2px 5px",
-              marginBottom: "8px",
-              backgroundColor: "#fff",
+              border: '1px solid #ccc',
+              padding: '15px 2rem 2px 5px',
+              marginBottom: '8px',
+              backgroundColor: '#fff',
             }}
           >
             <Container>
@@ -82,9 +90,6 @@ const FriendList = () => {
                       {profile.username}
                     </Link>
                   </h2>
-                </Col>
-                <Col sm={9} md={4}>
-                  <p>Collaborated on twenty projects</p>
                 </Col>
                 <Col sm={3} md={2}>
                   <Button

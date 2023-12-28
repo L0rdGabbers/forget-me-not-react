@@ -11,11 +11,11 @@ import styles from "../../styles/ProjectCreateEditForm.module.css";
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css"
 import { axiosReq } from "../../api/axiosDefaults";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import officeTeamImage from "../../assets/office-team.jpg"
 
 const ProjectEditForm = ({ location }) => {
-  const projectData = location.state.projectData || {};
+  const projectData = location.state ? location.state.projectData || {} : {};
   const [ errors, setErrors ] = useState({});
   const [ friendList, setFriendList ] = useState([]);
 

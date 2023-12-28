@@ -174,15 +174,16 @@ const ProjectDetail = ({ match }) => {
                         <>
                           <Row>
                             {project.uncompleted_tasks.map((task) => (
-                              <Col key={task.id} className="col-md-12 col-sm-12">
+                              <Col
+                                key={task.id}
+                                className="col-md-12 col-sm-12"
+                              >
                                 <Link
                                   to={{
                                     pathname: `/tasks/${task.id}`,
                                   }}
                                 >
-                                  <p className={styles.TextLink}>
-                                    {task.name}
-                                  </p>
+                                  <p className={styles.TextLink}>{task.name}</p>
                                 </Link>
                               </Col>
                             ))}
@@ -197,24 +198,22 @@ const ProjectDetail = ({ match }) => {
                   </div>
                   <h5>Completed Tasks</h5>
                   <div className="mb-5" style={{ textAlign: "left" }}>
-                  {project.completed_tasks.length > 0 ? (
-                        <>
-                          <Row>
-                            {project.completed_tasks.map((task) => (
-                              <Col key={task.id} className="col-md-12 col-sm-12">
-                                <Link
-                                  to={{
-                                    pathname: `/tasks/${task.id}`,
-                                  }}
-                                >
-                                  <p className={styles.TextLink}>
-                                    {task.name}
-                                  </p>
-                                </Link>
-                              </Col>
-                            ))}
-                          </Row>
-                        </>
+                    {project.completed_tasks.length > 0 ? (
+                      <>
+                        <Row>
+                          {project.completed_tasks.map((task) => (
+                            <Col key={task.id} className="col-md-12 col-sm-12">
+                              <Link
+                                to={{
+                                  pathname: `/tasks/${task.id}`,
+                                }}
+                              >
+                                <p className={styles.TextLink}>{task.name}</p>
+                              </Link>
+                            </Col>
+                          ))}
+                        </Row>
+                      </>
                     ) : (
                       <p>Your completed tasks will be listed here.</p>
                     )}
@@ -233,16 +232,18 @@ const ProjectDetail = ({ match }) => {
           </Row>
         </Container>
 
-        <Container fluid className={styles.Container}>
-          <Row>
-            <Button variant="warning" onClick={handleEditClick}>
-              Edit Details
-            </Button>
-            <Button variant="danger" onClick={handleDelete}>
-              Delete
-            </Button>
-          </Row>
-        </Container>
+        {project.owner === currentUser.username && (
+          <Container fluid className={styles.Container}>
+            <Row>
+              <Button variant="warning" onClick={handleEditClick}>
+                Edit Details
+              </Button>
+              <Button variant="danger" onClick={handleDelete}>
+                Delete
+              </Button>
+            </Row>
+          </Container>
+        )}
       </div>
     </>
   );

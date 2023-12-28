@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import btnStyles from '../../styles/Button.module.css'
 import { axiosReq } from '../../api/axiosDefaults';
 import { Row, Col, Container, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -38,9 +39,7 @@ const ProjectList = () => {
             <Row>
               <Col>
                 <h2>
-                  <Link to={`/projects/${project.id}`}>
-                    {project.title}
-                  </Link>
+                  <Link to={`/projects/${project.id}`}>{project.title}</Link>
                 </h2>
               </Col>
             </Row>
@@ -57,8 +56,10 @@ const ProjectList = () => {
               <Col>
                 <p>Tasks remaining: {project.uncompleted_task_count}</p>
                 <p>Tasks completed: {project.completed_task_count}</p>
+              </Col>
+              <Col>
                 <Link to={`/projects/${project.id}`}>
-                  <Button variant="primary" size="lg">
+                  <Button className={btnStyles.Button}>
                     Open Project
                   </Button>
                 </Link>

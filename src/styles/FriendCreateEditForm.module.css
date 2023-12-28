@@ -1,0 +1,8 @@
+.Container {
+    margin-top: 2rem;
+    padding-top: 6rem;
+    background-color: #ffffff;
+    background-size: cover;
+    height: 80vh;
+    border: 1px solid #dadada;
+}

@@ -28,6 +28,14 @@
     line-height: 1; 
 }
 
+.Green {
+  background-color: #43B051;
+}
+
+.Red {
+  background-color: #B05D74;
+}
+
 .BigText {
     font-size: 1.5rem
 }

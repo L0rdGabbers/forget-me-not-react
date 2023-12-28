@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import btnStyles from '../../styles/Button.module.css'
 import { axiosReq } from '../../api/axiosDefaults';
 import { useHistory } from 'react-router-dom';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 
 const FriendRequests = () => {
   const currentUser = useCurrentUser();
@@ -33,44 +35,63 @@ const FriendRequests = () => {
     } 
   }, [])
 
-  const FriendRequestRow = ({ request }) => {
-    const { id, sender_username, receiver_username, created_at,  } = request;
-
-    const handleAction = async (action) => {
-      try {
-        await axiosReq.put(`/friend-requests/${id}/`, {[action]: true});
-        history.push('/friends/list')
-      } catch(error) {
-        console.error(`Error performing ${action}:`, error)
-      }
-    };
-
-    return (
-      <div>
-        <p>Sender: {sender_username}</p>
-        <p>Receiver: {receiver_username}</p>
-        <p>Sent: {created_at}</p>
-        {receiver_username === currentUser.username ? (
-          <div>
-            <button onClick={() => handleAction("accept")}>Accept</button>
-            <button onClick={() => handleAction("decline")}>Decline</button>
-          </div>
-        ) : (
-          <div>
-            <button onClick={() => handleAction("cancel")}>Cancel</button>
-          </div>
-        )}
-      </div>
-    );
+  const handleAction = async (request, action) => {
+    try {
+      await axiosReq.put(`/friend-requests/${request.id}/`, { [action]: true });
+      history.push("/friends/list");
+    } catch (error) {
+      console.error(`Error performing ${action}:`, error);
+    }
   };
 
   return (
     <div>
       {friendRequestsData.map((request) => (
-        <FriendRequestRow key={request.id} request={request} />
+        <div
+          key={request.id}
+          style={{
+            border: "1px solid #ccc",
+            padding: "15px 2rem 2px 5px",
+            marginBottom: "8px",
+            backgroundColor: "#fff",
+          }}
+        >
+          <Container>
+            <Row>
+              <Col sm={8} md={4}>
+                {request.sender == currentUser.id ? (
+                  <h2>Sent to: {request.receiver_username}</h2>
+                ) : (
+                  <h2>Sent from: {request.sender_username}</h2>
+                )}
+              </Col>
+              <Col sm={8} md={4} className="pt-2 d-flex justify-content-center">
+                <h5>sent on {request.created_at}</h5>
+              </Col>
+              <Col sm={8} md={4} className="d-flex justify-content-center">
+                {request.receiver === currentUser.id ? (
+                  <div>
+                    <Button className={`${btnStyles.Button} ${btnStyles.Sml} ${btnStyles.Green}`} onClick={() => handleAction(request, "accept")}>
+                      Accept
+                    </Button>
+                    <Button className={`${btnStyles.Button} ${btnStyles.Sml} ${btnStyles.Red}`} onClick={() => handleAction(request, "decline")}>
+                      Decline
+                    </Button>
+                  </div>
+                ) : (
+                  <div>
+                    <Button className={`${btnStyles.Button} ${btnStyles.Sml} ${btnStyles.Red}`} onClick={() => handleAction(request, "cancel")}>
+                      Cancel
+                    </Button>
+                  </div>
+                )}
+              </Col>
+            </Row>
+          </Container>
+        </div>
       ))}
     </div>
-  )
+  );
 }
 
 export default FriendRequests
