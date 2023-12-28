@@ -15,6 +15,7 @@ import FriendList from "./pages/friends/FriendList";
 import ProjectList from "./pages/projects/ProjectList";
 import ProjectDetail from "./pages/projects/ProjectDetail";
 import ProjectEditForm from "./pages/projects/ProjectEditForm";
+import CompletedProjectList from "./pages/projects/CompletedProjectList";
 import TaskCreateForm from "./pages/tasks/TaskCreateForm";
 import TaskDetail from "./pages/tasks/TaskDetail";
 import Error403 from "./pages/errors/Error403";
@@ -81,6 +82,15 @@ function App() {
             render={() => (
               <RequireAuth>
                 <ProjectList />
+              </RequireAuth>
+            )}
+          />
+          <Route
+            exact
+            path="/projects/completed"
+            render={() => (
+              <RequireAuth>
+                <CompletedProjectList />
               </RequireAuth>
             )}
           />

@@ -9,15 +9,15 @@ const ProjectList = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-        try {
-          const response = await axiosReq.get(`/projects/`);
-          if (response.status === 200) {
-            setProjectList(response.data);
-            console.log(projectList)
-          };
-        } catch (error) {
-          console.error("Error fetching user data:", error);
+      try {
+        const response = await axiosReq.get(`/projects/`);
+        if (response.status === 200) {
+          const completedProjects = response.data.filter(project => project.complete === false);
+          setProjectList(completedProjects);
         }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
     };
     fetchData();
   }, []);

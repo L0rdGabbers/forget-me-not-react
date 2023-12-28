@@ -69,6 +69,9 @@ const NavBar = () => {
         <NavDropdown.Item as={NavLink} to="/projects/list">
           My Projects
         </NavDropdown.Item>
+        <NavDropdown.Item as={NavLink} to="/projects/completed">
+          Completed Projects
+        </NavDropdown.Item>
       </NavDropdown>
       <NavDropdown
         title={
