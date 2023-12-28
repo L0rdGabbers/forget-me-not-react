@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { axiosReq } from '../../api/axiosDefaults';
 import { useHistory } from 'react-router-dom';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
-import { Col, Row, Button, Container } from 'react-bootstrap';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
 import Avatar from '../../components/Avatar';
 import styles from '../../styles/FriendCreateEditForm.module.css'
 import appStyles from '../../App.module.css'
@@ -25,7 +28,6 @@ const FriendCreateForm = () => {
         const response = await axiosReq.get(`/profiles/`);
         if (response.status === 200) {
           const data = response.data;
-          console.log(data);
           setProfileData(data);
         } else {
           console.error("Failed to fetch user data");
@@ -37,7 +39,6 @@ const FriendCreateForm = () => {
         const friends = await axiosReq.get("/friends/");
         if (friends.status === 200) {
           const data = friends.data.friend_details;
-          console.log(data);
           setFriendList(data);
         }
       } catch (error) {
@@ -47,7 +48,6 @@ const FriendCreateForm = () => {
         const friendRequests = await axiosReq.get("/friend-requests/");
         if (friendRequests.status === 200) {
           const data = friendRequests.data;
-          console.log(data);
           setFriendRequestData(data);
         }
       } catch (error) {
@@ -120,7 +120,6 @@ const FriendCreateForm = () => {
       const response = await axiosReq.post("/send-friend-request/", {
         receiver: receiverId,
       });
-      console.log("Friend request sent successfully:", response.data);
       history.push("/friends/requests");
     } catch (error) {
       console.error("Error sending friend request:", error);

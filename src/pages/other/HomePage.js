@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/HomePage.module.css";
-import { Container, Row, Col } from "react-bootstrap";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import pencilImage from "../../assets/pencil.jpg";
 import hourglassImage from "../../assets/hourglass.jpg";
 import notesImage from "../../assets/post-it-notes.jpg";
@@ -57,9 +59,9 @@ const HomePage = () => {
             const currentDate = new Date();
 
             if (
-              (!closest || !closest.completed) &&
-              !project.completed &&
-              (project.profile_id == currentUser.id) &&
+              (!closest || !closest.complete) &&
+              !project.complete &&
+              project.profile_id === currentUser.id &&
               Math.abs(projectDueDate - currentDate) <
                 Math.abs(closestDueDate - currentDate)
             ) {
@@ -88,7 +90,7 @@ const HomePage = () => {
                 : null;
 
               if (
-                (!mostRecent || !project.completed) &&
+                (!mostRecent || !project.complete) &&
                 (project.profile_id == currentUser.id) &&
                 projectUpdatedAt > mostRecentUpdatedAt
               ) {
@@ -111,8 +113,8 @@ const HomePage = () => {
             const currentDate = new Date();
 
             if (
-              (!closest || !closest.completed) &&
-              !task.completed &&
+              (!closest || !closest.complete) &&
+              !task.complete &&
               Math.abs(taskDueDate - currentDate) <
                 Math.abs(closestDueDate - currentDate)
             ) {
@@ -160,7 +162,7 @@ const HomePage = () => {
               onClick={handleCreateProjectLink}
             >
               <div className={styles.ImageWrapper}>
-                <h3 className={styles.Header}>Create New Project</h3>
+                <h4 className={styles.Header}>Create New Project</h4>
                 <img
                   src={pencilImage}
                   alt="Pencil on blank paper."
@@ -175,7 +177,7 @@ const HomePage = () => {
                 onClick={handleUrgentProjectLink}
               >
                 <div className={styles.ImageWrapper}>
-                  <h3 className={styles.Header}>
+                  <h4 className={styles.Header}>
                     {closestProject.daysRemaining === 0 ? (
                       <>Due Today</>
                     ) : closestProject.daysRemaining === 1 ? (
@@ -185,7 +187,7 @@ const HomePage = () => {
                     )}
                     <hr></hr>
                     {closestProject?.title}
-                  </h3>
+                  </h4>
                   <img
                     src={hourglassImage}
                     alt="A running hourglass."
@@ -201,7 +203,7 @@ const HomePage = () => {
                   onClick={handleUrgentProjectLink}
                 >
                   <div className={styles.ImageWrapper}>
-                    <h3 className={styles.SteadyHeader}>No Incomplete Projects</h3>
+                    <h4 className={styles.SteadyHeader}>No Incomplete Projects</h4>
                     <img
                       src={hourglassImage}
                       alt="A running hourglass."
@@ -219,12 +221,12 @@ const HomePage = () => {
                 onClick={handleUpdatedProjectLink}
               >
                 <div className={styles.ImageWrapper}>
-                  <h3 className={styles.Header}>
+                  <h4 className={styles.Header}>
                     <>
                       Most Recently Updated Project<hr></hr>
                       {mostRecentlyUpdatedProject?.title}
                     </>
-                  </h3>
+                  </h4>
                   <img
                     src={notesImage}
                     alt="A wall of colourful used post-it notes."
@@ -239,11 +241,11 @@ const HomePage = () => {
                 onClick={handleUpdatedProjectLink}
               >
                 <div className={styles.ImageWrapper}>
-                  <h3 className={styles.SteadyHeader}>
+                  <h4 className={styles.SteadyHeader}>
                     <>
                       No Incomplete Projects
                     </>
-                  </h3>
+                  </h4>
                   <img
                     src={notesImage}
                     alt="A wall of colourful used post-it notes."
@@ -260,7 +262,7 @@ const HomePage = () => {
                 onClick={handleUrgentTaskLink}
               >
                 <div className={styles.ImageWrapper}>
-                  <h3 className={styles.Header}>
+                  <h4 className={styles.Header}>
                     {closestTask.daysRemaining === 0 ? (
                       <>Task Due Today</>
                     ) : closestTask.daysRemaining === 1 ? (
@@ -270,7 +272,7 @@ const HomePage = () => {
                     )}
                     <hr></hr>
                     {closestTask?.title}
-                  </h3>
+                  </h4>
                   <img
                     src={womanImage}
                     alt="A woman writing on a notepad."
@@ -285,9 +287,9 @@ const HomePage = () => {
                 onClick={handleUrgentTaskLink}
               >
                 <div className={styles.ImageWrapper}>
-                  <h3 className={styles.SteadyHeader}>
+                  <h4 className={styles.SteadyHeader}>
                     No Incomplete Tasks
-                  </h3>
+                  </h4>
                   <img
                     src={womanImage}
                     alt="A woman writing on a notepad."
@@ -313,7 +315,7 @@ const HomePage = () => {
           <Row>
             <Col lg={6} className={styles.LinkDiv} onClick={handleSignUpLink}>
               <div className={styles.ImageWrapper}>
-                <h3 className={styles.Header}>Sign Up</h3>
+                <h4 className={styles.Header}>Sign Up</h4>
                 <img
                   src={signUpImage}
                   alt="Pencil on blank paper."
@@ -323,7 +325,7 @@ const HomePage = () => {
             </Col>
             <Col lg={6} className={styles.LinkDiv} onClick={handleSignInLink}>
               <div className={styles.ImageWrapper}>
-                <h3 className={styles.Header}>Sign In</h3>
+                <h4 className={styles.Header}>Sign In</h4>
                 <img
                   src={signInImage}
                   alt="Pencil on blank paper."

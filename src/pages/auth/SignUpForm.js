@@ -36,9 +36,6 @@ const SignUpForm = () => {
       history.push("/signin");
     } catch (err) {
       console.error('Error submitting form:', err);
-      console.log('Response data:', err.response?.data);
-      console.log('Status code:', err.response?.status);
-      console.log('Status text:', err.response?.statusText);
       setErrors(err.response?.data || {});
     }
   };

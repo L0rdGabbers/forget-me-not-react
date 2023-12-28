@@ -1,12 +1,16 @@
-import React, {useEffect} from 'react';
-import styles from '../styles/NavBar.module.css'
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+// NavBar.js
+import React, { useEffect } from 'react';
+import styles from '../styles/NavBar.module.css';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown'
 import { NavLink, useLocation } from 'react-router-dom';
 import { useCurrentUser, useSetCurrentUser } from '../contexts/CurrentUserContext';
 import Avatar from './Avatar';
 import axios from 'axios';
 import useDropdown from '../hooks/useDropdown';
 import useClickOutsideToggle from '../hooks/useClickOutsideToggle';
+import { removeTokenTimestamp } from '../utils/utils';
 
 const NavBar = () => {
   const currentUser = useCurrentUser();
@@ -14,11 +18,14 @@ const NavBar = () => {
 
   const { expanded, setExpanded, ref } = useClickOutsideToggle();
 
-  const { dropdownOpen, handleMouseEnter, handleMouseLeave } = useDropdown();
-
-  useEffect(() => {
-    console.log('Current user has changed:', currentUser);
-  }, [currentUser]);
+  const {
+    friendDropdownOpen,
+    projectDropdownOpen,
+    setFriendDropdownOpen,
+    setProjectDropdownOpen,
+    handleMouseEnter,
+    handleMouseLeave,
+  } = useDropdown();
 
   const location = useLocation();
 
@@ -32,36 +39,35 @@ const NavBar = () => {
     (path) => location.pathname.startsWith(path)
   );
 
-  const isProjectsActive = ['/projects', '/projects/create',].some(
+  const isProjectsActive = ['/projects', '/projects/create'].some(
     (path) => location.pathname.startsWith(path)
   );
 
   const handleSignOut = async () => {
     try {
-      await axios.post('/dj-rest-auth/logout/')
-      setCurrentUser(null)
-    } catch(err){
-      console.log(err)
+      await axios.post('/dj-rest-auth/logout/');
+      setCurrentUser(null);
+      removeTokenTimestamp();
+    } catch (err) {
+      console.error(err);
     }
-  }
+  };
 
   const loggedInIcons = (
     <>
       <NavDropdown
         title={
           <span
-            className={`${styles.navItem} ${
-              isProjectsActive ? styles.Active : ""
-            }`}
+            className={`${styles.navItem} ${isProjectsActive ? styles.Active : ''}`}
           >
             <i className={`fa-solid fa-file-circle-plus ${styles.icon}`}></i>
             <span className={styles.navText}>Projects</span>
           </span>
         }
         id="project-dropdown"
-        show={dropdownOpen === 'project-id'}
+        show={projectDropdownOpen === 'project-id' || expanded}
         onMouseEnter={() => handleMouseEnter('project-id')}
-        onMouseLeave={handleMouseLeave}
+        onMouseLeave={() => handleMouseLeave()}
       >
         <NavDropdown.Item as={NavLink} to="/projects/create">
           Create Project
@@ -73,21 +79,20 @@ const NavBar = () => {
           Completed Projects
         </NavDropdown.Item>
       </NavDropdown>
+
       <NavDropdown
         title={
           <span
-            className={`${styles.navItem} ${
-              isFriendsActive ? styles.Active : ""
-            }`}
+            className={`${styles.navItem} ${isFriendsActive ? styles.Active : ''}`}
           >
             <i className={`fas fa-user-friends ${styles.icon}`}></i>
             <span className={styles.navText}>Friends</span>
           </span>
         }
         id="friend-dropdown"
-        show={dropdownOpen === 'friend-id'}
+        show={friendDropdownOpen === 'friend-id' || expanded}
         onMouseEnter={() => handleMouseEnter('friend-id')}
-        onMouseLeave={handleMouseLeave}
+        onMouseLeave={() => handleMouseLeave()}
       >
         <NavDropdown.Item as={NavLink} to="/friends/create">
           Add Friend
@@ -99,36 +104,29 @@ const NavBar = () => {
           Friend Requests
         </NavDropdown.Item>
       </NavDropdown>
-      <NavLink
-        exact
-        className={styles.NavLink}
-        to="/"
-        onClick={handleSignOut}
-      >
+
+      <NavLink exact className={styles.NavLink} to="/" onClick={handleSignOut}>
         <i className="fas fa-sign-out"></i>Sign Out
       </NavLink>
       <NavLink
         className={styles.NavLink}
-        to={{ pathname: `/myprofile/`, state: {profileData: currentUser}}}
+        to={{ pathname: `/myprofile/`, state: { profileData: currentUser } }}
       >
-        <Avatar src={currentUser?.image || currentUser?.profile_image || ""} text={currentUser?.username} height={40} />
+        <Avatar
+          src={currentUser?.image || currentUser?.profile_image || ''}
+          text={currentUser?.username}
+          height={40}
+        />
       </NavLink>
     </>
   );
+
   const loggedOutIcons = (
     <>
-      <NavLink
-        className={styles.NavLink}
-        activeClassName={styles.Active}
-        to="/signup"
-      >
+      <NavLink className={styles.NavLink} activeClassName={styles.Active} to="/signup">
         <i className="fas fa-sign-in"></i> Sign Up
       </NavLink>
-      <NavLink
-        className={styles.NavLink}
-        activeClassName={styles.Active}
-        to="/signin"
-      >
+      <NavLink className={styles.NavLink} activeClassName={styles.Active} to="/signin">
         <i className="fas fa-user-plus"></i> Sign In
       </NavLink>
     </>
@@ -140,17 +138,23 @@ const NavBar = () => {
         <Navbar.Brand className={styles.Title}>Forget Me Not</Navbar.Brand>
       </NavLink>
       <span>{getCurrentDate()}</span>
-      <Navbar.Toggle ref={ref} onClick={() => setExpanded(!expanded)} aria-controls="responsive-navbar-nav" />
+      <Navbar.Toggle
+        ref={ref}
+        onClick={() => {
+          setExpanded((prevExpanded) => !prevExpanded);
+        }}
+        aria-controls="responsive-navbar-nav"
+      />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="ml-auto">
           <NavLink exact className={styles.NavLink} activeClassName={styles.Active} to="/">
-            <i className='fas fa-home'></i> Home
+            <i className="fas fa-home"></i> Home
           </NavLink>
           {currentUser ? loggedInIcons : loggedOutIcons}
         </Nav>
       </Navbar.Collapse>
     </Navbar>
   );
-}
+};
 
-export default NavBar
+export default NavBar;

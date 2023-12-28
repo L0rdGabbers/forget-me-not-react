@@ -76,11 +76,11 @@
 }
 
 .LinkDiv:hover .Image {
-    transform: scale(0.8); /* Adjust the scale factor as needed */
+    transform: scale(0.95); /* Adjust the scale factor as needed */
 }
 
 .LinkDiv:hover .Header {
-    font-size: 2rem;
+    font-size: 1.55rem;
 }
 
 .BigTitle {

@@ -1,5 +1,7 @@
 import React from 'react'
-import { Container, Row, Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 import { Link } from 'react-router-dom';
 
 import styles from '../../styles/SignUpInForm.module.css'

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
-import { Button } from "react-bootstrap";
-import { Link, } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 
 import styles from "../../styles/ProfilePage.module.css"
 import appStyles from "../../App.module.css";

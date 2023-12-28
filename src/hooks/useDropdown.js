@@ -1,16 +1,23 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
 const useDropdown = () => {
-  const [dropdownOpen, setDropdownOpen] = useState(null);
+  const [friendDropdownOpen, setFriendDropdownOpen] = useState(null);
+  const [projectDropdownOpen, setProjectDropdownOpen] = useState(null);
 
   const handleMouseEnter = (dropdownId) => {
-      setDropdownOpen(dropdownId);
-    };
+    if (dropdownId === 'friend-id') {
+      setFriendDropdownOpen(dropdownId);
+    } else if (dropdownId === 'project-id') {
+      setProjectDropdownOpen(dropdownId);
+    }
+  };
 
   const handleMouseLeave = () => {
-      setDropdownOpen(null);
-    };
-  return { dropdownOpen, handleMouseEnter, handleMouseLeave }
-}
+    setFriendDropdownOpen(null);
+    setProjectDropdownOpen(null);
+  };
+
+  return { friendDropdownOpen, projectDropdownOpen, handleMouseEnter, handleMouseLeave, setFriendDropdownOpen, setProjectDropdownOpen };
+};
 
 export default useDropdown;

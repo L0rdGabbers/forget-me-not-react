@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { axiosReq } from '../../api/axiosDefaults';
-import { Container, Row, Col, Button, } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
 
 import styles from '../../styles/ProjectDetail.module.css'
-import btnStyles from '../../styles/Button.module.css'
 
 const TaskDetail = ({ match }) => {
   const [ task, setTask ] = useState(null);
@@ -51,8 +53,6 @@ const TaskDetail = ({ match }) => {
 
   if (!task) {
     return <p>Loading...</p>;
-  } else {
-    console.log(task);
   }
 
   const handleEditClick = () => {

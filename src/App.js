@@ -18,7 +18,7 @@ import ProjectEditForm from "./pages/projects/ProjectEditForm";
 import CompletedProjectList from "./pages/projects/CompletedProjectList";
 import TaskCreateForm from "./pages/tasks/TaskCreateForm";
 import TaskDetail from "./pages/tasks/TaskDetail";
-import Error403 from "./pages/errors/Error403";
+import Error404 from "./pages/errors/Error404";
 import Error500 from "./pages/errors/Error500";
 import DeletedPage from "./pages/other/DeletedPage";
 import TaskEditForm from "./pages/tasks/TaskEditForm";
@@ -26,7 +26,6 @@ import ProfilePage from "./pages/profiles/ProfilePage";
 import MyProfilePage from "./pages/profiles/MyProfilePage";
 import ProfileEditForm from "./pages/profiles/ProfileEditForm";
 import BackButtonBottom from "./components/BackButtonBottom";
-import NotLoggedIn from "./pages/errors/NotLoggedInPage";
 import RequireAuth from "./components/RequireAuth";
 
 
@@ -59,9 +58,9 @@ function App() {
           <Route
             exact
             path="/myprofile"
-            render={() => (
+            render={(props) => (
               <RequireAuth>
-                <MyProfilePage />
+                <MyProfilePage location={props.location} />
               </RequireAuth>
             )}
           />
@@ -166,7 +165,6 @@ function App() {
               </RequireAuth>
             )}
           />
-          <Route exact path="/error/403" render={() => <Error403 />} />
           <Route exact path="/error/500" render={() => <Error500 />} />
           <Route
             exact
@@ -177,8 +175,7 @@ function App() {
               </RequireAuth>
             )}
           />
-          <Route exact path="/loggedout" render={() => <NotLoggedIn />} />
-          <Route render={() => <p>Page not found!</p>} />
+          <Route render={() => <Error404 />} />
         </Switch>
         <BackButtonBottom />
       </Container>

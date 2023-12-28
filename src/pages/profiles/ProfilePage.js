@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
-import { Button } from "react-bootstrap";
-import { Link, useHistory, } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import { useHistory } from "react-router-dom";
 
 import styles from "../../styles/ProfilePage.module.css"
 import appStyles from "../../App.module.css";
@@ -72,7 +72,6 @@ function ProfilePage({ location }) {
     };
 
     const fetchProfile = async () => {
-      console.log("Fetching profile")
       try {
         if (profileData.id) {
           const response = await axiosReq.get(`/profiles/${profileData.id}`);
@@ -90,7 +89,6 @@ function ProfilePage({ location }) {
     };
 
     const checkUserRelation = () => {
-      console.log("Checking user relation")
       const friendRequestSender = requestList.find(
         (request) => request.sender === profileData.id && request.is_active === true
       );
@@ -114,8 +112,7 @@ function ProfilePage({ location }) {
 
   const handleFriendRequest = async () => {
     try {
-      const response = await axiosReq.post('/send-friend-request/', { receiver: relationProfile.id });
-        console.log('Friend request sent successfully:', response.data);
+      await axiosReq.post('/send-friend-request/', { receiver: relationProfile.id });
         history.push('/friends/requests');
     } catch(error){
       console.error(error)

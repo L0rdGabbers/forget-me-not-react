@@ -3,7 +3,11 @@ import btnStyles from '../../styles/Button.module.css'
 import { axiosReq } from '../../api/axiosDefaults';
 import { useHistory } from 'react-router-dom';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 
 const FriendRequests = () => {
   const currentUser = useCurrentUser();
@@ -19,7 +23,6 @@ const FriendRequests = () => {
           const response = await axiosReq.get(`/friend-requests/`);
           if (response.status === 200) {
             const data = response.data;
-            console.log(data);
             setFriendRequestsData(data);
           } else {
             console.error("Failed to fetch friend request data");

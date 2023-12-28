@@ -9,7 +9,7 @@ Forget me Not provides users with the ability to create projects along with assi
 [Deployed site](Be sure to add a site name.)
 
 # **Table Of Contents**
-- [**Time to Dine**](#time-to-dine)
+- [**Forget Me Not**](#forget-me-not)
   - [**Site Overview**](#site-overview)
 - [**Table Of Contents**](#table-of-contents)
 - [**Planning Stage**](#planning-stage)
@@ -112,7 +112,7 @@ Forget me Not provides users with the ability to create projects along with assi
 - [**Honourable Mentions**](#honourable-mentions)
 - [**Credits**](#credits)
 
-# **Planning Stage**#
+# **Planning Stage**
 ## **Target Audience**
 
 - People who are slightly disorganised and need a way of breaking down intimidating pieces of work into smaller, more manageable tasks.
@@ -167,3 +167,26 @@ However, further into development, while I learnt how to implement a friend list
 ![Updated model](src/assets/final-database-model.png)
 
 Both of these models were created using https://www.drawio.com/
+
+## **Design**
+
+Because the application is more character based rather than image based, I thought it best to use minimal colouring with shades of white to make up the structure of the page: #f8f8f8 for the app's background colour and #ffffff for the background of all components.
+
+Since the website's name was Forget Me Not, which is also the name of a purple flower, I decided to use shades of purple for my site, however, since Forget-me-nots are a light shade of purple, I opted to use darker shades: #63336B for the buttons, #CBA6FF for text on dark backgrounds on the Home Page.
+
+
+![Home Page](/src/assets/home-page.png)
+
+To contrast when hovered, I used #d4af37, a shade of gold to stand out clearly from the purple and the white.
+
+![Hero Image](/src/assets/project-list.png)
+
+# **Agile Development Process**
+
+## **Overview**
+
+This section will specifically discuss the front end for this project.
+For the backend, please visit the [Forget Me Not DRF API](https://github.com/L0rdGabbers/forget-me-not-drf).
+
+
+

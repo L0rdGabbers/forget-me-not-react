@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-import { Alert } from "react-bootstrap";
+import Alert from "react-bootstrap/Alert";
 import { axiosReq } from "../../api/axiosDefaults";
 import { useHistory } from "react-router-dom";
 
@@ -46,7 +46,7 @@ const TaskEditForm = ({ location }) => {
 
   const handleCheck = (event) => {
     const collaboratorId = Number(event.target.value);
-    console.log(collaboratorId)
+
   
     setFormData((prevData) => ({
       ...prevData,
@@ -77,7 +77,10 @@ const TaskEditForm = ({ location }) => {
       complete: formData.complete,
       project: formData.project
     };
-
+    if (!updatedTask.due_date) {
+      setErrors({ dueDate: ['Due Date is required.'] });
+      return;
+    }
     try {
       await axiosReq.put(`/tasks/${taskData.id}/`, updatedTask);
       history.push(`/tasks/${taskData.id}`);
@@ -236,7 +239,6 @@ const TaskEditForm = ({ location }) => {
           }
   
           setAssigneeList([owner, ...combinedAssignees]);
-          console.log(assigneeList);
         }
       } catch (error) {
         console.error(error);
@@ -244,12 +246,6 @@ const TaskEditForm = ({ location }) => {
     };
     fetchData();
   }, []);
-
-  useEffect(() => {
-    console.log("Task Data:", taskData)
-    console.log("Form Data:", formData)
-    console.log("Assignee List:", assigneeList)
-  }, [taskData, assigneeList])
 
   return (
     <Form onSubmit={handleSubmit}>

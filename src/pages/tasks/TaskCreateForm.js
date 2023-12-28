@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-import { Alert } from "react-bootstrap";
+import Alert from "react-bootstrap/Alert";
 
 import styles from "../../styles/ProjectCreateEditForm.module.css";
 import appStyles from "../../App.module.css";
@@ -47,7 +47,6 @@ const TaskCreateForm = () => {
       ...taskData,
       [event.target.name]: event.target.value,
     });
-    console.log(taskData)
   };
 
   const handleCheck = (event) => {
@@ -76,11 +75,14 @@ const TaskCreateForm = () => {
     formData.append("due_date", dueDate);
     formData.append("project", projectId);
     formData.append("importance", importance)
+    if (!taskData.dueDate) {
+      setErrors({ dueDate: ['Due Date is required.'] });
+      return;
+    }
     try {
       await axiosReq.post("/tasks/", formData);
       history.push(`/projects/${projectId}`);
     } catch (err) {
-      console.log(err);
       if (err.response?.status !== 401) {
         setErrors(err.response?.data);
       }
@@ -186,7 +188,6 @@ const TaskCreateForm = () => {
         const project = await axiosReq.get(`/projects/${projectId}`)
         if (project.status === 200) {
           const projectName = project.data.title;
-          console.log(projectName)
           setProject(projectName)
             
           const owner = {

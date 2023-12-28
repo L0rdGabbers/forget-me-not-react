@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import btnStyles from '../../styles/Button.module.css'
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import { axiosReq } from '../../api/axiosDefaults';
-import { Row, Col, Container, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+
+import btnStyles from '../../styles/Button.module.css'
 
 const ProjectList = () => {
   const [ projectList, setProjectList ] = useState([]);

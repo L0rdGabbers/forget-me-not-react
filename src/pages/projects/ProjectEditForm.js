@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-import { Alert } from "react-bootstrap";
+import Alert from "react-bootstrap/Alert";
 
 import styles from "../../styles/ProjectCreateEditForm.module.css";
 import appStyles from "../../App.module.css";
@@ -38,7 +38,6 @@ const ProjectEditForm = ({ location }) => {
 
   const handleCheck = (event) => {
     const collaboratorId = Number(event.target.value);
-    console.log(collaboratorId)
   
     setFormData((prevData) => ({
       ...prevData,
@@ -67,6 +66,11 @@ const ProjectEditForm = ({ location }) => {
       collaborators: formData.collaborators,
       complete: formData.complete,
     };
+
+    if (!updatedProject.due_date) {
+      setErrors({ dueDate: ['Due Date is required.'] });
+      return;
+    }
 
     try {
       await axiosReq.put(`/projects/${projectData.id}/`, updatedProject);
@@ -195,11 +199,6 @@ const ProjectEditForm = ({ location }) => {
     };
     fetchData();
   }, [])
-
-  useEffect(() => {
-    console.log("Project Data:", projectData)
-    console.log("Form Data:", formData)
-  }, [projectData])
 
   return (
     <Form onSubmit={handleSubmit}>

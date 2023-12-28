@@ -5,13 +5,13 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-import { Alert } from "react-bootstrap";
+import Alert from "react-bootstrap/Alert";
+import { axiosReq } from "../../api/axiosDefaults";
+import { useHistory } from "react-router-dom";
 
 import styles from "../../styles/ProjectCreateEditForm.module.css";
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css"
-import { axiosReq } from "../../api/axiosDefaults";
-import { useHistory } from "react-router-dom";
 import projectStartupImage from "../../assets/project-startup.jpg";
 
 const ProjectCreateForm = () => {
@@ -34,7 +34,6 @@ const ProjectCreateForm = () => {
       ...projectData,
       [event.target.name]: event.target.value,
     });
-    console.log(projectData)
   };
 
   const handleCheck = (event) => {
@@ -61,11 +60,14 @@ const ProjectCreateForm = () => {
     projectData.collaborators.forEach((collaborator) => {
       formData.append("collaborators", collaborator.id);
     });
+    if (!projectData.dueDate) {
+      setErrors({ dueDate: ['Due Date is required.'] });
+      return;
+    }
     try {
       await axiosReq.post("/projects/", formData);
       history.push(`/projects/list`);
     } catch (err) {
-      console.log(err);
       if (err.response?.status !== 401) {
         setErrors(err.response?.data);
       }
@@ -82,8 +84,7 @@ const ProjectCreateForm = () => {
           type="text"
           name="title"
           onChange={handleChange}
-          >
-        </Form.Control>
+        ></Form.Control>
       </Form.Group>
       {errors?.title?.map((message, idx) => (
         <Alert variant="warning" key={idx}>
@@ -97,8 +98,7 @@ const ProjectCreateForm = () => {
           as="textarea"
           rows={6}
           name="summary"
-          >
-        </Form.Control>
+        ></Form.Control>
       </Form.Group>
       {errors?.summary?.map((message, idx) => (
         <Alert variant="warning" key={idx}>
@@ -111,8 +111,7 @@ const ProjectCreateForm = () => {
           type="date"
           name="dueDate"
           onChange={handleChange}
-          >
-        </Form.Control>
+        ></Form.Control>
       </Form.Group>
       {errors?.dueDate?.map((message, idx) => (
         <Alert variant="warning" key={idx}>
@@ -123,14 +122,14 @@ const ProjectCreateForm = () => {
         <Form.Label>Collaborators</Form.Label>
         {friendList.map((friend) => (
           <Form.Check
-          key={friend.username}
-          type="checkbox"
-          id={friend.username}
-          label={friend.username}
-          value={friend.id}
-          onChange={handleCheck}
+            key={friend.username}
+            type="checkbox"
+            id={friend.username}
+            label={friend.username}
+            value={friend.id}
+            onChange={handleCheck}
           />
-          ))}
+        ))}
       </Form.Group>
     </div>
   );

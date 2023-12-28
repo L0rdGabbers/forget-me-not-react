@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { axiosReq } from '../../api/axiosDefaults';
-import { Container, Row, Col, Button, } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import { Link, useHistory } from 'react-router-dom';
 
 import styles from '../../styles/ProjectDetail.module.css'
@@ -37,7 +40,6 @@ const ProjectDetail = ({ match }) => {
   if (!project) {
     return <p>Loading...</p>;
   } else {
-    console.log(project)
   }
 
   const handleAddTask = () => {
@@ -160,7 +162,7 @@ const ProjectDetail = ({ match }) => {
               {project.complete === false ? (
                 <>
                   <div className="mb-5" style={{ textAlign: "left" }}>
-                    <h3>Tasks</h3>
+                    <hr></hr>
                     <h5 style={{ textAlign: "center" }}>Uncompleted Tasks</h5>
                     <div
                       style={{
@@ -197,7 +199,12 @@ const ProjectDetail = ({ match }) => {
                     </div>
                   </div>
                   <h5>Completed Tasks</h5>
-                  <div className="mb-5" style={{ textAlign: "left" }}>
+                  <div style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        justifyContent: "flex-start",
+                      }}>
                     {project.completed_tasks.length > 0 ? (
                       <>
                         <Row>
@@ -215,7 +222,7 @@ const ProjectDetail = ({ match }) => {
                         </Row>
                       </>
                     ) : (
-                      <p>Your completed tasks will be listed here.</p>
+                      <p className="my-4" style={{ margin: "auto" }}>Your completed tasks will be listed here.</p>
                     )}
                   </div>
                   <div className="mb-2" style={{ alignSelf: "center" }}>

@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
-import { Button } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
-import { Form } from "react-bootstrap";
+import Button  from "react-bootstrap/Button";
+import { useHistory } from "react-router-dom";
+import Form from "react-bootstrap/Form";
 
 import styles from "../../styles/ProfilePage.module.css"
 import appStyles from "../../App.module.css";
@@ -30,7 +30,6 @@ function ProfileEditForm() {
   useEffect(() => {
 
     if (currentUser !== null) {
-      console.log("Current User:", currentUser);
       setHasLoaded(true);
       setNewBio(currentUser.bio)
       setPreviewImage(currentUser?.image || currentUser?.profile_image || "")
@@ -71,7 +70,6 @@ function ProfileEditForm() {
         pathname: `/myprofile`,
         state: {profileData: response.data}
       });
-      console.log(formData)
     } catch (error) {
       console.error("Error updating profile:", error);
     }
