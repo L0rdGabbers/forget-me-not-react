@@ -11,7 +11,7 @@ import styles from "../../styles/ProjectCreateEditForm.module.css";
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css"
 import { axiosReq } from "../../api/axiosDefaults";
-import { useHistory, Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import officeTeamImage from "../../assets/office-team.jpg"
 
 const ProjectEditForm = ({ location }) => {

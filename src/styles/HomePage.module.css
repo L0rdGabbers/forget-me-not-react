@@ -5,14 +5,15 @@
     height: 32rem;
     border-color: black;
     width: 100%;
-    padding: 0; /* Remove default padding */
+    padding: 0;
 }
 
 .TitleContainer {
     margin-top: 1rem;
     height: 20rem;
     background-color: #fff;
-    padding-top: 6rem;
+    padding-top: 4rem;
+    padding-bottom: 2rem;
 }
   
 .LinkDiv {
@@ -84,5 +85,23 @@
 }
 
 .BigTitle {
-    font-size: 6rem;
+    font-size: 5rem;
 }
+
+.Title {
+    font-size: 1.5rem;
+}
+
+@media screen and (max-width: 600px) {
+    .BigTitle {
+        font-size: 10vw;
+    }
+    
+    .Title {
+        font-size: 5vw;
+    }
+    .TitleContainer {
+        height: 30vw;
+        padding-top: 1rem;
+    }
+  }

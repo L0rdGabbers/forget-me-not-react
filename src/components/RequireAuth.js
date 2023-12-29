@@ -1,5 +1,4 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import { useCurrentUser } from '../contexts/CurrentUserContext';
 import Error404 from '../pages/errors/Error404';
 

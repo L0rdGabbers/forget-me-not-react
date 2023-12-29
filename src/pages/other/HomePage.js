@@ -335,7 +335,6 @@ const HomePage = () => {
             </Col>
           </Row>
         </Container>
-        ;
       </>
     );
   };
@@ -344,6 +343,7 @@ const HomePage = () => {
     <>
       <Container className={styles.TitleContainer}>
         <h1 className={`text-center ${styles.BigTitle}`}>Forget Me Not</h1>
+        <h5 className={`text-center ${styles.Title}`}>A site for organising life's big challenges into bite sized projects and tasks</h5>
       </Container>
       {currentUser ? renderContent() : renderSignedOut()}
     </>
