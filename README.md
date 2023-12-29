@@ -340,7 +340,11 @@ The Home Page acts as a warm welcome to new users and a quick and easy place to 
 ## **Project and Task Create and Edit Forms**
 
 ### **Clarification**
-These Pages have far more similarities than differences.
+These Pages have far more similarities than differences, so they will be featured in bulk.
+
+### **Decorative Images**
+
+Each page featues a decorative image which all resemble the process that each form plays a part in, to help remind the user which page they are on.
 
 
 

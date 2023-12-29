@@ -1,3 +1,5 @@
+// TaskCreateForm.js
+// Component for creating a new task
 import React, { useState, useEffect } from "react";
 
 import Form from "react-bootstrap/Form";
@@ -14,22 +16,28 @@ import { axiosReq } from "../../api/axiosDefaults";
 import { useHistory, useLocation } from "react-router-dom";
 import postItImage from "../../assets/post-it.jpg"
 
+// Component for creating a new task
 const TaskCreateForm = () => {
-  const [ errors, setErrors ] = useState({});
-  const [ assigneeList, setAssigneeList ] = useState([]);
+  // State to store form errors and the list of assignees
+  const [errors, setErrors] = useState({});
+  const [assigneeList, setAssigneeList] = useState([]);
 
+  // Using React Router's location hook to get the projectId from the route
   const location = useLocation();
   const projectId = location.state?.projectId || null;
 
-  const [ project, setProject ] = useState([]);
+  // State to store the project data
+  const [project, setProject] = useState([]);
 
+  // Choices for the task importance dropdown
   const importanceChoices = [
     { value: 'low', label: 'Low' },
     { value: 'moderate', label: 'Moderate' },
     { value: 'crucial', label: 'Crucial' },
   ];
 
-  const [ taskData, setTaskData ] = useState({
+  // State to store the task data
+  const [taskData, setTaskData] = useState({
     title: "",
     summary: "",
     dueDate: "",
@@ -40,8 +48,10 @@ const TaskCreateForm = () => {
 
   const { title, summary, dueDate, importance } = taskData;
 
+  // React Router history object
   const history = useHistory();
 
+  // Event handler for handling changes in form fields
   const handleChange = (event) => {
     setTaskData({
       ...taskData,
@@ -49,6 +59,7 @@ const TaskCreateForm = () => {
     });
   };
 
+  // Event handler for handling checkbox changes for assignees
   const handleCheck = (event) => {
     const collaboratorId = event.target.value;
   
@@ -60,37 +71,44 @@ const TaskCreateForm = () => {
     }));
   };
 
-
+  // Event handler for handling form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
 
+    // Adding collaborators to the form data
     const collaboratorsArray = taskData.collaborators;
-
     collaboratorsArray.forEach((collaboratorId) => {
         formData.append("collaborators", collaboratorId);
     });
+
+    // Adding other task details to the form data
     formData.append("title", title);
     formData.append("summary", summary);
     formData.append("due_date", dueDate);
     formData.append("project", projectId);
     formData.append("importance", importance)
+
+    // Checking if due date is provided
     if (!taskData.dueDate) {
       setErrors({ dueDate: ['Due Date is required.'] });
       return;
     }
+
     try {
+      // Making a POST request to create a new task
       await axiosReq.post("/tasks/", formData);
+      // Redirecting to the project page after task creation
       history.push(`/projects/${projectId}`);
     } catch (err) {
+      // Handling errors and updating state
       if (err.response?.status !== 401) {
         setErrors(err.response?.data);
       }
     }
   };
 
-  
-  
+  // JSX for rendering form fields
   const textFields = (
     <div className="text-center">
       <Form.Group>
@@ -99,8 +117,7 @@ const TaskCreateForm = () => {
           type="text"
           name="title"
           onChange={handleChange}
-          >
-        </Form.Control>
+        ></Form.Control>
       </Form.Group>
       {errors?.title?.map((message, idx) => (
         <Alert variant="warning" key={idx}>
@@ -114,8 +131,7 @@ const TaskCreateForm = () => {
           as="textarea"
           rows={6}
           name="summary"
-          >
-        </Form.Control>
+        ></Form.Control>
       </Form.Group>
       {errors?.summary?.map((message, idx) => (
         <Alert variant="warning" key={idx}>
@@ -143,8 +159,7 @@ const TaskCreateForm = () => {
           type="date"
           name="dueDate"
           onChange={handleChange}
-          >
-        </Form.Control>
+        ></Form.Control>
       </Form.Group>
       {errors?.dueDate?.map((message, idx) => (
         <Alert variant="warning" key={idx}>
@@ -155,18 +170,19 @@ const TaskCreateForm = () => {
         <Form.Label>Assignee</Form.Label>
         {assigneeList.map((assignee) => (
           <Form.Check
-          key={assignee.id}
-          type="checkbox"
-          id={assignee.username}
-          label={assignee.username}
-          value={assignee.id}
-          onChange={handleCheck}
+            key={assignee.id}
+            type="checkbox"
+            id={assignee.username}
+            label={assignee.username}
+            value={assignee.id}
+            onChange={handleCheck}
           />
-          ))}
+        ))}
       </Form.Group>
     </div>
   );
   
+  // JSX for rendering form submission buttons
   const submitButtons = (
     <>
       <Row className="justify-content-center">
@@ -182,42 +198,60 @@ const TaskCreateForm = () => {
     </>
   );
 
+  // Fetching project data on component mount
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Making a GET request to fetch project details
         const project = await axiosReq.get(`/projects/${projectId}`)
+        // Checking if the request was successful
         if (project.status === 200) {
+          // Extracting project name from the response
           const projectName = project.data.title;
+          // Updating state with the project name
           setProject(projectName)
             
+          // Creating an owner object with owner details
           const owner = {
-              id: project.data.profile_id,
-              username: project.data.owner,
+            id: project.data.profile_id,
+            username: project.data.owner,
           }
+
+          // Extracting collaborator IDs from the response
           const collaborators = project.data.collaborators;
 
+          // Fetching details of each collaborator using promises
           const profilesPromises = collaborators.map((id) =>
             axiosReq.get(`/profiles/${id}/`)
           );
+
+          // Resolving all promises concurrently
           const profilesResponses = await Promise.all(profilesPromises);
+
+          // Extracting data from each response
           const profilesData = profilesResponses.map(
             (profileResponse) => profileResponse.data
           );
 
+          // Combining owner and collaborator details into a list
           const combinedAssignees = profilesData.map((profile) => ({
             id: profile.id,
             username: profile.owner,
           }));
 
+          // Updating state with the list of assignees
           setAssigneeList([owner, ...combinedAssignees]);
         }
       } catch(error) {
+        // Logging errors to the console
         console.error(error)
       }
     };
+    // Fetching project data on component mount
     fetchData();
-  }, [])
+  }, [projectId])
 
+  // JSX for rendering the entire component
   return (
     <>
     <Form onSubmit={handleSubmit}>
@@ -225,7 +259,7 @@ const TaskCreateForm = () => {
         <Col className="py-2 p-0 p-md-2" md={7} lg={8}>
           <Container
             className={`${appStyles.Content} ${styles.Container} d-flex flex-column justify-content-center`}
-            >
+          >
             <div className="text-center">
               <h1 className="mt-5">Create new task for {project}</h1>
               <img className={`${styles.Image} my-5`} src={postItImage} alt="Man facing a project board" />
@@ -243,4 +277,5 @@ const TaskCreateForm = () => {
   );
 }
 
+// Exporting the TaskCreateForm component
 export default TaskCreateForm

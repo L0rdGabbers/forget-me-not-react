@@ -1,34 +1,57 @@
-import React, { useEffect, useState } from 'react'
-import btnStyles from '../../styles/Button.module.css'
+// CompletedProjectList.js
+// Component for rendering a list of completed projects.
+
+import React, { useEffect, useState } from 'react';
+import btnStyles from '../../styles/Button.module.css';
 import { axiosReq } from '../../api/axiosDefaults';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
+import listStyles from '../../styles/EmptyLists.module.css';
+import appStyles from '../../App.module.css';
 
+// Component for rendering a list of completed projects.
 const CompletedProjectList = () => {
-    const [ projectList, setProjectList ] = useState([]);
+  // State to manage the list of completed projects and loading state
+  const [projectList, setProjectList] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await axiosReq.get(`/projects/`);
-            if (response.status === 200) {
-              const completedProjects = response.data.filter(project => project.complete === true);
-              setProjectList(completedProjects);
-            }
-          } catch (error) {
-            console.error("Error fetching user data:", error);
-          }
-        };
-        fetchData();
-      }, []);
-  
+  // React Router history object
+  const history = useHistory();
+
+  // useEffect to fetch completed projects data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetching projects data
+        const response = await axiosReq.get(`/projects/`);
+        if (response.status === 200) {
+          // Filtering completed projects
+          const completedProjects = response.data.filter(project => project.complete === true);
+          setProjectList(completedProjects);
+          setDataLoaded(true);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    // Fetching data on component mount
+    fetchData();
+  }, []);
+
+  // Function to handle navigation to project creation page
+  const handleProjectCreateLink = () => {
+    history.push('/projects/create');
+  }
+
+  // Function to render the list of completed projects when there are projects
+  const hasProjects = () => {
     return (
       <div>
-        <h1>Completed Projects</h1>
+        <h1>Project List</h1>
         {projectList.map((project) => (
           <div
             key={project.id}
@@ -63,9 +86,7 @@ const CompletedProjectList = () => {
                 </Col>
                 <Col>
                   <Link to={`/projects/${project.id}`}>
-                    <Button className={btnStyles.Button}>
-                      Open Project
-                    </Button>
+                    <Button className={btnStyles.Button}>Open Project</Button>
                   </Link>
                 </Col>
               </Row>
@@ -76,4 +97,32 @@ const CompletedProjectList = () => {
     );
   }
 
-export default CompletedProjectList
+  // Function to render a message when there are no completed projects
+  const hasNoProjects = () => {
+    return (
+      <Container
+        className={`${listStyles.Container} d-flex flex-column align-items-center justify-content-center`}
+      >
+        <Row className={`d-flex flex-column align-items-center my-5`}>
+          <h1 className={appStyles.Header}>
+            You have not completed any projects.
+          </h1>
+        </Row>
+        <Row className={`d-flex justify-content-center`}>
+          <Button
+            className={btnStyles.Button}
+            onClick={handleProjectCreateLink}
+          >
+            Click Here to Create a Project
+          </Button>
+        </Row>
+      </Container>
+    );
+  }
+
+  // Rendering the component based on data availability and loading state
+  return dataLoaded && projectList.length !== 0 ? hasProjects() : dataLoaded ? hasNoProjects() : (<p>Loading...</p>);
+}
+
+// Exporting the CompletedProjectList component
+export default CompletedProjectList;

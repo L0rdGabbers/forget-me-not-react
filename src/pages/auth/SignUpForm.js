@@ -1,17 +1,20 @@
+// SignUpForm.js
+// Allows for the user to create a profile.
 import React, { useState } from "react";
 import styles from "../../styles/SignUpInForm.module.css";
 import appStyles from "../../App.module.css";
+import btnStyles from "../../styles/Button.module.css"
 
-import {
-  Form,
-  Button,
-  Row,
-  Container,
-  Alert,
-} from "react-bootstrap";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+import Alert from "react-bootstrap/Alert";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
+// Component for user registration form.
 const SignUpForm = () => {
   const [signUpData, setSignUpData] = useState({
     username: "",
@@ -22,6 +25,8 @@ const SignUpForm = () => {
   const { username, email, password1, password2 } = signUpData;
   const [errors, setErrors] = useState({});
   const history = useHistory();
+
+  // Function to handle changes in form input fields.
   const handleChange = (event) => {
     setSignUpData({
       ...signUpData,
@@ -29,26 +34,32 @@ const SignUpForm = () => {
     });
   };
 
+  // Function to handle form submission.
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      // Sending a registration request to the server.
       await axios.post("/dj-rest-auth/registration/", signUpData);
+      // Redirecting to the sign-in page after successful registration.
       history.push("/signin");
     } catch (err) {
+      // Handling errors and updating the state with error messages.
       console.error('Error submitting form:', err);
       setErrors(err.response?.data || {});
     }
   };
-
+  
+  // JSX structure for the sign-up form.
   return (
     <Container
       className={`${styles.FormContainer} d-flex flex-column align-items-center justify-content-center`}
     >
-      <Row className={`d-flex flex-column align-items-center`}>
+      <Row className={`d-flex flex-column align-items-center text-center mb-5 mx-2`}>
+        {/* Heading for the sign-up form */}
         <h1 className={appStyles.Header}>Welcome to Forget Me Not</h1>
       </Row>
       <Row className={`${styles.Row} d-flex justify-content-center`}>
-
+        {/* Form component for user registration */}
         <Form onSubmit={handleSubmit} className={styles.Form}>
           <Form.Group controlId="username">
             <Form.Label className="d-none">Username</Form.Label>
@@ -61,6 +72,7 @@ const SignUpForm = () => {
             />
           </Form.Group>
           {errors.username?.map((message, idx) => (
+            // Displaying warnings for username errors, if any.
             <Alert variant="warning" key={idx}>
               {message}
             </Alert>
@@ -77,6 +89,7 @@ const SignUpForm = () => {
             />
           </Form.Group>
           {errors.email?.map((message, idx) => (
+            // Displaying warnings for email errors, if any.
             <Alert variant="warning" key={idx}>
               {message}
             </Alert>
@@ -93,6 +106,7 @@ const SignUpForm = () => {
             />
           </Form.Group>
           {errors.password1?.map((message, idx) => (
+            // Displaying warnings for password errors, if any.
             <Alert variant="warning" key={idx}>
               {message}
             </Alert>
@@ -109,14 +123,20 @@ const SignUpForm = () => {
             />
           </Form.Group>
           {errors.password2?.map((message, idx) => (
+            // Displaying warnings for password errors, if any.
             <Alert variant="warning" key={idx}>
               {message}
             </Alert>
           ))}
-          <Button variant="primary" type="submit">
-            Sign Up
-          </Button>
+
+           {/* Submission button */}
+          <Col className="d-flex justify-content-center">
+            <Button className={btnStyles.Button} type="submit">
+              Sign In
+            </Button>
+          </Col>
           {errors.non_field_errors?.map((message, idx) => (
+            // Displaying warnings for general form errors.
             <Alert variant="warning" key={idx} className="mt-3">
               {message}
             </Alert>

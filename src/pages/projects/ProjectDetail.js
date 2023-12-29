@@ -1,3 +1,6 @@
+// ProjectDetail.js
+// Component for displaying details of a project
+
 import React, { useEffect, useState } from 'react';
 import { axiosReq } from '../../api/axiosDefaults';
 import Button from 'react-bootstrap/Button';
@@ -10,19 +13,26 @@ import styles from '../../styles/ProjectDetail.module.css'
 import btnStyles from '../../styles/Button.module.css'
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
 
+// Component for displaying details of a project
 const ProjectDetail = ({ match }) => {
+  // State to manage project details and errors
   const [project, setProject] = useState(null);
-  const [ errors, setErrors ] = useState();
+  const [errors, setErrors] = useState();
   const currentUser = useCurrentUser();
 
-  const [ timeRemaining, setTimeRemaining ] = useState(null);
+  // State to manage time remaining for project due date
+  const [timeRemaining, setTimeRemaining] = useState(null);
 
+  // React Router history object
   const history = useHistory();
 
+  // useEffect to fetch project details on component mount
   useEffect(() => {
     const fetchProjectDetails = async () => {
       try {
+        // Fetching project details using project ID from the route params
         const response = await axiosReq.get(`/projects/${match.params.projectId}`);
+        // Calculating time remaining for project due date
         const dueDateObject = new Date(response.data.due_date);
         const currentDate = new Date();
         const timeDifference = dueDateObject.getTime() - currentDate.getTime();
@@ -34,21 +44,24 @@ const ProjectDetail = ({ match }) => {
       }
     };
 
+    // Fetching project details
     fetchProjectDetails();
   }, [match.params.projectId]);
 
+  // If project details are not yet loaded, show a loading message
   if (!project) {
     return <p>Loading...</p>;
-  } else {
   }
 
+  // Event handler for navigating to the Add Task page
   const handleAddTask = () => {
     history.push({
         pathname:'/tasks/create',
         state: {projectId: project.id}
-    })
-  }
+    });
+  };
 
+  // Event handler for navigating to the Edit Project page
   const handleEditClick = () => {
     history.push({
       pathname: `/projects/edit/${project.id}`,
@@ -56,30 +69,39 @@ const ProjectDetail = ({ match }) => {
     });
   };
 
+  // Event handler for deleting the project
   const handleDelete = async () => {
     try {
-      await axiosReq.delete(`/projects/${project.id}/`)
-      history.push('/deleted')
+      // Making a DELETE request to delete the project
+      await axiosReq.delete(`/projects/${project.id}/`);
+      // Navigating to a specific route after successful deletion
+      history.push('/deleted');
     } catch (err) {
+      // Handling errors and setting them in the state
       if (err.response?.status !== 401) {
         setErrors(err.response?.data);
       }
+      // Navigating to a specific route in case of a forbidden action
       if (err.response?.status === 403) {
-        history.push('/forbidden')
+        history.push('/forbidden');
       }
     }
   };
 
+  // Rendering the component layout
   return (
     <>
       <div>
+        {/* Container for project details */}
         <Container fluid className={`${styles.Container}`}>
           <Row>
             <Col>
+              {/* Project title */}
               <h2>{project.title}</h2>
             </Col>
           </Row>
           <Row>
+            {/* Project metadata: Created On, Last Updated, Due On */}
             <Col md={3} className="mx-4">
               <p>Created On: {project.created_at}</p>
             </Col>
@@ -91,6 +113,8 @@ const ProjectDetail = ({ match }) => {
             </Col>
           </Row>
         </Container>
+
+        {/* Container for project summary, owner, collaborators */}
         <Container>
           <Row>
             <Col
@@ -98,12 +122,16 @@ const ProjectDetail = ({ match }) => {
               md={6}
               className={`${styles.Container} ${styles.MiddleContainer} col-md-6 col-sm-12 col-xsl-12 pt-4`}
             >
+              {/* Project summary */}
               <h4>Summary</h4>
               <p>{project.summary}</p>
+              {/* Project owner */}
               <h4>Owner</h4>
               <p>{project.owner}</p>
+              {/* Collaborators */}
               <h4>Collaborators</h4>
               <Row>
+                {/* Displaying collaborators with links to their profiles */}
                 {project.collaborator_details.map((collaborator) => (
                   <Col key={collaborator.id} className="col-md-4 col-sm-4">
                     {collaborator.id !== currentUser.id ? (
@@ -137,6 +165,8 @@ const ProjectDetail = ({ match }) => {
                 ))}
               </Row>
             </Col>
+
+            {/* Container for time remaining and task details */}
             <Col
               sm={12}
               md={6}
@@ -147,6 +177,7 @@ const ProjectDetail = ({ match }) => {
                 justifyContent: "space-evenly",
               }}
             >
+              {/* Displaying time remaining based on project due date */}
               {project.complete === false && timeRemaining > 0 ? (
                 <h4>
                   This project is due in {timeRemaining} day
@@ -159,6 +190,8 @@ const ProjectDetail = ({ match }) => {
               ) : project.complete ? (
                 <h4>This project has been completed by the owner.</h4>
               ) : null}
+
+              {/* Displaying uncompleted and completed tasks */}
               {project.complete === false ? (
                 <>
                   <div className="mb-5" style={{ textAlign: "left" }}>
@@ -180,13 +213,29 @@ const ProjectDetail = ({ match }) => {
                                 key={task.id}
                                 className="col-md-12 col-sm-12"
                               >
-                                <Link
-                                  to={{
-                                    pathname: `/tasks/${task.id}`,
-                                  }}
-                                >
-                                  <p className={styles.TextLink}>{task.name}</p>
-                                </Link>
+                                {task.is_owner || task.is_collaborator ? (
+                                  <>
+                                    <Link
+                                      to={{
+                                        pathname: `/tasks/${task.id}`,
+                                      }}
+                                    >
+                                      <p>
+                                        <span className={styles.TextLink}>
+                                          {task.name}
+                                        </span>
+                                        {task.is_collaborator && (
+                                          <span className={styles.AssignedText}>
+                                            {" "}
+                                            - Assigned to You
+                                          </span>
+                                        )}
+                                      </p>
+                                    </Link>
+                                  </>
+                                ) : (
+                                  <p>{task.name}</p>
+                                )}
                               </Col>
                             ))}
                           </Row>
@@ -198,40 +247,66 @@ const ProjectDetail = ({ match }) => {
                       )}
                     </div>
                   </div>
+
+                  {/* Displaying completed tasks */}
                   <h5>Completed Tasks</h5>
-                  <div style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        flexWrap: "wrap",
-                        justifyContent: "flex-start",
-                      }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      flexWrap: "wrap",
+                      justifyContent: "flex-start",
+                    }}
+                  >
                     {project.completed_tasks.length > 0 ? (
                       <>
                         <Row>
                           {project.completed_tasks.map((task) => (
                             <Col key={task.id} className="col-md-12 col-sm-12">
-                              <Link
-                                to={{
-                                  pathname: `/tasks/${task.id}`,
-                                }}
-                              >
-                                <p className={styles.TextLink}>{task.name}</p>
-                              </Link>
+                              {task.is_owner || task.is_collaborator ? (
+                                <>
+                                  <Link
+                                    to={{
+                                      pathname: `/tasks/${task.id}`,
+                                    }}
+                                  >
+                                    <p>
+                                      <span className={styles.TextLink}>
+                                        {task.name}
+                                      </span>
+                                      {task.is_collaborator && (
+                                        <span className={styles.AssignedText}>
+                                          {" "}
+                                          - Assigned to You
+                                        </span>
+                                      )}
+                                    </p>
+                                  </Link>
+                                </>
+                              ) : (
+                                <p>{task.name}</p>
+                              )}
                             </Col>
                           ))}
                         </Row>
                       </>
                     ) : (
-                      <p className="my-4" style={{ margin: "auto" }}>Your completed tasks will be listed here.</p>
+                      <p className="my-4" style={{ margin: "auto" }}>
+                        Your completed tasks will be listed here.
+                      </p>
                     )}
                   </div>
+
+                  {/* Add Task button for project owner */}
                   <div className="mb-2" style={{ alignSelf: "center" }}>
-                    <Button
-                      onClick={handleAddTask}
-                      className={`${btnStyles.Button} ${btnStyles.Sml}`}
-                    >
-                      Add Task
-                    </Button>
+                    {project.is_owner && (
+                      <Button
+                        onClick={handleAddTask}
+                        className={`${btnStyles.Button} ${btnStyles.Sml}`}
+                      >
+                        Add Task
+                      </Button>
+                    )}
                   </div>
                 </>
               ) : null}
@@ -239,9 +314,11 @@ const ProjectDetail = ({ match }) => {
           </Row>
         </Container>
 
+        {/* Buttons for project owner */}
         {project.owner === currentUser.username && (
           <Container fluid className={styles.Container}>
             <Row>
+              {/* Edit and Delete buttons */}
               <Button variant="warning" onClick={handleEditClick}>
                 Edit Details
               </Button>
@@ -256,4 +333,5 @@ const ProjectDetail = ({ match }) => {
   );
 };
 
+// Exporting the ProjectDetail component
 export default ProjectDetail;

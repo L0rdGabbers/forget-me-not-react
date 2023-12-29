@@ -1,4 +1,6 @@
 // NavBar.js
+// This component represents the application's navigation bar, which includes links to various pages
+// and user-related actions like signing in, signing out, and accessing user profile information.
 import React, { useEffect } from 'react';
 import styles from '../styles/NavBar.module.css';
 import Nav from 'react-bootstrap/Nav';
@@ -16,33 +18,37 @@ const NavBar = () => {
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
 
+  // Checks to see if the Navbar is expanded or not.
   const { expanded, setExpanded, ref } = useClickOutsideToggle();
 
+  // Allows for Projects and Friends' Dropdown Navlink to function by hovering the mouse over the element.
   const {
     friendDropdownOpen,
     projectDropdownOpen,
-    setFriendDropdownOpen,
-    setProjectDropdownOpen,
     handleMouseEnter,
     handleMouseLeave,
   } = useDropdown();
 
   const location = useLocation();
 
+  // Gets the current date.
   const getCurrentDate = () => {
     const currentDate = new Date();
     const options = { day: 'numeric', month: 'short', year: 'numeric' };
     return currentDate.toLocaleDateString('en-UK', options);
   };
 
+  // Checks to see if the user is on any of the friends pages to activate the nav icon's active state.
   const isFriendsActive = ['/friends/send-request', '/friends/view-list', '/friends/view-requests'].some(
     (path) => location.pathname.startsWith(path)
   );
 
+  // Checks to see if the user is on any of the projects pages to activate the nav icon's active state.
   const isProjectsActive = ['/projects', '/projects/create'].some(
     (path) => location.pathname.startsWith(path)
   );
 
+  // Allows the user to sign out.
   const handleSignOut = async () => {
     try {
       await axios.post('/dj-rest-auth/logout/');
@@ -53,6 +59,7 @@ const NavBar = () => {
     }
   };
 
+  // The Navlinks that display when the user is logged in.
   const loggedInIcons = (
     <>
       <NavDropdown
@@ -121,6 +128,7 @@ const NavBar = () => {
     </>
   );
 
+  // The Navlinks that are displayed when the user is logged out.
   const loggedOutIcons = (
     <>
       <NavLink className={styles.NavLink} activeClassName={styles.Active} to="/signup">
@@ -132,6 +140,7 @@ const NavBar = () => {
     </>
   );
 
+  // Renders a Navbar across all pages.
   return (
     <Navbar expanded={expanded} className={styles.NavBar} collapseOnSelect expand="xl">
       <NavLink to="/">

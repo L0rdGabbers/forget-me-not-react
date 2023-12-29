@@ -1,3 +1,6 @@
+// ProjectCreateForm.js
+// Component for rendering a form to create a new project.
+
 import React, { useState, useEffect } from "react";
 
 import Form from "react-bootstrap/Form";
@@ -11,24 +14,30 @@ import { useHistory } from "react-router-dom";
 
 import styles from "../../styles/ProjectCreateEditForm.module.css";
 import appStyles from "../../App.module.css";
-import btnStyles from "../../styles/Button.module.css"
+import btnStyles from "../../styles/Button.module.css";
 import projectStartupImage from "../../assets/project-startup.jpg";
 
+// Component for rendering a form to create a new project.
 const ProjectCreateForm = () => {
-  const [ errors, setErrors ] = useState({});
-  const [ friendList, setFriendList ] = useState([]);
+  // State to manage form errors and friend list
+  const [errors, setErrors] = useState({});
+  const [friendList, setFriendList] = useState([]);
 
-  const [ projectData, setProjectData ] = useState({
+  // State to manage project data
+  const [projectData, setProjectData] = useState({
     title: "",
     summary: "",
     dueDate: "",
-    collaborators: []
+    collaborators: [],
   });
 
+  // Destructuring project data for ease of use
   const { title, summary, dueDate } = projectData;
 
+  // React Router history object
   const history = useHistory();
 
+  // Event handler for input change
   const handleChange = (event) => {
     setProjectData({
       ...projectData,
@@ -36,11 +45,12 @@ const ProjectCreateForm = () => {
     });
   };
 
+  // Event handler for checkbox change
   const handleCheck = (event) => {
     const collaboratorId = event.target.value;
     const collaborator = friendList.find((friend) => friend.id === collaboratorId);
     const collaboratorUsername = collaborator ? collaborator.username : "";
-  
+
     setProjectData((prevData) => ({
       ...prevData,
       collaborators: prevData.collaborators.some((c) => c.id === collaboratorId)
@@ -48,8 +58,8 @@ const ProjectCreateForm = () => {
         : [...prevData.collaborators, { id: collaboratorId, collaborator_username: collaboratorUsername }],
     }));
   };
-  
 
+  // Event handler for form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
@@ -60,22 +70,26 @@ const ProjectCreateForm = () => {
     projectData.collaborators.forEach((collaborator) => {
       formData.append("collaborators", collaborator.id);
     });
+
+    // Validating dueDate and setting errors if it is empty
     if (!projectData.dueDate) {
       setErrors({ dueDate: ['Due Date is required.'] });
       return;
     }
+
     try {
+      // Making a POST request to create a new project
       await axiosReq.post("/projects/", formData);
       history.push(`/projects/list`);
     } catch (err) {
+      // Handling errors and setting them in the state
       if (err.response?.status !== 401) {
         setErrors(err.response?.data);
       }
     }
   };
 
-  
-  
+  // JSX for text input fields
   const textFields = (
     <div className="text-center">
       <Form.Group>
@@ -133,7 +147,8 @@ const ProjectCreateForm = () => {
       </Form.Group>
     </div>
   );
-  
+
+  // JSX for submit buttons
   const submitButtons = (
     <>
       <Row className="justify-content-center">
@@ -149,10 +164,11 @@ const ProjectCreateForm = () => {
     </>
   );
 
+  // useEffect to fetch friend list data
   useEffect(() => {
-    let isMounted = true;
     const fetchData = async () => {
       try {
+        // Fetching friend list data
         const friends = await axiosReq.get('/friends/')
         if (friends.status === 200) {
           const data = friends.data.friend_details;
@@ -166,19 +182,18 @@ const ProjectCreateForm = () => {
         }
       }
     };
+    // Fetching data on component mount
     fetchData();
-    return () => {
-      isMounted = false;
-    }
-  }, [])
+  }, []);
 
+  // Rendering the component layout
   return (
     <Form onSubmit={handleSubmit}>
       <Row>
         <Col className="py-2 p-0 p-md-2" md={7} lg={8}>
           <Container
             className={`${appStyles.Content} ${styles.Container} d-flex flex-column justify-content-center`}
-            >
+          >
             <div className="text-center">
               <h1 className="mt-5">Create New Project</h1>
               <img className={`${styles.Image} my-5`} src={projectStartupImage} alt="Man facing a project board" />
@@ -195,4 +210,5 @@ const ProjectCreateForm = () => {
   );
 }
 
-export default ProjectCreateForm
+// Exporting the ProjectCreateForm component
+export default ProjectCreateForm;

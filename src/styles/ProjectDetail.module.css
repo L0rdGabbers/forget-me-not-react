@@ -9,6 +9,10 @@
     text-decoration:underline
 }
 
+.AssignedText {
+    text-decoration: none;
+}
+
 .HeadContainer {
     margin-top: 10rem;
 }

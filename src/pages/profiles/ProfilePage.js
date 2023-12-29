@@ -1,3 +1,6 @@
+// ProfilePage.js
+// Component for rendering user profile details and managing friend requests.
+
 import React, { useEffect, useState } from "react";
 
 import Col from "react-bootstrap/Col";
@@ -11,14 +14,16 @@ import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import { axiosReq } from "../../api/axiosDefaults";
 
+// Component for rendering user profile details and managing friend requests.
 function ProfilePage({ location }) {
+  // State to manage profile data and loading state
   const [profileData, setProfileData] = useState(location.state?.profileData || {});
   const [dataLoaded, setDataLoaded] = useState(false);
 
+  // States for managing friend lists, project lists, friend requests, and user relations
   const [ friendList, setFriendList ] = useState([]);
   const [ projectList, setProjectList ] = useState([]);
   const [ requestList, setRequestList ] = useState([]);
-
   const [ isFriend, setIsFriend ] = useState(false);
   const [ friendRequestPending, setFriendRequestPending ] = useState(false);
   const [ friendRequestAwaiting, setFriendRequestAwaiting ] = useState(false);
@@ -26,20 +31,28 @@ function ProfilePage({ location }) {
   const [ friendRequestId, setFriendRequestId ] = useState(null);
   const [ useEffectCounter, setUseEffectCounter ] = useState(0)
 
+  // State for managing profile image
   const [profileImage, setProfileImage] = useState("");
 
+  // State for managing errors
   const [errors, setErrors] = useState();
+
+  // History object from react-router-dom
   const history = useHistory();
 
+  // State to manage relation profile details
   const [relationProfile, setRelationProfile] = useState({});
 
+  // useEffect to fetch data and check user relation
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Fetching friend details, projects, and friend requests
         const friendsResponse = await axiosReq.get('/friends/');
         const projectsResponse = await axiosReq.get('/projects/');
         const requestsResponse = await axiosReq.get('/friend-requests/');
 
+        // Setting friend list, project list, and friend request list
         if (friendsResponse.status === 200) {
           const data = friendsResponse.data.friend_details;
           const dataArray = Object.values(data);
@@ -57,9 +70,11 @@ function ProfilePage({ location }) {
           setRequestList(data);
         }
 
+        // Setting profile data and image
         setProfileData(location.state?.profileData || {});
         setProfileImage(profileData.image || profileData.profile_image || '');
 
+        // Checking user relation and fetching profile
         checkUserRelation();
         fetchProfile();
         setDataLoaded(true)
@@ -71,6 +86,7 @@ function ProfilePage({ location }) {
       }
     };
 
+    // Function to fetch profile data
     const fetchProfile = async () => {
       try {
         if (profileData.id) {
@@ -88,6 +104,7 @@ function ProfilePage({ location }) {
       }
     };
 
+    // Function to check user relation
     const checkUserRelation = () => {
       const friendRequestSender = requestList.find(
         (request) => request.sender === profileData.id && request.is_active === true
@@ -106,19 +123,21 @@ function ProfilePage({ location }) {
       setUseEffectCounter(prevData => prevData + 1);
     };
 
+    // Fetching data
     fetchData();
   }, [relationProfile.id]);
 
-
+  // Function to handle sending friend request
   const handleFriendRequest = async () => {
     try {
       await axiosReq.post('/send-friend-request/', { receiver: relationProfile.id });
-        history.push('/friends/requests');
+      history.push('/friends/requests');
     } catch(error){
       console.error(error)
     }
   }
 
+  // Function to handle friend request action (accept or decline)
   const handleAction = async (action) => {
     try {
       await axiosReq.put(`/friend-requests/${friendRequestId}/`, {[action]: true});
@@ -135,6 +154,7 @@ function ProfilePage({ location }) {
     }
   };
 
+  // JSX for main profile view
   const mainProfile = (
     <>
       {isFriend ||
@@ -237,8 +257,8 @@ function ProfilePage({ location }) {
       ) : null}
     </>
   );
-    
 
+  // JSX for rendering the component
   return (
     <Row>
       <Col className="py-2 p-0 p-lg-2" lg={12}>
@@ -255,4 +275,5 @@ function ProfilePage({ location }) {
   );
 }
 
+// Exporting the ProfilePage component
 export default ProfilePage;

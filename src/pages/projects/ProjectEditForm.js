@@ -1,3 +1,6 @@
+// ProjectEditForm.js
+// Component for editing project details
+
 import React, { useState, useEffect } from "react";
 
 import Form from "react-bootstrap/Form";
@@ -14,11 +17,15 @@ import { axiosReq } from "../../api/axiosDefaults";
 import { useHistory } from "react-router-dom";
 import officeTeamImage from "../../assets/office-team.jpg"
 
+// Component for editing project details
 const ProjectEditForm = ({ location }) => {
+  // Extracting project data from the location state
   const projectData = location.state ? location.state.projectData || {} : {};
-  const [ errors, setErrors ] = useState({});
-  const [ friendList, setFriendList ] = useState([]);
+  // State to manage form data and errors
+  const [errors, setErrors] = useState({});
+  const [friendList, setFriendList] = useState([]);
 
+  // State for form data
   const [formData, setFormData] = useState({
     title: projectData.title || "",
     summary: projectData.summary || "",
@@ -27,8 +34,10 @@ const ProjectEditForm = ({ location }) => {
     complete: projectData.complete || false,
   });
 
+  // React Router history object
   const history = useHistory();
 
+  // Event handler for form input changes
   const handleChange = (event) => {
     setFormData({
       ...formData,
@@ -36,9 +45,10 @@ const ProjectEditForm = ({ location }) => {
     });
   };
 
+  // Event handler for collaborator checkbox changes
   const handleCheck = (event) => {
     const collaboratorId = Number(event.target.value);
-  
+
     setFormData((prevData) => ({
       ...prevData,
       collaborators: prevData.collaborators.includes(collaboratorId)
@@ -46,8 +56,8 @@ const ProjectEditForm = ({ location }) => {
         : [...prevData.collaborators, collaboratorId],
     }));
   };
-  
 
+  // Event handler for complete checkbox changes
   const handleCompleteCheck = (event) => {
     setFormData({
       ...formData,
@@ -55,10 +65,11 @@ const ProjectEditForm = ({ location }) => {
     });
   };
 
-
+  // Event handler for form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+
+    // Creating an object with updated project details
     const updatedProject = {
       title: formData.title,
       summary: formData.summary,
@@ -67,34 +78,40 @@ const ProjectEditForm = ({ location }) => {
       complete: formData.complete,
     };
 
+    // Validating due date
     if (!updatedProject.due_date) {
       setErrors({ dueDate: ['Due Date is required.'] });
       return;
     }
 
     try {
+      // Making a PUT request to update the project
       await axiosReq.put(`/projects/${projectData.id}/`, updatedProject);
+      // Navigating to the project details page after successful update
       history.push(`/projects/${projectData.id}`);
     } catch (err) {
+      // Handling errors and setting them in the state
       if (err.response?.status !== 401) {
         setErrors(err.response?.data);
       }
+      // Navigating to a specific route in case of a forbidden action
       if (err.response?.status === 403) {
-        history.push('/forbidden')
+        history.push('/forbidden');
       }
     }
   };
 
+  // Function to format date in 'YYYY-MM-DD' format
   function formatDate(dateString) {
     const originalDate = new Date(dateString);
     const year = originalDate.getFullYear();
     const month = String(originalDate.getMonth() + 1).padStart(2, '0');
     const day = String(originalDate.getDate()).padStart(2, '0');
-  
+
     return `${year}-${month}-${day}`;
   }
-  
-  
+
+  // JSX for text fields in the form
   const textFields = (
     <div className="text-center">
       <Form.Group>
@@ -157,15 +174,16 @@ const ProjectEditForm = ({ location }) => {
       <Form.Group>
         <Form.Label>Complete</Form.Label>
         <Form.Check
-  type="checkbox"
-  id="complete"
-  checked={formData.complete}
-  onChange={handleCompleteCheck}
-/>
+          type="checkbox"
+          id="complete"
+          checked={formData.complete}
+          onChange={handleCompleteCheck}
+        />
       </Form.Group>
     </div>
   );
-  
+
+  // JSX for submit buttons
   const submitButtons = (
     <>
       <Row className="justify-content-center">
@@ -181,32 +199,41 @@ const ProjectEditForm = ({ location }) => {
     </>
   );
 
+  // Fetching friend list on component mount
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const friends = await axiosReq.get('/friends/')
+        // Making a GET request to fetch the friend list
+        const friends = await axiosReq.get('/friends/');
+        // Checking if the request was successful
         if (friends.status === 200) {
+          // Extracting friend details and updating the state
           const data = friends.data.friend_details;
           const dataArray = Object.values(data);
-          setFriendList(dataArray)
+          setFriendList(dataArray);
         }
       } catch (error) {
-        console.error( error)
+        // Logging errors to the console
+        console.error(error);
+        // Handling errors and setting them in the state
         if (error.response?.status !== 401) {
           setErrors(error.response?.data);
         }
       }
     };
+    // Fetching friend list on component mount
     fetchData();
   }, [])
 
+  // JSX for the form layout
   return (
     <Form onSubmit={handleSubmit}>
       <Row>
+        {/* Column for larger screens */}
         <Col className="py-2 p-0 p-md-2" md={7} lg={8}>
           <Container
             className={`${appStyles.Content} ${styles.Container} d-flex flex-column justify-content-center`}
-            >
+          >
             <div className="text-center">
               <h1 className="mt-5">Edit {projectData.title} project</h1>
               <img className={`${styles.Image} my-5`} src={officeTeamImage} alt="Man facing a project board" />
@@ -215,6 +242,7 @@ const ProjectEditForm = ({ location }) => {
             </div>
           </Container>
         </Col>
+        {/* Column for smaller screens */}
         <Col md={5} lg={4} className="d-none d-md-block p-0 p-md-2">
           <Container className={appStyles.Content}>{textFields}</Container>
         </Col>
@@ -223,4 +251,5 @@ const ProjectEditForm = ({ location }) => {
   );
 }
 
+// Exporting the ProjectEditForm component
 export default ProjectEditForm

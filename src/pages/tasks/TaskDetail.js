@@ -1,3 +1,6 @@
+// TaskDetail.js
+// Component for displaying details of a specific task
+
 import React, { useEffect, useState } from 'react';
 import { axiosReq } from '../../api/axiosDefaults';
 import Button from 'react-bootstrap/Button';
@@ -10,16 +13,21 @@ import { useCurrentUser } from '../../contexts/CurrentUserContext';
 
 import styles from '../../styles/ProjectDetail.module.css'
 
+// Component for displaying details of a specific task
 const TaskDetail = ({ match }) => {
-  const [ task, setTask ] = useState(null);
-  const [ errors, setErrors ] = useState();
-  const [ timeRemaining, setTimeRemaining ] = useState(null);
-  const [ importance, setImportance ] = useState(null);
+  // States to store task details, errors, time remaining, and importance
+  const [task, setTask] = useState(null);
+  const [errors, setErrors] = useState();
+  const [timeRemaining, setTimeRemaining] = useState(null);
+  const [importance, setImportance] = useState(null);
 
+  // Accessing the current user from context
   const currentUser = useCurrentUser();
 
+  // React Router history object
   const history = useHistory();
 
+  // Function to format date string
   function formatDate(dateString) {
     const originalDate = new Date(dateString);
     const year = originalDate.getFullYear();
@@ -29,17 +37,25 @@ const TaskDetail = ({ match }) => {
     return `${year}-${month}-${day}`;
   }
 
+  // Effect hook to fetch task details on component mount
   useEffect(() => {
     const fetchTaskDetails = async () => {
       try {
+        // Making a GET request to fetch task details
         const response = await axiosReq.get(
           `/tasks/${match.params.taskId}`
         );
+
+        // Calculating time remaining for the task
         const dueDateObject = new Date(response.data.due_date);
         const currentDate = new Date();
         const timeDifference = dueDateObject.getTime() - currentDate.getTime();
         const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+
+        // Capitalizing the first letter of importance for display
         const upperCaseStr = response.data.importance.charAt(0).toUpperCase() + response.data.importance.slice(1);
+
+        // Updating state with task details
         setTask(response.data);
         setTimeRemaining(daysDifference)
         setImportance(upperCaseStr)
@@ -48,23 +64,30 @@ const TaskDetail = ({ match }) => {
       }
     };
 
+    // Fetching task details
     fetchTaskDetails();
   }, [match.params.taskId]);
 
+  // If task details are not loaded yet, display a loading message
   if (!task) {
     return <p>Loading...</p>;
   }
 
+  // Event handler for clicking the "Edit" button
   const handleEditClick = () => {
+    // Redirecting to the task edit page with task data in the state
     history.push({
       pathname: `/tasks/edit/${task.id}`,
       state: { taskData: task },
     });
   };
 
+  // Event handler for marking the task as complete
   const handleComplete = async () => {
     try {
+      // Making a PUT request to mark the task as complete
       const response = await axiosReq.put(`/tasks/${task.id}/`, { ...task, complete: true, due_date: formatDate(task.due_date) });
+      // If the request is successful, redirecting to the project page
       if (response.status === 200) {
         history.push(`/projects/${task.project}`)
       }
@@ -73,20 +96,26 @@ const TaskDetail = ({ match }) => {
     }
   }
 
+  // Event handler for deleting the task
   const handleDelete = async () => {
     try {
+      // Making a DELETE request to delete the task
       await axiosReq.delete(`/tasks/${task.id}/`);
+      // Redirecting to the delete page
       history.push("/delete");
     } catch (err) {
+      // Handling errors and updating state
       if (err.response?.status !== 401) {
         setErrors(err.response?.data);
       }
+      // Redirecting to the forbidden page if the user doesn't have permission
       if (err.response?.status === 403) {
         history.push("/forbidden");
       }
     }
   };
 
+  // JSX for rendering the task details
   return (
     <div>
       <Container fluid className={styles.Container}>
@@ -133,10 +162,10 @@ const TaskDetail = ({ match }) => {
                         }}
                       >
                         <p
-                            className={styles.TextLink}
-                          >
-                            {collaborator.collaborator_username}
-                          </p>
+                          className={styles.TextLink}
+                        >
+                          {collaborator.collaborator_username}
+                        </p>
                       </Link>
                     </>
                   ) : (
@@ -148,10 +177,10 @@ const TaskDetail = ({ match }) => {
                         }}
                       >
                         <p
-                            className={styles.TextLink}
-                          >
-                            {collaborator.collaborator_username}
-                          </p>
+                          className={styles.TextLink}
+                        >
+                          {collaborator.collaborator_username}
+                        </p>
                       </Link>
                     </>
                   )}
@@ -190,6 +219,7 @@ const TaskDetail = ({ match }) => {
           </Col>
         </Row>
       </Container>
+      {/* Displaying edit and delete buttons for the task owner */}
       {task.is_owner == true ? (
         <Container fluid className={styles.Container}>
           <Row>
@@ -206,4 +236,5 @@ const TaskDetail = ({ match }) => {
   );
 };
 
+// Exporting the TaskDetail component
 export default TaskDetail

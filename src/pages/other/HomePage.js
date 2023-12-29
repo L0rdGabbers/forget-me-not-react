@@ -1,3 +1,6 @@
+// HomePage.js
+// Component for rendering the home page, displaying project and task information.
+
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/HomePage.module.css";
 import Container from 'react-bootstrap/Container';
@@ -13,6 +16,7 @@ import { useHistory } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
+// Component for rendering the home page, displaying project and task information.
 const HomePage = () => {
   const currentUser = useCurrentUser();
   const [closestProject, setClosestProject] = useState(null);
@@ -23,36 +27,43 @@ const HomePage = () => {
 
   const history = useHistory();
 
+  // Navigates to the create project page
   const handleCreateProjectLink = () => {
     history.push("/projects/create");
   };
 
+  // Navigates to the urgent project page
   const handleUrgentProjectLink = () => {
     history.push(`/projects/${closestProject.id}`);
   };
 
+  // Navigates to the recently updated project page
   const handleUpdatedProjectLink = () => {
     history.push(`/projects/${mostRecentlyUpdatedProject.id}`);
   };
 
+  // Navigates to the urgent task page
   const handleUrgentTaskLink = () => {
     history.push(`/tasks/${closestTask.id}`);
   };
 
+  // Navigates to the sign-up page
   const handleSignUpLink = () => {
     history.push('/signup')
   }
 
+  // Navigates to the sign-in page
   const handleSignInLink = () => {
     history.push('/signin')
   }
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Fetches project data
         const projects = await axiosReq.get(`/projects/`);
         if (projects.status === 200) {
+          // Finds the closest project based on due dates
           const closestProject = projects.data.reduce((closest, project) => {
             const projectDueDate = new Date(project.due_date);
             const closestDueDate = closest ? new Date(closest.due_date) : null;
@@ -82,6 +93,7 @@ const HomePage = () => {
 
           setClosestProject(closestProject);
 
+          // Finds the most recently updated project
           const mostRecentlyUpdatedProject = projects.data.reduce(
             (mostRecent, project) => {
               const projectUpdatedAt = new Date(project.updated_at);
@@ -105,8 +117,10 @@ const HomePage = () => {
           setMostRecentlyUpdatedProject(mostRecentlyUpdatedProject);
         }
 
+        // Fetches task data
         const tasks = await axiosReq.get("/tasks/");
         if (tasks.status === 200) {
+          // Finds the closest task based on due dates
           const closestTask = tasks.data.reduce((closest, task) => {
             const taskDueDate = new Date(task.due_date);
             const closestDueDate = closest ? new Date(closest.due_date) : null;
@@ -147,6 +161,7 @@ const HomePage = () => {
   }, [currentUser]);
 
 
+  // Renders content based on data availability
   const renderContent = () => {
     if (!dataLoaded) {
       return null;
@@ -156,6 +171,7 @@ const HomePage = () => {
       <>
         <Container className={styles.HomeContainer}>
           <Row>
+            {/* Create New Project */}
             <Col
               lg={6}
               className={styles.LinkDiv}
@@ -170,6 +186,7 @@ const HomePage = () => {
                 />
               </div>
             </Col>
+            {/* Urgent Project */}
             {closestProject ? (
               <Col
                 lg={6}
@@ -196,6 +213,7 @@ const HomePage = () => {
                 </div>
               </Col>
             ) : (
+              // Placeholder for No Incomplete Projects
               <>
                 <Col
                   lg={6}
@@ -213,7 +231,7 @@ const HomePage = () => {
                 </Col>
               </>
             )}
-
+            {/* Most Recently Updated Project */}
             {mostRecentlyUpdatedProject ? (
               <Col
                 lg={6}
@@ -235,6 +253,7 @@ const HomePage = () => {
                 </div>
               </Col>
             ) : (
+              // Placeholder for No Incomplete Projects
               <Col
                 lg={6}
                 className={styles.LinkDiv}
@@ -254,7 +273,7 @@ const HomePage = () => {
                 </div>
               </Col>
             )}
-
+            {/* Urgent Task */}
             {closestTask ? (
               <Col
                 lg={6}
@@ -281,6 +300,7 @@ const HomePage = () => {
                 </div>
               </Col>
             ) : (
+              // Placeholder for No Incomplete Tasks
               <Col
                 lg={6}
                 className={styles.LinkDiv}
@@ -304,6 +324,7 @@ const HomePage = () => {
     );
   };
 
+  // Renders content for signed-out users
   const renderSignedOut = () => {
     if (currentUser) {
       return null;
@@ -313,6 +334,7 @@ const HomePage = () => {
       <>
         <Container className={styles.HomeContainer}>
           <Row>
+            {/* Sign Up */}
             <Col lg={6} className={styles.LinkDiv} onClick={handleSignUpLink}>
               <div className={styles.ImageWrapper}>
                 <h4 className={styles.Header}>Sign Up</h4>
@@ -323,6 +345,7 @@ const HomePage = () => {
                 />
               </div>
             </Col>
+            {/* Sign In */}
             <Col lg={6} className={styles.LinkDiv} onClick={handleSignInLink}>
               <div className={styles.ImageWrapper}>
                 <h4 className={styles.Header}>Sign In</h4>
@@ -341,13 +364,16 @@ const HomePage = () => {
 
   return (
     <>
+      {/* Title and tagline */}
       <Container className={styles.TitleContainer}>
         <h1 className={`text-center ${styles.BigTitle}`}>Forget Me Not</h1>
         <h5 className={`text-center ${styles.Title}`}>A site for organising life's big challenges into bite sized projects and tasks</h5>
       </Container>
+      {/* Render content based on user status */}
       {currentUser ? renderContent() : renderSignedOut()}
     </>
   );
 };
 
+// Exporting the HomePage component
 export default HomePage;

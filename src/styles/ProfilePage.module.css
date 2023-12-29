@@ -29,7 +29,11 @@
 
 .ProfilePageAvatar:hover {
     border-color: lightblue; /* Adjust the color as needed */
-  }
+}
+
+.Image {
+    width: 75%;
+}
 
 @media screen and (max-width:991px) {
     .ProfileImage {

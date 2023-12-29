@@ -1,3 +1,6 @@
+// App.js
+// Main component that defines the routes and structure of the application
+
 import React from "react";
 import styles from "./App.module.css";
 import NavBar from "./components/NavBar";
@@ -28,15 +31,21 @@ import ProfileEditForm from "./pages/profiles/ProfileEditForm";
 import BackButtonBottom from "./components/BackButtonBottom";
 import RequireAuth from "./components/RequireAuth";
 
-
 function App() {
+  // Main component rendering the structure of the application
   return (
     <div className={styles.App}>
+      {/* Navigation bar */}
       <NavBar />
+      {/* Back button for navigation */}
       <BackButton />
+      {/* Main content container */}
       <Container className={styles.Container}>
+        {/* Switch component for handling different routes */}
         <Switch>
+          {/* Route for the home page */}
           <Route exact path="/" render={() => <HomePage />} />
+          {/* Route for editing user profile */}
           <Route
             exact
             path="/profiles/edit"
@@ -46,6 +55,7 @@ function App() {
               </RequireAuth>
             )}
           />
+          {/* Route for viewing user profile */}
           <Route
             exact
             path="/profiles/:profileId"
@@ -55,6 +65,7 @@ function App() {
               </RequireAuth>
             )}
           />
+          {/* Route for viewing own profile */}
           <Route
             exact
             path="/myprofile"
@@ -64,8 +75,11 @@ function App() {
               </RequireAuth>
             )}
           />
+          {/* Route for user signup */}
           <Route exact path="/signup" render={() => <SignUpForm />} />
+          {/* Route for user signin */}
           <Route exact path="/signin" render={() => <SignInForm />} />
+          {/* Route for creating a new project */}
           <Route
             exact
             path="/projects/create"
@@ -75,6 +89,7 @@ function App() {
               </RequireAuth>
             )}
           />
+          {/* Route for viewing a list of projects */}
           <Route
             exact
             path="/projects/list"
@@ -84,6 +99,7 @@ function App() {
               </RequireAuth>
             )}
           />
+          {/* Route for viewing a list of completed projects */}
           <Route
             exact
             path="/projects/completed"
@@ -93,6 +109,7 @@ function App() {
               </RequireAuth>
             )}
           />
+          {/* Route for viewing details of a project */}
           <Route
             exact
             path="/projects/:projectId"
@@ -102,6 +119,7 @@ function App() {
               </RequireAuth>
             )}
           />
+          {/* Route for editing details of a project */}
           <Route
             exact
             path="/projects/edit/:projectId"
@@ -111,6 +129,7 @@ function App() {
               </RequireAuth>
             )}
           />
+          {/* Route for creating a new task */}
           <Route
             exact
             path="/tasks/create"
@@ -120,6 +139,7 @@ function App() {
               </RequireAuth>
             )}
           />
+          {/* Route for viewing details of a task */}
           <Route
             exact
             path="/tasks/:taskId"
@@ -129,6 +149,7 @@ function App() {
               </RequireAuth>
             )}
           />
+          {/* Route for editing details of a task */}
           <Route
             exact
             path="/tasks/edit/:taskId"
@@ -138,6 +159,7 @@ function App() {
               </RequireAuth>
             )}
           />
+          {/* Route for viewing a list of friends */}
           <Route
             exact
             path="/friends/list"
@@ -147,6 +169,7 @@ function App() {
               </RequireAuth>
             )}
           />
+          {/* Route for creating a new friend */}
           <Route
             exact
             path="/friends/create"
@@ -156,6 +179,7 @@ function App() {
               </RequireAuth>
             )}
           />
+          {/* Route for viewing friend requests */}
           <Route
             exact
             path="/friends/requests"
@@ -165,7 +189,9 @@ function App() {
               </RequireAuth>
             )}
           />
+          {/* Route for handling server error (500) */}
           <Route exact path="/error/500" render={() => <Error500 />} />
+          {/* Route for viewing a deleted page */}
           <Route
             exact
             path="/deleted"
@@ -175,12 +201,15 @@ function App() {
               </RequireAuth>
             )}
           />
+          {/* Default route for handling 404 errors */}
           <Route render={() => <Error404 />} />
         </Switch>
+        {/* Back button for navigation */}
         <BackButtonBottom />
       </Container>
     </div>
   );
 }
 
+// Exporting the App component
 export default App;

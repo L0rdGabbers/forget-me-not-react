@@ -1,3 +1,5 @@
+// BackButtonSide.js
+// Provides a button at the side of the page for the user to go back to the previous page.
 import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -14,11 +16,13 @@ const BackButtonSide = () => {
     history.goBack();
   };
 
+  // Ensures that the user is not on the Home page, the error page or the deleted pages.
   const shouldRenderButton =
     location.pathname !== '/' &&
     !location.pathname.startsWith('/error') &&
     !location.pathname.startsWith('/deleted');
 
+  // Delays the rendering of the button to ensure a smoother transition.
   useEffect(() => {
     setComponentsLoaded(false);
     setTimeout(() => {
@@ -27,7 +31,7 @@ const BackButtonSide = () => {
   }, [location.pathname]);
   
 
-
+    // Renders a button at the bottom of the page that allows the user to go back to the previous page.
   return shouldRenderButton ? (
     <div>
       {componentsLoaded && (

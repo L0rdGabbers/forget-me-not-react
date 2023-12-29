@@ -1,15 +1,20 @@
+// CurrentUserContext.js
+// Allows the user to access the current user data across the whole application.
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { axiosReq, axiosRes } from "../api/axiosDefaults";
 import { useHistory } from "react-router";
 import { removeTokenTimestamp, shouldRefreshToken } from "../utils/utils";
 
+// Exports the context for the current user data and the context for setting the current user.
 export const CurrentUserContext = createContext();
 export const SetCurrentUserContext = createContext();
 
+// Hooks to be used to aqcuire the current user contexts
 export const useCurrentUser = () => useContext(CurrentUserContext);
 export const useSetCurrentUser = () => useContext(SetCurrentUserContext);
 
+// Get's the user's 'user data' and sets it as the currentUser context.
 export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const history = useHistory();
@@ -21,11 +26,14 @@ export const CurrentUserProvider = ({ children }) => {
     } catch (err) {
     }
   };
-
+  
+  // Runs the handleMount function when the data mounts.
   useEffect(() => {
     handleMount();
   }, []);
 
+  // Refreshes the access token so that the user does not need to log in every few minutes.
+  // Will sign the user out after 24 hours.
   useMemo(() => {
     axiosReq.interceptors.request.use(
       async (config) => {

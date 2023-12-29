@@ -59,8 +59,9 @@
 
     .BackButtonBottom {
       display: block;
-      width: 16vw;
+      width: 30vw;
       margin-top: 2rem;
+      margin-bottom: 2rem;
       bottom: 35vw;
     }
   }
