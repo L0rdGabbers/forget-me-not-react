@@ -1,0 +1,11 @@
+/* Container for Project and Task Create and Edit forms */
+
+.Container {
+    min-height: 343px;
+  }
+
+/* Decorative Image stylings for Project and Task Create and Edit forms */
+
+.Image {
+  width: 75%;
+}

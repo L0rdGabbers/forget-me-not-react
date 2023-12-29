@@ -10,7 +10,7 @@ import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Avatar from '../../components/Avatar';
-import styles from '../../styles/FriendCreateEditForm.module.css'
+import styles from '../../styles/FriendCreateForm.module.css'
 import appStyles from '../../App.module.css'
 import btnStyles from '../../styles/Button.module.css'
 

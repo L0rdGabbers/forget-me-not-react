@@ -9,7 +9,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Link, useHistory } from 'react-router-dom';
 
-import styles from '../../styles/ProjectDetail.module.css'
+import styles from '../../styles/ProjectTaskDetail.module.css'
 import btnStyles from '../../styles/Button.module.css'
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
 
@@ -22,6 +22,16 @@ const ProjectDetail = ({ match }) => {
 
   // State to manage time remaining for project due date
   const [timeRemaining, setTimeRemaining] = useState(null);
+
+  // Function to format date string
+  function formatDate(dateString) {
+    const originalDate = new Date(dateString);
+    const year = originalDate.getFullYear();
+    const month = String(originalDate.getMonth() + 1).padStart(2, "0");
+    const day = String(originalDate.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
 
   // React Router history object
   const history = useHistory();
@@ -60,6 +70,24 @@ const ProjectDetail = ({ match }) => {
         state: {projectId: project.id}
     });
   };
+
+ // Event handler for marking the project as complete
+ const handleComplete = async () => {
+   try {
+     // Making a PUT request to mark the project as complete
+     const response = await axiosReq.put(`/projects/${project.id}/`, {
+       ...project,
+       complete: true,
+       due_date: formatDate(project.due_date),
+     });
+     // If the request is successful, redirecting to the project page
+     if (response.status === 200) {
+       history.push(`/projects/completed`);
+     }
+   } catch (error) {
+     console.error(error);
+   }
+ }
 
   // Event handler for navigating to the Edit Project page
   const handleEditClick = () => {
@@ -211,7 +239,7 @@ const ProjectDetail = ({ match }) => {
                             {project.uncompleted_tasks.map((task) => (
                               <Col
                                 key={task.id}
-                                className="col-md-12 col-sm-12"
+                                className="col-12"
                               >
                                 {task.is_owner || task.is_collaborator ? (
                                   <>
@@ -262,7 +290,7 @@ const ProjectDetail = ({ match }) => {
                       <>
                         <Row>
                           {project.completed_tasks.map((task) => (
-                            <Col key={task.id} className="col-md-12 col-sm-12">
+                            <Col key={task.id} className="col-12">
                               {task.is_owner || task.is_collaborator ? (
                                 <>
                                   <Link
@@ -316,9 +344,10 @@ const ProjectDetail = ({ match }) => {
 
         {/* Buttons for project owner */}
         {project.owner === currentUser.username && (
-          <Container fluid className={styles.Container}>
-            <Row>
-              {/* Edit and Delete buttons */}
+          <Container fluid className={`${styles.Container}`}>
+            <Row className='justify-content-between'>
+              {/* Submit, Edit and Delete buttons */}
+              <Button variant="success" onClick={handleComplete}>Submit</Button>
               <Button variant="warning" onClick={handleEditClick}>
                 Edit Details
               </Button>

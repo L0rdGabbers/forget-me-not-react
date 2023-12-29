@@ -2,7 +2,6 @@
 // Component for rendering a list of completed projects.
 
 import React, { useEffect, useState } from 'react';
-import btnStyles from '../../styles/Button.module.css';
 import { axiosReq } from '../../api/axiosDefaults';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -10,6 +9,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Link, useHistory } from 'react-router-dom';
 
+import btnStyles from '../../styles/Button.module.css';
 import listStyles from '../../styles/EmptyLists.module.css';
 import appStyles from '../../App.module.css';
 

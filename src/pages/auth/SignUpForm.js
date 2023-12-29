@@ -60,7 +60,7 @@ const SignUpForm = () => {
       </Row>
       <Row className={`${styles.Row} d-flex justify-content-center`}>
         {/* Form component for user registration */}
-        <Form onSubmit={handleSubmit} className={styles.Form}>
+        <Form onSubmit={handleSubmit}>
           <Form.Group controlId="username">
             <Form.Label className="d-none">Username</Form.Label>
             <Form.Control

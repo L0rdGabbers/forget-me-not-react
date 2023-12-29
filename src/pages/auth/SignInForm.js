@@ -71,7 +71,7 @@ const SignInForm = () => {
       </Row>
       <Row className={`${styles.Row} d-flex justify-content-center`}>
         {/* Form component for user sign-in */}
-        <Form onSubmit={handleSubmit} className={styles.Form}>
+        <Form onSubmit={handleSubmit}>
           <Form.Group controlId="username">
             {/* Input field for username */}
             <Form.Label className="d-none">Username</Form.Label>

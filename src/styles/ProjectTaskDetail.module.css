@@ -1,3 +1,5 @@
+/* Standard Container Stylings for Project and Task Detail Page */
+
 .Container {
     margin: 1rem 0 0 0;
     border: 1px solid #dadadf;
@@ -5,17 +7,19 @@
     padding: 0.5rem 2rem;
   }
 
+/* Underlines the Tasks a collaborator can access */
+
 .TextLink {
     text-decoration:underline
 }
+
+/* Removes underlining from certain text to prevent eyesore */
 
 .AssignedText {
     text-decoration: none;
 }
 
-.HeadContainer {
-    margin-top: 10rem;
-}
+/* Styling for Middle Containers in the Project and Tasks Details pages */
 
 .MiddleContainer {
     min-height: 25rem;
@@ -23,12 +27,4 @@
 
 .Container Button {
     margin-right: 10px; 
-}
-
-.Link {
-    color: #A254B0;
-}
-
-.Link:hover {
-    color: #B0545B;
 }

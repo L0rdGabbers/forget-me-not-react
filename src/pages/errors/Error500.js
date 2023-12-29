@@ -2,7 +2,7 @@ import React from 'react'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 
-import styles from '../../styles/NotLoggedIn.module.css'
+import styles from '../../styles/Error.module.css'
 import appStyles from '../../App.module.css'
 const Error500 = () => {
   return (

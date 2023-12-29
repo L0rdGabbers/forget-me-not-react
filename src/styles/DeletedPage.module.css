@@ -1,8 +1,14 @@
+/* Deleted Page Container */
+
 .Container {
     margin-top: 2rem;
-    padding-top: 6rem;
     background-color: #ffffff;
     background-size: cover;
-    min-height: 50vw;
+    height: 80vh;
     border: 1px solid #dadada;
+}
+
+/* Rows */
+.Row {
+    width: 80%;
 }

@@ -1,39 +1,52 @@
+/* Navbar styling */
+
 .NavBar {
     background-color: #ffffff;
     border: 1px solid #dadada;
     padding: 1rem 2rem;
 }
 
+/* Application title at top left of screen */
+
 .Title {
     font-size: 2rem;
 }
 
+/* Styling for Navlinks */
   
 .NavLink {
     padding: 5px;
     font-size: 1.5rem;
 }
+
+/* Active colours, to be displayed when hovered */
   
 .Active, .Active i {
     color: #63336B;
 }
 
+/* Styles specific to Projects and Friends navlinks which are drop down menu triggers */
+
 .navItem {
     display: inline-block;
-    vertical-align: middle; /* This will align the icon and text vertically */
-  }
+    vertical-align: middle;
+}
   
-  .icon {
+/* Nav Icons */
+
+.icon {
     font-size: 20px; /* Adjust this value as needed */
     margin-right: 5px; /* Adjust the margin between the icon and text as needed */
     line-height: 0.5;
-  }
+}
+
+/* Navlink titles */
   
-  .navText {
+.navText {
     font-size: 20px; /* Adjust this value as needed */
     color: black;
-  }
+}
 
-  .navText:hover {
+.navText:hover {
     color:#63336B
-  }
+}

@@ -7,7 +7,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { Link } from 'react-router-dom';
 
-import styles from '../../styles/SignUpInForm.module.css'
+import styles from '../../styles/DeletedPage.module.css'
 import appStyles from '../../App.module.css'
 import btnStyles from '../../styles/Button.module.css'
 
@@ -15,7 +15,7 @@ import btnStyles from '../../styles/Button.module.css'
 const DeletedPage = () => {
     return (
         <Container
-          className={`${styles.FormContainer} d-flex flex-column align-items-center justify-content-center`}
+          className={`${styles.Container} d-flex flex-column align-items-center justify-content-center`}
         >
           {/* Heading for the deleted page */}
           <Row className={`d-flex flex-column align-items-center`}>

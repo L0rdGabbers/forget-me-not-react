@@ -1,3 +1,5 @@
+/* Container Styling for Sign In and Sign Up pages */
+
 .FormContainer {
     margin-top: 2rem;
     background-color: #ffffff;
@@ -8,8 +10,4 @@
 
 .Row {
     width: 80%;
-}
-
-.Form {
-    width: 100%;
 }

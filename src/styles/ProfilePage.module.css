@@ -1,23 +1,18 @@
-.ProfileImage {
-    object-fit: cover;
-    height: 120px;
-    width: 120px;
-    margin: 4px;
-}
+/* Container for rendering Profile details */
 
 .ProfileContainer {
     margin-top: 8rem;
 }
 
-.Span {
-    border: 1 solid #fff;
-}
+/* Displays large variant of the Avatar Component for nicer display */
 
 .ProfileAvatar {
     border: 2px solid transparent;
     width: 200px;
     margin: 1rem 0;
 }
+
+/* Displays the user's avatar on the ProfileEditForm, with transitions and pointers for clarification */
 
 .ProfilePageAvatar {
     width: 200px;
@@ -28,16 +23,11 @@
 }
 
 .ProfilePageAvatar:hover {
-    border-color: lightblue; /* Adjust the color as needed */
+    border-color: lightblue;
 }
+
+/* Styling for decorative image on Profile Edit Page */
 
 .Image {
     width: 75%;
-}
-
-@media screen and (max-width:991px) {
-    .ProfileImage {
-        width: 250px;
-        height: 250px;
-    }
 }

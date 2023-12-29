@@ -11,7 +11,7 @@ import Alert from "react-bootstrap/Alert";
 import { axiosReq } from "../../api/axiosDefaults";
 import { useHistory } from "react-router-dom";
 
-import styles from "../../styles/ProjectCreateEditForm.module.css";
+import styles from "../../styles/ProjectTaskCreateEditForm.module.css";
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import taskEditImage from "../../assets/task-edit.jpg";

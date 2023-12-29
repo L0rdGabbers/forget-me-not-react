@@ -11,7 +11,7 @@ import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
 
-import styles from '../../styles/ProjectDetail.module.css'
+import styles from '../../styles/ProjectTaskDetail.module.css'
 
 // Component for displaying details of a specific task
 const TaskDetail = ({ match }) => {
@@ -221,16 +221,18 @@ const TaskDetail = ({ match }) => {
       </Container>
       {/* Displaying edit and delete buttons for the task owner */}
       {task.is_owner == true ? (
-        <Container fluid className={styles.Container}>
-          <Row>
-            <Button variant="warning" onClick={handleEditClick}>
-              Edit Details
-            </Button>
-            <Button variant="danger" onClick={handleDelete}>
-              Delete
-            </Button>
-          </Row>
-        </Container>
+        <Container fluid className={`${styles.Container}`}>
+        <Row className='justify-content-between'>
+          {/* Submit, Edit and Delete buttons */}
+          <Button variant="success" onClick={handleComplete}>Submit</Button>
+          <Button variant="warning" onClick={handleEditClick}>
+            Edit Details
+          </Button>
+          <Button variant="danger" onClick={handleDelete}>
+            Delete
+          </Button>
+        </Row>
+      </Container>
       ) : null}
     </div>
   );

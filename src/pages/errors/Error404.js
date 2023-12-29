@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 import { useHistory } from 'react-router-dom'
 
-import styles from '../../styles/NotLoggedIn.module.css'
+import styles from '../../styles/Error.module.css'
 import appStyles from '../../App.module.css'
 import btnStyles from '../../styles/Button.module.css'
 

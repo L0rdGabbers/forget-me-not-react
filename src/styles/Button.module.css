@@ -1,3 +1,5 @@
+/* Default Purple Button */
+
 .Button {
     width: 24rem;
     height: 4rem;
@@ -13,6 +15,8 @@
     border-color: #996515;
 }
 
+/* Red inactive Button */
+
 .DisabledButton {
   width: 24rem;
   height: 4rem;
@@ -22,23 +26,33 @@
   margin: 0.5rem;
 }
 
+/* Small Button Varient */
+
 .Sml {
     width: 9rem;
     height: 2rem;  
     line-height: 1; 
 }
 
+/* Colour Varients for Success and Danger */
+
 .Green {
-  background-color: #43B051;
+  background-color: #14A44D;
+  border-color: #000;
 }
 
 .Red {
-  background-color: #B05D74;
+  background-color: #DC4C64;
+  border-color: #000;
 }
+
+/* Larger Text */
 
 .BigText {
     font-size: 1.5rem
 }
+
+/* Styling for BackButtonSide component */
 
 .BackButton {
     width: 12vw;
@@ -46,23 +60,35 @@
     top: 9rem;
     left: 2.5rem;
     margin: 2px;
-  }
+}
+
+/* Styling for BackButtonBottom component - Not visible at larger screen widths. */
 
 .BackButtonBottom {
   display: none;
 }
-  
-  @media screen and (max-width: 1700px) {
-    .BackButton {
-      display: none;
-    }
 
-    .BackButtonBottom {
-      display: block;
-      width: 30vw;
-      margin-top: 2rem;
-      margin-bottom: 2rem;
-      bottom: 35vw;
-    }
+/* Media Queries to ensure button is not too large at small screen sizes */
+
+@media screen and (max-width: 800px) {
+  .Button {
+    width: 40vw;
   }
+}
+
+/* Media Queries to switch between BackButtonSide at large screen sizes and BackButtonBottom at smaller screen sizes */
+
+@media screen and (max-width: 1700px) {
+  .BackButton {
+    display: none;
+  }
+
+  .BackButtonBottom {
+    display: block;
+    width: 30vw;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    bottom: 35vw;
+  }
+}
 

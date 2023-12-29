@@ -1,9 +1,10 @@
-/* Container styling for empty projects, tasks, friends or friend request lists. */
+/* Container for FriendCreateForm */
 
 .Container {
     margin-top: 2rem;
+    padding-top: 6rem;
     background-color: #ffffff;
     background-size: cover;
-    height: 80vh;
+    min-height: 50vw;
     border: 1px solid #dadada;
 }

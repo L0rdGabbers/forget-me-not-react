@@ -1,3 +1,5 @@
+/* Font Family and Non Component Background */
+
 .App {
     font-family: 'Afacad', sans-serif;
     background-color: #f8f8f8;
@@ -5,9 +7,7 @@
 
 }
 
-.Main {
-    padding-top: 75px;
-}
+/* Create and Edit Forms Container Content */
   
 .Content {
     background-color: #ffffff;
@@ -16,21 +16,13 @@
     border: 1px solid #dadadf;
 }
         
-.FillerImage {
-    object-fit: cover;
-    height: 100%;
-    width: 100%;
-}
-    
-.Image {
-    max-height: 40vh;
-    max-width: 100%;
-    object-fit: contain;
-}
+/* All elements have border box box-sizing */
 
 *   {
         box-sizing: border-box;
 }
+
+/* Anchors and Icons */
     
 a   {
     color: #000000;
@@ -60,10 +52,14 @@ i:hover {
     color: #63336B;
 }
 
+/* Text Headers */
+
 .Header {
     color: #63336B;
     margin-bottom: 1rem;
 }
+
+/* Scrollers */
 
 *::-webkit-scrollbar {
     width: 5px;
