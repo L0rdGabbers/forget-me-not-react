@@ -18,7 +18,7 @@ import taskEditImage from "../../assets/task-edit.jpg";
 
 const TaskEditForm = ({ location }) => {
   // Extracting task data from the location state
-  const taskData = location.state.taskData || {};
+  const taskData = location.state ? location.state.taskData || {} : {};
   
   // States for form data, errors, and assignee list
   const [errors, setErrors] = useState({});
@@ -38,7 +38,7 @@ const TaskEditForm = ({ location }) => {
     dueDate: formatDate(taskData.due_date) || "",
     importance: taskData.importance,
     project: taskData.project,
-    collaborators: taskData.collaborators.map((collaborator) => collaborator) || [],
+    collaborators: taskData.collaborators ? taskData.collaborators.map((collaborator) => collaborator) : [],
     complete: taskData.complete || false,
   });
 
@@ -227,6 +227,11 @@ const TaskEditForm = ({ location }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if (!taskData.collaborators) {
+          // Redirect to Error404 if location.state is not available
+          history.push('/error404');
+          return;
+        }
         // Making a GET request to get task details
         const task = await axiosReq.get(`/tasks/${taskData.id}`);
         if (task.status === 200) {

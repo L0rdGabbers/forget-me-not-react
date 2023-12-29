@@ -201,6 +201,11 @@ const TaskCreateForm = () => {
   // Fetching project data on component mount
   useEffect(() => {
     const fetchData = async () => {
+      if (!location.state) {
+        // Redirect to Error404 if location.state is not available
+        history.push('/error404');
+        return;
+      }
       try {
         // Making a GET request to fetch project details
         const project = await axiosReq.get(`/projects/${projectId}`)

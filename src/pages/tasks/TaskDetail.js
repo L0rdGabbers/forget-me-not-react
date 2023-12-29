@@ -45,7 +45,11 @@ const TaskDetail = ({ match }) => {
         const response = await axiosReq.get(
           `/tasks/${match.params.taskId}`
         );
-
+        // Ensures user is a task owner or collaborator
+        if (!response.data.is_owner && !response.data.is_collaborator) {
+          history.push('/error404')
+          return;
+        };
         // Calculating time remaining for the task
         const dueDateObject = new Date(response.data.due_date);
         const currentDate = new Date();
@@ -61,6 +65,12 @@ const TaskDetail = ({ match }) => {
         setImportance(upperCaseStr)
       } catch (error) {
         console.error("Error fetching task details:", error);
+        if (error.response && error.response.status === 404) {
+          console.log('Project not found');
+          history.push('/error404');
+        } else {
+          console.log('Unexpected error occurred:', error);
+        }
       }
     };
 

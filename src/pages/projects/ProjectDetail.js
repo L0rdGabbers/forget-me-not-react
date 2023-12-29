@@ -42,6 +42,11 @@ const ProjectDetail = ({ match }) => {
       try {
         // Fetching project details using project ID from the route params
         const response = await axiosReq.get(`/projects/${match.params.projectId}`);
+        // Checks to see if user is either the project owner or collaborator
+        if (!response.data.is_owner && !response.data.is_collaborator) {
+          history.push('/error404')
+          return;
+        };
         // Calculating time remaining for project due date
         const dueDateObject = new Date(response.data.due_date);
         const currentDate = new Date();
@@ -51,6 +56,12 @@ const ProjectDetail = ({ match }) => {
         setProject(response.data);
       } catch (error) {
         console.error('Error fetching project details:', error);
+        if (error.response && error.response.status === 404) {
+          console.log('Project not found');
+          history.push('/error404');
+        } else {
+          console.log('Unexpected error occurred:', error);
+        }
       }
     };
 

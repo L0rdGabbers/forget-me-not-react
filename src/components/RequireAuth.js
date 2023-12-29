@@ -6,6 +6,7 @@ import Error404 from '../pages/errors/Error404';
 
 const RequireAuth = ({ children }) => {
   const currentUser = useCurrentUser();
+  
 
   // If there is no currentUser value, the user is sent to the Error 404 page.
   if (!currentUser) {

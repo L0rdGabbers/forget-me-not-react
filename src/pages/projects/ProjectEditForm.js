@@ -30,7 +30,7 @@ const ProjectEditForm = ({ location }) => {
     title: projectData.title || "",
     summary: projectData.summary || "",
     dueDate: formatDate(projectData.due_date) || "",
-    collaborators: projectData.collaborators.map((collaborator) => collaborator) || [],
+    collaborators: projectData.collaborators ? projectData.collaborators.map((collaborator) => collaborator) : [],
     complete: projectData.complete || false,
   });
 
@@ -201,8 +201,19 @@ const ProjectEditForm = ({ location }) => {
 
   // Fetching friend list on component mount
   useEffect(() => {
+    if (!location.state) {
+      // Redirect to Error404 if location.state is not available
+      history.push('/error404');
+      return;
+    }
     const fetchData = async () => {
       try {
+        // Check if projectData is null or undefined
+        if (!projectData.collaborators) {
+          // Redirect to Error404 if projectData is not available
+          history.push('/error404');
+          return;
+        }
         // Making a GET request to fetch the friend list
         const friends = await axiosReq.get('/friends/');
         // Checking if the request was successful

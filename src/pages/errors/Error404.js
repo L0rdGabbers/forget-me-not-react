@@ -16,14 +16,9 @@ const Error404 = () => {
     // React Router's history object for programmatic navigation.
     const history = useHistory();
 
-    // Function to handle navigation to the sign-up page.
-    const handleSignUpLink = () => {
-      history.push('/signup')
-    }
-
-    // Function to handle navigation to the sign-in page.
-    const handleSignInLink = () => {
-      history.push('/signin')
+    // Function to handle navigation to return to the home page.
+    const handleHomeLink = () => {
+      history.push('/')
     }
 
     // JSX structure for the 404 error page.
@@ -35,16 +30,10 @@ const Error404 = () => {
         {/* Heading for the 404 error page */}
         <h1 className={appStyles.Header}>Error 404: This page does not exist</h1>
       </Row>
-      {/* Button to navigate to the sign-up page */}
+      {/* Button to navigate to the home page */}
       <Row className={`d-flex justify-content-center`}>
-        <Button className={btnStyles.Button} onClick={handleSignUpLink}>
-          Sign Up Here
-        </Button>
-      </Row>
-      {/* Button to navigate to the sign-in page */}
-      <Row className={`d-flex justify-content-center`}>
-        <Button className={btnStyles.Button} onClick={handleSignInLink}>
-          Sign In To Your Account
+        <Button className={btnStyles.Button} onClick={handleHomeLink}>
+          Return to Home Page
         </Button>
       </Row>
     </Container>

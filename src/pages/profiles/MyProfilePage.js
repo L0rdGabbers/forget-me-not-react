@@ -6,7 +6,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import styles from "../../styles/ProfilePage.module.css"
 import appStyles from "../../App.module.css";
@@ -27,11 +27,19 @@ function MyProfilePage({ location }) {
   
     // State to handle errors
     const [errors, setErrors] = useState();
+
+    const history = useHistory();
   
     // useEffect to fetch data when the component mounts
     useEffect(() => {
       const fetchData = async () => {
         try {
+
+          if (!location.state) {
+            // Redirect to Error404 if location.state is not available
+            history.push('/error404');
+            return;
+          }
           // Fetches projects data
           const projectsResponse = await axiosReq.get('/projects/');
   

@@ -295,7 +295,7 @@ For my first sprint, I had decided on implementing the NavBar as this would be t
 
 # **Features**
 
-## **Navbar**
+## **Navbar Component**
 
 ### **Navlinks**
 
@@ -317,6 +317,27 @@ In the middle of the navbar, the current date is displayed.
 The Hamburger icon appears at screen widths below 1200px. Should the user use the Hamburger Icon to access the Navlinks, the projects and friends dropdown menus will BOTH display. This is because the Hamburger dropdown navbar will close after one click on any location, and touch phone users will not be able to hover over the icons to view the dropdown navlinks.
 
 ![Hamburger](/src/assets/hamburger.png)
+
+## **Go Back Button Component** 
+The Go Back Button allows the user to return to the previous page, provided it isn't the home page, deleted page, or an error page.
+On large screen sizes, it will appear at the left, and on smaller ones, it will appear at the bottom.
+
+![Go Back Button - Side](/src/assets/create-form.png)
+
+![Go Back Button - Bottom](/src/assets//go-back-button-bottom.png)
+
+## **Avatar Component**
+
+The Avatar Component returns a circular image containing a user's profile image. They are used as a visual counterpart to a user's username.
+![Avatar](/src/assets/avatar.png
+)
+If a user has not assigned themselves an avatar, a default one is provided.
+![Default Avatar](/src/assets/default-avatar.png)
+
+## **Require Auth Component**
+
+For any page that requires authorisation, I have implemented a Require Auth Component so that users cannot use the url to navigate wantonly accross the site. If a user is not logged in, or if they are trying to access a page they do not have access to, they will be redirected to the Error 404 page.
+
 
 ## **Home Page**
 The Home Page acts as a warm welcome to new users and a quick and easy place to get started for seasoned users.
@@ -345,6 +366,31 @@ These Pages have far more similarities than differences, so they will be feature
 ### **Decorative Images**
 
 Each page featues a decorative image which all resemble the process that each form plays a part in, to help remind the user which page they are on.
+
+![Edit Profile page](/src/assets/edit-project-page.png)
+
+### **Input Fields**
+
+To the right of the page is an Form Container, which allows the user to handle changes to the Project or Task they are creating. The Title, Summary and Due Date fields will display errors if they are not filled in.
+
+![Input Field Errors](/src/assets/create-task-errors.png)
+
+#### **Collaborators and Assignees Fields**
+
+In the Projects Create and Edit Forms, the Collaborator Check Options are retreived from the User's Personal Friend List, 
+where as in the Tasks Create and Edit forms, the Assignee check options are retrieved from the Task's original project's collaborators as well as the Project's owner. Projects and Tasks do not require collaborators or assignees, respectively.
+
+### **Submit Button**
+
+Assuming the inserted data is valid, upon clicking the Submit button labeled either 'Create' or 'Update', the data will be created or posted and the user will be redirected to a relevant page. The Project Create Page will redirect to the Projects List Page, the Project Edit Page and the Task Create Page will return back to the relevant Project Details Page, and the Task Edit Page will return to the Task Details Page.
+
+### **Cancel Button**
+
+This button will return the user to the previous page.
+
+
+
+
 
 
 

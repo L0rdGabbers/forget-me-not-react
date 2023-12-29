@@ -47,6 +47,11 @@ function ProfilePage({ location }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if (!location.state) {
+          // Redirect to Error404 if location.state is not available
+          history.push("/error404");
+          return;
+        }
         // Fetching friend details, projects, and friend requests
         const friendsResponse = await axiosReq.get('/friends/');
         const projectsResponse = await axiosReq.get('/projects/');
