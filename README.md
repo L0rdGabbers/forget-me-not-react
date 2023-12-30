@@ -687,4 +687,135 @@ Below is a summary of how I manually tested each user story.
 
 | Checked | **As a User, I can navigate between pages effortlessly so that I can use the website without any page refreshes.** |
 |:-------:|:--------|
-| &check; | Can access the Navbar Navlink destinations from any location.  |
+| &check; | All links (navbar links, home page links and profile links) work from all pages  |
+
+| Checked | **As a User, I can sign into my profile so that I can access my projects, tasks, and friends list.** |
+|:-------:|:--------|
+| &check; | Once the user successfully logs into their profile, they are able to access their projects, tasks, friend lists and friend requests. |
+
+| Checked | **As a user, I can determine clearly whether I am logged in or not so that I can log back in if need be.** |
+|:-------:|:--------|
+| &check; | If loggeed in, the user's profile image will appear at the top of the navbar. If not, the logged out icons and home page options will be rendered instead. |
+
+| Checked | **As a user, I can sign up to the website so that I can access all the content available to authenticated users.** |
+|:-------:|:--------|
+| &check; | A logged out user is able to create a new profile and create their own projects and tasks and friends. |
+
+| Checked | **As a user, I can remained logged in (for at least 24 hours) so that I can enjoy my experience without being logged out every 5 minutes.** |
+|:-------:|:--------|
+| &check; | If a user remains unactive on the site for longer than five minutes and then refreshes the page, they will remain online. |
+
+| Checked | **As a logged out user, I can see 'sign in' and 'sign up' options so that I can update my signed in status.** |
+|:-------:|:--------|
+| &check; | When logged out, the sign up and sign in navlinks display in the navbar. |
+
+| Checked | **As a user, I can use avatars so that so that I can show off my personality and quickly identify others.** |
+|:-------:|:--------|
+| &check; | If a user has selected their own profile image, then it can be displayed in the profile page and on other users' friend lists. |
+
+| Checked | **As a logged in user, I can create projects so that I can organise myself and set clear deadlines.** |
+|:-------:|:--------|
+| &check; | Users can create projects. |
+
+| Checked | **As a user, I can view the details of my projects or projects that I'm a colaborator of so that I can see the tasks and deadlines of the project.** |
+|:-------:|:--------|
+| &check; | Users can view their projects and their collaborating projects. |
+
+| Checked | **As a logged in user, I can create tasks associated to my projects so that I can break up my projects into bite-sized chunks.** |
+|:-------:|:--------|
+| &check; | Users can create tasks. |
+
+| Checked | **As a logged in user, I can view my projects' tasks or tasks that I'm associated with so that I can the tasks details.** |
+|:-------:|:--------|
+| &check; | Users can view their tasks and their collaborating tasks. |
+
+| Checked | **As a logged in user, I can send a friend request to another user so that I can make them collaborators on my future projects.** |
+|:-------:|:--------|
+| &check; | Users can create friend requests. Users can make friends collaborators on projects and tasks. |
+
+| Checked | **As a user, I can accept or decline any friend requests that were sent to me so that I can confirm whether I want a particular user to work on my projects.** |
+|:-------:|:--------|
+| &check; | Users can accept or decline friend requests. |
+
+| Checked | **As a user, I can cancel any friend requests that I sent before they are accepted by the recipient so that I can prevent people that I didn't mean to send requests from seeing my request in the first place.** |
+|:-------:|:--------|
+| &check; | Users can cancel friend requests they have sent. |
+
+| Checked | **As a logged in user, I can see a list of my friends so that I can decide who should be collaborators on my projects and tasks.** |
+|:-------:|:--------|
+| &check; | Users can view their own personal friend list. User can also unfriend any of their friend from this page. |
+
+| Checked | **As a project owner, I can edit my projects and tasks so that I can change my projects' collaborators or change any neccessary details regarding the project.** |
+|:-------:|:--------|
+| &check; | Users can edit projects and tasks that they own. |
+
+| Checked | **As a project owner, I can confirm that a project is complete so that I can remove it from my todo projects.** |
+|:-------:|:--------|
+| &check; | Users can submit their projects as complete. |
+
+| Checked | **As a project owner or task collaborator, I can confirm that a task is complete so that I can mark a project's task's completion status is positive.** |
+|:-------:|:--------|
+| &check; | Users who own or are assigned to a task can submit it as complete. |
+
+| Checked | **As a user, I can view other users' profile pages so that I can see if I want to send them a friend request, or view our friendship status.** |
+|:-------:|:--------|
+| &check; | Users are able to click on a link on a project or task details page, or a friend list page in order to view that profile's user data. |
+
+| Checked | **As a user, I can edit my profile page so that I can add my own bio and profile image.** |
+|:-------:|:--------|
+| &check; | Users are able to edit their bio and their profile image. |
+
+## **Security**
+
+| Checked | **Only the project owner can edit or delete a project or task (except for the task submission put request)** |
+|:-------:|:--------|
+| &check; |
+
+| Checked | **Logged out and unauthorised users cannot use the url to navigate to a page that doesn't belong to them.** |
+|:-------:|:--------|
+| &check; |
+
+
+# **Deployment**
+
+## **Heroku**
+
+The Front End React Project was successfully deployed to the Heroku website.
+
+The site itself contains no Config Vars.
+
+The site can be found here at https://forget-me-not-react-165c57a94df3.herokuapp.com/
+
+## **Backend Link**
+
+The Back End Django Rest Framework API was also successfully deployed to the Heroku website.
+The link to the DRF API repository can be found [here](https://github.com/L0rdGabbers/forget-me-not-drf).
+
+The Backend Heroku site can be found [here](https://forget-me-not-api-2b7c6aaeb81b.herokuapp.com/).
+
+# **Technologies Used**
+- JSX - Used for rendering Front End display
+- CSS3 - Custom Styling
+- Django Rest Framework (Backend)
+- FontAwesome - Used for icons in the navbar.
+- Heroku - Finished site deployed to Heroku
+
+# **Imported Libraries**
+- React-Bootstrap - Used for efficient and speedy responsive styling and grid layout.
+- Axios - Used for interfacing between front end and back end.
+- React Router Dom - Used for navigation between pages.
+
+# **Credit**
+- The site was developed using Gitpod.
+- The repository was saved to Github.
+- Responsive screenshot made using https://ui.dev/amiresponsive
+- Images: All non-avatar images were royalty free and sourced from https://pixabay.com/ 
+- General references:
+  - Stack Overflow
+  - Code Institute Learning Platform
+  - Slack Chats
+  - Code Institute Tutor Assistance 
+
+# **Honourable Mentions**
+- Richard Wells: Thank you for all your help this year. It's been great fun.
+- Thank you to Boswell's Cafe for providing me with a job with such flexible hours so that I was able to commit to this course.

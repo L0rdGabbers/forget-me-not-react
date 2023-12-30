@@ -132,7 +132,7 @@ const SignUpForm = () => {
            {/* Submission button */}
           <Col className="d-flex justify-content-center">
             <Button className={btnStyles.Button} type="submit">
-              Sign In
+              Sign Up
             </Button>
           </Col>
           {errors.non_field_errors?.map((message, idx) => (

@@ -199,7 +199,7 @@ const TaskDetail = ({ match }) => {
               justifyContent: "space-evenly",
             }}
           >
-            <h4>Task Importance: {importance}</h4>
+            <h4>Task Importance: {task.importance}</h4>
             {task.complete === false && timeRemaining > 0 ? (
               <h4>
                 This task is due in {timeRemaining} day
