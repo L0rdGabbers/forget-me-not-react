@@ -1,7 +1,7 @@
 // NavBar.js
 // This component represents the application's navigation bar, which includes links to various pages
 // and user-related actions like signing in, signing out, and accessing user profile information.
-import React, { useEffect } from 'react';
+import React from 'react';
 import styles from '../styles/NavBar.module.css';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';

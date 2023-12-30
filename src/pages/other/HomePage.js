@@ -103,7 +103,7 @@ const HomePage = () => {
 
               if (
                 (!mostRecent || !project.complete) &&
-                (project.profile_id == currentUser.id) &&
+                (project.profile_id === currentUser.id) &&
                 projectUpdatedAt > mostRecentUpdatedAt
               ) {
                 return project;

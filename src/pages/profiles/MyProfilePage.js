@@ -58,7 +58,7 @@ function MyProfilePage({ location }) {
       };
       // Calls the fetchData function
       fetchData();
-    }, [location.state?.profileData, profileData.image]);
+    }, [history, location.state, profileData.profile_image, location.state?.profileData, profileData.image]);
   
     // Renders the main profile content
     const mainProfile = (
@@ -72,6 +72,7 @@ function MyProfilePage({ location }) {
                 <img
                   className={styles.ProfilePageAvatar}
                   src={profileImage}
+                  alt='My Profile Avatar'
                 />
                 <h3 className="m-2">{profileData.username}</h3>
                 {profileData.bio ? (

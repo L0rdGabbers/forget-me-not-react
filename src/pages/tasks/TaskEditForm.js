@@ -276,7 +276,7 @@ const TaskEditForm = ({ location }) => {
       }
     };
     fetchData();
-  }, []);
+  }, [history, taskData.collaborators, taskData.id]);
 
   // JSX for the entire component
   return (

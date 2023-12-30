@@ -119,7 +119,7 @@ function ProfilePage({ location }) {
 
     // Fetching data
     fetchData();
-  }, [relationProfile.id]);
+  }, [relationProfile.id, friendList, history, location.state, profileData.id, requestList]);
 
   // Function to handle sending friend request
   const handleFriendRequest = async () => {
@@ -135,11 +135,11 @@ function ProfilePage({ location }) {
   const handleAction = async (action) => {
     try {
       await axiosReq.put(`/friend-requests/${friendRequestId}/`, {[action]: true});
-      if (action == "accept") {
+      if (action === "accept") {
         setFriendRequestAwaiting(false)
         setIsFriend(true)
         history.push('/friends/list')
-      } else if (action == "decline") {
+      } else if (action === "decline") {
         setFriendRequestAwaiting(false)
         setIsUnknown(true)
       }
@@ -157,7 +157,7 @@ function ProfilePage({ location }) {
       isUnknown ? (
         <Row noGutters className="px-3 text-center">
           <Col lg={12} className="text-lg-center">
-            <img className={styles.ProfileAvatar} src={relationProfile.image} />
+            <img className={styles.ProfileAvatar} src={relationProfile.image} alt="Profile Avatar" />
             <h3 className="m-2">{relationProfile.owner}</h3>
 
             {profileData.bio ? (
@@ -257,7 +257,7 @@ function ProfilePage({ location }) {
     <Row>
       <Col className="py-2 p-0 p-lg-2" lg={12}>
         <Container className={`${appStyles.Content} ${styles.ProfileContainer}`}>
-          { useEffectCounter == 1 ? (
+          { useEffectCounter === 1 ? (
             <p>loading</p>
             ) : (
             mainProfile

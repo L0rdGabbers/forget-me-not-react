@@ -86,7 +86,7 @@ const FriendRequests = () => {
               <Row>
                 <Col sm={8} md={4}>
                   {/* Display sender or receiver username based on the request */}
-                  {request.sender == currentUser.id ? (
+                  {request.sender === currentUser.id ? (
                     <h2>Sent to: {request.receiver_username}</h2>
                   ) : (
                     <h2>Sent from: {request.sender_username}</h2>

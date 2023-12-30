@@ -1,7 +1,7 @@
 // FriendCreateForm.js
 // Component for creating a new friend and sending friend requests.
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { axiosReq } from '../../api/axiosDefaults';
 import { useHistory } from 'react-router-dom';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
@@ -94,15 +94,8 @@ const FriendCreateForm = () => {
     }
   };
 
-  // Effect to call getProfileRelation when friend state changes
-  useEffect(() => {
-    if (friend) {
-      getProfileRelation();
-    }
-  }, [friend]);
-
   // Gets the profile relation status for the current user and friend
-  const getProfileRelation = () => {
+  const getProfileRelation = useCallback(() => {
     if (!friend) {
       setProfileFound(2);
       setUnsuccessfulSend(5);
@@ -110,7 +103,7 @@ const FriendCreateForm = () => {
     } else if (friend) {
       setProfileFound(1);
     }
-  
+
     if (friend.id === currentUser.pk) {
       setUnsuccessfulSend(4);
     } else if (friendList.some((friendObj) => friendObj.username === friendUsername)) {
@@ -126,7 +119,14 @@ const FriendCreateForm = () => {
     } else {
       setUnsuccessfulSend(0);
     }
-  };
+  }, [friend, currentUser.pk, friendList, friendUsername, friendRequestData]);
+
+  // Effect to call getProfileRelation when friend state changes
+  useEffect(() => {
+    if (friend) {
+      getProfileRelation();
+    }
+  }, [friend, getProfileRelation]);
 
   // Sends a friend request to the specified user
   const handleSendFriendRequest = async (receiverId) => {

@@ -57,17 +57,15 @@ const ProjectDetail = ({ match }) => {
       } catch (error) {
         console.error('Error fetching project details:', error);
         if (error.response && error.response.status === 404) {
-          console.log('Project not found');
           history.push('/error404');
         } else {
-          console.log('Unexpected error occurred:', error);
         }
       }
     };
 
     // Fetching project details
     fetchProjectDetails();
-  }, [match.params.projectId]);
+  }, [match.params.projectId, history]);
 
   // If project details are not yet loaded, show a loading message
   if (!project) {

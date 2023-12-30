@@ -45,7 +45,6 @@ const TaskDetail = ({ match }) => {
         const response = await axiosReq.get(
           `/tasks/${match.params.taskId}`
         );
-        console.log(response.data)
         // Ensures user is a task owner or collaborator
         if (!response.data.is_owner && !response.data.is_collaborator) {
           history.push('/error404')
@@ -67,17 +66,15 @@ const TaskDetail = ({ match }) => {
       } catch (error) {
         console.error("Error fetching task details:", error);
         if (error.response && error.response.status === 404) {
-          console.log('Project not found');
           history.push('/error404');
         } else {
-          console.log('Unexpected error occurred:', error);
         }
       }
     };
 
     // Fetching task details
     fetchTaskDetails();
-  }, [match.params.taskId]);
+  }, [match.params.taskId, history]);
 
   // If task details are not loaded yet, display a loading message
   if (!task) {
@@ -227,7 +224,7 @@ const TaskDetail = ({ match }) => {
         </Row>
       </Container>
       {/* Displaying edit and delete buttons for the task owner */}
-      {task.is_owner == true ? (
+      {task.is_owner === true ? (
         <Container fluid className={`${styles.Container}`}>
         <Row className='justify-content-between'>
           {/* Submit, Edit and Delete buttons */}

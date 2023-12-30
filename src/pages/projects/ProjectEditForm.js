@@ -235,7 +235,7 @@ const ProjectEditForm = ({ location }) => {
     };
     // Fetching friend list on component mount
     fetchData();
-  }, [])
+  }, [history, location.state, projectData.collaborators])
 
   // JSX for the form layout
   return (

@@ -254,7 +254,7 @@ const TaskCreateForm = () => {
     };
     // Fetching project data on component mount
     fetchData();
-  }, [projectId])
+  }, [projectId, history, location.state])
 
   // JSX for rendering the entire component
   return (

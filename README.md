@@ -610,7 +610,7 @@ My ideas for future development stem from my original user stories that I did no
 - The ability to view a user's personal calendar and see on what days certain projects are due.
 - The ability to send files onto the project's platform
 
-## **Development Bugs**
+# **Development Bugs**
 
 **BIG BUG #1**
 
@@ -652,3 +652,19 @@ Temporary Fix - I did manage to get the application working on my phone, provide
 Note: Personally, I am not happy with this fix, because it really inhibits client usability. It took me a long while in Slack Chats before I finally found a solution to the problem personal problem and I could test the deployed app on my phone.
 
 ![Phone Bug](/src/assets/phone-bug.png)
+
+# Verification
+
+## **ESlint**
+
+After removing all eslint warnings that appeared in my console, as shown below, the project compiled successfully with no further warnings or errors.
+
+![ESlint warning](/src/assets/eslint-warnings.png)
+
+![ESlint clear](/src/assets/compiled-successfully.png)
+
+## **CSS3**
+
+After passing all of the css modules through a CSS W3C validator, all of the returned No Errors found.
+
+![CSS3 Validated](/src/assets/css-validated.png)
