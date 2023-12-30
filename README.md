@@ -9,84 +9,83 @@ Forget me Not provides users with the ability to create projects along with assi
 [Deployed site](https://forget-me-not-react-165c57a94df3.herokuapp.com/) - Live at Heroku
 
 # **Table Of Contents**
-- [**Forget Me Not**](#forget-me-not)
-  - [**Site Overview**](#site-overview)
-- [**Table Of Contents**](#table-of-contents)
--  [**Planning Stage**](#planning-stage)
--  [**Target Audience**](#target-audience)
--  [**User Stories**](#user-stories)
--  [**Site Aims**](#site-aims)
--  [**Database Model**](#database-model)
--  [**Design**](#design)
-  -  [**Colour**](#colour)
--  [**Wireframes**](#wireframes)
-  -  [**Completed wireframes**](#completed-wireframes)
-    -  [**Forms**](#forms)
-    -  [**Details**](#details)
-    -  [**List**](#list)
-  - [**Incomplete wireframes**](#incomplete-wireframes)
-    - [**Calendar**](#calendar)
-  - [**Agile Development Process**](#agile-development-process)
-    - [**Overview**](#overview)
-    - [**Sprint 1 Notes**](#sprint-1-notes)
-    - [**Sprint 2 Notes**](#sprint-2-notes)
-    - [**Sprint 3 Notes**](#sprint-3-notes)
-    - [**Sprint 4 Notes**](#sprint-4-notes)
-    - [**Incomplete User Stories**](#incomplete-user-stories)
-- [**Features**](#features)
-  - [**Components**](#components)
-    - [**Navbar Component**](#navbar-component)
-      - [**Navlinks**](#navlinks)
-      - [**Current Date**](#current-date)
-      - [**Hamburger**](#hamburger)
-    - [**Go Back Button Component**](#go-back-button-component)
-    - [**Avatar Component**](#avatar-component)
-    - [**Require Auth Component**](#require-auth-component)
-  - [**Pages**](#pages)
-    - [**Home Page**](#home-page)
-      - [**Links**](#links)
-        - [**Logged Out Links**](#logged-out-links)
-        - [**Logged In Links**](#logged-in-links)
-    - [**Project and Task Create and Edit Forms**](#project-and-task-create-and-edit-forms)
-      - [**Clarification**](#clarification)
-      - [**Decorative Images**](#decorative-images)
-      - [**Input Fields**](#input-fields)
-        - [**Collaborators and Assignees Fields**](#collaborators-and-assignees-fields)
-      - [**Submit Button**](#submit-button)
-      - [**Cancel Button**](#cancel-button)
-    - [**Project and Task Detail Pages**](#project-and-task-detail-pages)
-      - [**Header**](#header)
-      - [**Project Middle**](#project-middle)
-      - [**Task Middle**](#task-middle)
-      - [**Unsafe Method Buttons**](#unsafe-method-buttons)
-    - [**Create a Friend Page**](#create-a-friend-page)
-      - [**Responses**](#responses)
-    - [**Project List and Completed Project List**](#project-list-and-completed-project-list)
-    - [**Friend List**](#friend-list)
-    - [**Friend Requests**](#friend-requests)
-    - [**My Profile Page**](#my-profile-page)
-    - [**Profile Page**](#profile-page)
-    - [**Sign Up Page**](#sign-up-page)
-    - [**Sign In Page**](#sign-in-page)
-    - [**Error 404**](#error-404)
-- [**Future Development**](#future-development)
-- [**Development Bugs**](#development-bugs)
-  - [**Big Bug**](#big-bug)
-  - [**Unresolved Bugs**](#unresolved-bugs)
-- [**Verification**](#verification)
-  - [**ESlint**](#eslint)
-  - [**CSS3**](#css3)
-  - [**Lighthouse**](#lighthouse)
-- [**Manual Testing**](#manual-testing)
-  - [**User Story**](#user-story)
-  - [**Security**](#security)
-- [**Deployment**](#deployment)
-  - [**Heroku**](#heroku)
-  - [**Backend Link**](#backend-link)
-- [**Technologies Used**](#technologies-used)
-- [**Imported Libraries**](#imported-libraries)
-- [**Credit**](#credit)
-- [**Honourable Mentions**](#honourable-mentions)
+- [Forget Me Not](#forget-me-not)
+  - [Site Overview](#site-overview)
+- [Table Of Contents](#table-of-contents)
+- [Planning Stage](#planning-stage)
+  -  [Target Audience](#target-audience)
+  -  [User Stories](#user-stories)
+  -  [Site Aims](#site-aims)
+  -  [Design](#design)
+  -  [Colour](#colour)
+- [Wireframes](#wireframes)
+  - [Completed wireframes](#completed-wireframes)
+    - [Forms](#forms)
+    - [Details](#details)
+    - [List](#list)
+  - [Incomplete wireframes](#incomplete-wireframes)
+    - [Calendar](#calendar)
+  - [Agile Development Process](#agile-development-process)
+    - [Overview](#overview)
+    - [Sprint 1 Notes](#sprint-1-notes)
+    - [Sprint 2 Notes](#sprint-2-notes)
+    - [Sprint 3 Notes](#sprint-3-notes)
+    - [Sprint 4 Notes](#sprint-4-notes)
+    - [Incomplete User Stories](#incomplete-user-stories)
+- [Features](#features)
+  - [Components](#components)
+    - [Navbar Component](#navbar-component)
+      - [Navlinks](#navlinks)
+      - [Current Date](#current-date)
+      - [Hamburger](#hamburger)
+    - [Go Back Button Component](#go-back-button-component)
+    - [Avatar Component](#avatar-component)
+    - [Require Auth Component](#require-auth-component)
+  - [Pages](#pages)
+    - [Home Page](#home-page)
+      - [Links](#links)
+        - [Logged Out Links](#logged-out-links)
+        - [Logged In Links](#logged-in-links)
+    - [Project and Task Create and Edit Forms](#project-and-task-create-and-edit-forms)
+      - [Clarification](#clarification)
+      - [Decorative Images](#decorative-images)
+      - [Input Fields](#input-fields)
+        - [Collaborators and Assignees Fields](#collaborators-and-assignees-fields)
+      - [Submit Button](#submit-button)
+      - [Cancel Button](#cancel-button)
+    - [Project and Task Detail Pages](#project-and-task-detail-pages)
+      - [Header](#header)
+      - [Project Middle](#project-middle)
+      - [Task Middle](#task-middle)
+      - [Unsafe Method Buttons](#unsafe-method-buttons)
+    - [Create a Friend Page](#create-a-friend-page)
+      - [Responses](#responses)
+    - [Project List and Completed Project List](#project-list-and-completed-project-list)
+    - [Friend List](#friend-list)
+    - [Friend Requests](#friend-requests)
+    - [My Profile Page](#my-profile-page)
+    - [Profile Page](#profile-page)
+    - [Sign Up Page](#sign-up-page)
+    - [Sign In Page](#sign-in-page)
+    - [Error 404](#error-404)
+- [Future Development](#future-development)
+- [Development Bugs](#development-bugs)
+  - [Big Bug](#big-bug)
+  - [Unresolved Bugs](#unresolved-bugs)
+- [Verification](#verification)
+  - [ESlint](#eslint)
+  - [CSS3](#css3)
+  - [Lighthouse](#lighthouse)
+- [Manual Testing](#manual-testing)
+  - [User Story](#user-story)
+  - [Security](#security)
+- [Deployment](#deployment)
+  - [Heroku](#heroku)
+  - [Backend Link](#backend-link)
+- [Technologies Used](#technologies-used)
+- [Imported Libraries](#imported-libraries)
+- [Credit](#credit)
+- [Honourable Mentions](#honourable-mentions)
 
 - People who are slightly disorganised and need a way of breaking down intimidating pieces of work into smaller, more manageable tasks.
 - People who work in groups and need a way of establishing which collaborator needs to do which task.
@@ -129,18 +128,6 @@ The Forget Me Not site had two main goals:
 
 1. To allow people to organise their big life or work projects into a clear and categorised space.
 2. To provide a place for people to work together by providing the opportunity to allocate project tasks to specific collaborators.
-
-## **Database Model**
-
-At the beginning of the project, I did not know how to make a Friend system, and so the I had made a work in progress model. 
-
-![Original model](/src/assets/original-database.png)
-
-However, further into development, while I learnt how to implement a friend list and friend request system, I had created two replacement models: FriendRequest and FriendList.
-
-![Updated model](src/assets/final-database-model.png)
-
-Both of these models were created using https://www.drawio.com/
 
 ## **Design**
 
@@ -309,11 +296,13 @@ For my first sprint, I had decided on implementing the NavBar as this would be t
 
 ## **Components**
 
+These Components feature on a variety of pages.
+
 ### **Navbar Component**
 
 #### **Navlinks**
 
-The Navbar has three sets of Navlinks: standard, logged in and logged out. If a page which can be requested by a navlink is displaying, the icon will turn purple to indicate the user's online location.
+The Navbar has three sets of Navlinks: standard, logged in and logged out. If a page which can be requested by a navlink is displaying, the icon will turn purple to indicate the user's online location. It always displays at the top of the page.
 
 * The only standard navlink is the Home Page Link, and is always visible
 * The logged out navlinks include the sign in and the sign up link. Should currentUser return null, i.e. the user is not logged in, these icons will display.
@@ -342,7 +331,7 @@ On large screen sizes, it will appear at the left, and on smaller ones, it will 
 
 ### **Avatar Component**
 
-The Avatar Component returns a circular image containing a user's profile image. They are used as a visual counterpart to a user's username.
+The Avatar Component returns a circular image containing a user's profile image. They are used as a visual counterpart to a user's username. They appear of the Profile Pages, the Friend List Page an dthe Create Friend Form.
 ![Avatar](/src/assets/avatar.png
 )
 If a user has not assigned themselves an avatar, a default one is provided.
