@@ -194,7 +194,7 @@ I was actually quite eager to implement a calendar system, I didn't think I was 
 
 Still looks pretty though.
 
-![Calendar - Wireframe](/src/assets/calendar.png)
+![Calendar - Wireframe](/src/assets/calendar-wireframe.png)
 
 
 
