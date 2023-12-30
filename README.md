@@ -776,9 +776,9 @@ The Backend Heroku site can be found [here](https://forget-me-not-api-2b7c6aaeb8
 - Heroku - Finished site deployed to Heroku
 
 # **Imported Libraries**
-- React-Bootstrap - Used for efficient and speedy responsive styling and grid layout.
-- Axios - Used for interfacing between front end and back end.
-- React Router Dom - Used for navigation between pages.
+- React-Bootstrap: To keep the stylings of the overall page clear, clean and consistend I used React-Bootstrap for quick mid development styling, as well as to properly and acurately make this project responsive.
+- Axios: I used axios to link the front end of the project with the back end. It is formidable at quickly getting and manipulating data and is extremely useful for keeping the user authenticated after a long period of time by using refresh auth tokens.
+- React Router Dom: Being able to remain on the same page and quickly swap to a desired location without a long delay is an extremly attractive quality for a website to have, which is why I incorporated it into my project.
 
 # **Credit**
 - The site was developed using Gitpod.
