@@ -2,6 +2,7 @@
 // Component for rendering the user's profile page.
 
 import React, { useEffect, useState } from 'react'
+import PropTypes from "prop-types";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
@@ -25,9 +26,6 @@ function MyProfilePage({ location }) {
     // State to store profile image
     const [profileImage, setProfileImage] = useState("");
   
-    // State to handle errors
-    const [errors, setErrors] = useState();
-
     const history = useHistory();
   
     // useEffect to fetch data when the component mounts
@@ -56,9 +54,6 @@ function MyProfilePage({ location }) {
   
         } catch (error) {
           console.error("Error fetching data:", error);
-          if (error.response?.status !== 401) {
-            setErrors(error.response?.data);
-          }
         }
       };
       // Calls the fetchData function
@@ -86,7 +81,7 @@ function MyProfilePage({ location }) {
                 ) : (
                   <>
                     <p className='my-2'>
-                      You haven't written your bio yet, why not write one now?
+                      You haven`&apos;`t written your bio yet, why not write one now?
                     </p>
                   </>
                 )}
@@ -143,6 +138,10 @@ function MyProfilePage({ location }) {
         </Col>
       </Row>
     );
+  }
+
+  MyProfilePage.propTypes = {
+    location: PropTypes.object
   }
 
 export default MyProfilePage;

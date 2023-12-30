@@ -51,7 +51,7 @@ const CompletedProjectList = () => {
   const hasProjects = () => {
     return (
       <div>
-        <h1>Project List</h1>
+        <h1>Completed Projects</h1>
         {projectList.map((project) => (
           <div
             key={project.id}
@@ -83,6 +83,7 @@ const CompletedProjectList = () => {
                 <Col>
                   <p>Tasks remaining: {project.uncompleted_task_count}</p>
                   <p>Tasks completed: {project.completed_task_count}</p>
+                  <p>Collaborators: {project.collaborators.length}</p>
                 </Col>
                 <Col>
                   <Link to={`/projects/${project.id}`}>

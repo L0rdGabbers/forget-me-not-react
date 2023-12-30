@@ -2,6 +2,7 @@
 // Component for editing details of a task
 
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
@@ -234,6 +235,11 @@ const TaskEditForm = ({ location }) => {
         }
         // Making a GET request to get task details
         const task = await axiosReq.get(`/tasks/${taskData.id}`);
+        // Only allows project owners to edit a task.
+        if (!task.is_owner) {
+          history.push('/error404');
+          return;
+        }
         if (task.status === 200) {
           const owner = {
             id: task.data.profile_id,
@@ -299,5 +305,13 @@ const TaskEditForm = ({ location }) => {
     </Form>
   );
 }
+
+TaskEditForm.propTypes = {
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      taskData: PropTypes.object,
+    }),
+  }),
+};
 
 export default TaskEditForm;

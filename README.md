@@ -184,6 +184,45 @@ To contrast when hovered, I used #d4af37, a shade of gold to stand out clearly f
 
 ![Hero Image](/src/assets/project-list.png)
 
+## **Wireframes**
+
+I had used wireframes to help imagine my application, and whilst the overall layout of the pages changed over time, the objective of each completed wireframe remained more or less the same.
+
+### **Completed wireframes**#
+
+#### **Forms**
+
+The Create and Edit Forms have largely remained the same throughout development, there are some noticable differences, for example the Project Create Page now acquires collaborators using checkboxes and not by using pop up menus.
+
+![Create Project - Wireframe](/src/assets/create-project-wireframe.png)
+
+As for the Create Task Page, the original idea for an add file feature can be seen, which unfortunately did not make it to the final deployed project.
+
+![Create Task - Wireframe](/src/assets/create-task.png)
+
+#### **Details**
+
+The Details Page is wildly different in terms of how it organises a project's tasks and how they are displayed to the user, but the purpose of having clear and descriptive due dates and assignees is preserved in the current Project and Task Details page.
+
+
+![Details - Wireframe](/src/assets/tasks-wireframes.png)
+
+#### **List**
+
+The List Pages, which include the Friend List Page, the Friend Request Page and both Project List pages more of less stem from this wire frame. However, they are now much less clunky and stack vertically instead of horizontally.
+
+![Project List - Wireframe](/src/assets/my-projects.png)
+
+### **Incomplete wireframes**
+
+#### **Calendar**
+
+I was actually quite eager to implement a calendar system, I didn't think I was quite adept enough at using Bootstrap to utilise the grid system to design my own calendar at such a late stage in development.
+
+Still looks pretty though.
+
+![Calendar - Wireframe](/src/assets/calendar.png)
+
 
 
 # **Agile Development Process**
@@ -336,8 +375,7 @@ If a user has not assigned themselves an avatar, a default one is provided.
 
 ## **Require Auth Component**
 
-For any page that requires authorisation, I have implemented a Require Auth Component so that users cannot use the url to navigate wantonly accross the site. If a user is not logged in, or if they are trying to access a page they do not have access to, they will be redirected to the Error 404 page.
-
+For any page that requires authorisation, I have implemented a Require Auth Component so that users cannot use the url to navigate wantonly accross the site. If a user is not logged in, they will be redirected to the Error 404 page.
 
 ## **Home Page**
 The Home Page acts as a warm welcome to new users and a quick and easy place to get started for seasoned users.
@@ -373,6 +411,8 @@ Each page featues a decorative image which all resemble the process that each fo
 
 To the right of the page is an Form Container, which allows the user to handle changes to the Project or Task they are creating. The Title, Summary and Due Date fields will display errors if they are not filled in.
 
+In the edit form pages, an option to complete the project or task will be available.
+
 ![Input Field Errors](/src/assets/create-task-errors.png)
 
 #### **Collaborators and Assignees Fields**
@@ -388,10 +428,227 @@ Assuming the inserted data is valid, upon clicking the Submit button labeled eit
 
 This button will return the user to the previous page.
 
+## **Project and Task Detail Pages**
 
+As before, this section discuss the project and task detail pages in the same section of the readme file.
 
+### **Header**
 
+At the top of a project or task detail page, will display the title of the page, followed by the date it was created, the last time it was updated and its due date.
 
+![Detail Page - Header](/src/assets/detail-title.png)
 
+### **Project Middle**
 
+The Middle of the Project Details Page displays its summary, owner and project collaborators on the left of the section. Each Collaborator Name is also a link to that user's profile page (to be discussed further on).
 
+The Right side displays the project's days before due date and will also display if a project is overdue.
+It will list the Projects completed and uncompleted tasks to all the users, but only collaborators that have been assigned to a task will be able to access it's link.
+
+![Project Detail Page - Middle](/src/assets/detail-middle.png)
+
+If the user is has been assigned a task, it will show up on the list of tasks.
+
+The 'Add Task' button is displays only if the user is the Project owner. 
+
+![Project Detail Page - Complete](/src/assets/detail-project-collaborator.png)
+
+If a project has been completed, it will display as so in this section.
+
+![Project Detail Page - Complete](/src/assets/project-complete.png)
+
+### **Task Middle**
+
+The Middle of the Task Details Page displays its summary, owner and task assignees on the left of the section. Each Assignee Name is also a link to that user's profile page (to be discussed further on).
+
+The Right side displays the task's importance and the number of days before it is due and will also display if a project is overdue.
+
+There will also be a green submit button so that a collaborator can submit the task, and will thereupon be redirected to the original Project Details Page.
+
+![Task Detail Page](/src/assets/task-details.png)
+
+If a Task has been completed, it will display so in the right side of the page, instead of the due date and the submit button.
+
+![Task Completed](/src/assets/task-complete.png)
+
+![Project - Task Complete](/src/assets/project-completed-task.png)
+
+### **Unsafe Method Buttons**
+
+If the user is the project's or task's owner, a div at the bottom will display a series of buttons allowing the user to submit, edit or delete a project/task.
+
+![Unsafe Buttons](/src/assets/owner-options.png)
+
+The Project Submit button will mark a project as complete and redirect the user to the Completed Projects List Page.
+
+The Task Submit button will mark a task as complete and redirect the user to the original Project Details View.
+
+The Edit Buttons will direct the user to the Project/Task Edit Form Page.
+
+The Project Delete Button will delete the current project and redirect the user to the Deleted Page.
+
+![Project Deleter](/src/assets/project-deleted.png)
+
+The Task Delete Button will delete the current task and redirect the user to the original Project Details Page.
+
+## **Create a Friend Page**
+This Page allows for a user to search for their friend's username and send them a friend request, and allows for a variety of conditions where sending a friend request is not permitted.
+
+### **Responses**
+
+If the user has no friend status with the entered username, the found profile's avatar and username will be displayed along with a send friend request button, which will send the desired profile a friend request and redirect the user to the Friend Requests Page.
+
+![Send Friend Request](/src/assets/bananaman.png)
+
+If the user already has the desired profile as a friend, has a friend request either to or from the desired user, or even types in their own name, the relevant response will be displayed.
+
+![Already Friend](/src/assets/already-friend.png)
+
+![Request to Self](/src/assets/request-to-self.png)
+
+![Request already sent](/src/assets/request-already-sent.png)
+
+If a friend request has already been received by the user, but maybe has not noticed prior to now, it will show the user and display accept and decline buttons, which will both perform the described action before redirecting the user to their Friends List.
+
+![Request already received](/src/assets/request-already-received.png)
+
+If the user types in a username that is not registered or submits an empty string, the relevant messages will display.
+
+![Username Not Found](/src/assets/unlisted-name.png)
+
+![No Username Entered](/src/assets/friend-blank.png)
+
+## **Project List and Completed Project List**
+
+The following two pages are exactly the same, aside from one aspect, one lists the completed projects, and the other lists the incompleted projects.
+
+![Project List](/src/assets/project-list.png)
+
+Each project that a user either owns or collaborates on is displayed on the relevant list. The project's due date, last updated date, completed tasks, remaining tasks and collaborators are displayed as well as the user's own personal role within this project.
+
+## **Friend List**
+
+This list displays all users who have confirmed a friend request between each other.
+
+![Friend Request](/src/assets/friend-list.png)
+
+Each username is also a link to the friend's profile page.
+
+Additionally, there is an unfriend button which if triggered, will remove both the user and the friend from both user's friend lists. It will then rerender the Friend List page and display an error.
+
+![Unfriended](/src/assets/unfriended.png)
+
+## **Friend Requests**
+
+This list displays the users received and sent friend requests and permits them to either accept or decline requests from others as well as cancel any sent friend requests not yet accepted or declined.
+
+![Friend Requests](/src/assets/friend-requests.png)
+
+If a user accepts a friend request, the sender's profile will be added to the receiver's friend list and vice versa, before being redirected to the user's friend list.
+
+The Decline and Cancel buttons delete the friend request object from the database, before redirecting the user back to their friend list.
+
+## **My Profile Page**
+
+This page allows for the user to look at their profile image and bio, as well as button link to the profile edit page.
+
+![My Profile Page](/src/assets/my-profile.png)
+
+## **Profile Page**
+
+This page allows for the user to view another user's profile's image, bio as well as the number of completed or incompleted projects that the two have worked on together.
+
+If the user has not written a biography yet, some place holder text will display instead.
+
+![Profile Page](/src/assets/friend-profile.png)
+
+If the user opens a profile page of someone who is not their friend, or someone who has sent them a friend request they will be able to handle their friend status directly.
+
+![Not a Friend](/src/assets/not-friend.png)
+
+![Request Received](/src/assets/profile-request-received.png)
+
+If the user has sent a friend request to a user, an inactive button will display to let the user know that a friend request has already been sent.
+
+![Request Sent](/src/assets/profile-request-sent.png)
+
+## **Sign Up Page**
+
+This page acts as a form to allow the user to create a new profile.
+
+![Sign Up Page](/src/assets/sign-up-page.png)
+
+Should the user enter a username or email that has already been taken, it will raise an error and not submit.
+
+![Sign Up Errors](/src/assets/sign-up-errors.png)
+
+Or should the user enter two different passwords, another error will display.
+
+![Password Error](/src/assets/wrong-password.png)
+
+## **Sign In Page**
+
+This page allows for the user to log into their profile.
+
+![Sign In Page](/src/assets/sign-in-page.png)
+
+Should the user successfully enter the username and password, the application wide current user context is updated and will refresh every 5 minutes for 24 hours.
+
+## **Error 404**
+
+Should a user try to access a non-existant object page, or try to access a project or task they do not have access by typing code into the url, they will be automatically redirected to the Error 404 page, which contains a link back to the home page.
+
+![Error 404](/src/assets/error-404.png)
+
+# **Future Development**
+
+My ideas for future development stem from my original user stories that I did not have time to implement.
+
+- The ability to message friends individually.
+- The ability to have a huddle type chatroom with a projects collaborators.
+- The ability to send a friend request via email instead of username.
+- The ability to view a user's personal calendar and see on what days certain projects are due.
+- The ability to send files onto the project's platform
+
+## **Development Bugs**
+
+**BIG BUG #1**
+
+Issue - After creating the Project Create Form, the form would not accept a submission of a project with more than 1 collaborator.
+
+Cause - The DRF API only accepted an array of profile IDs as strings of numbers, and would not accept an array of integers, so a line of code ensuring that collaborator ids were integers prevented this from properly submitting.
+
+![Big Bug #1](/src/assets/parse-int-bug.png) 
+
+Fix - Removing the verifying line of code allowed for the values to be submitted to the DRF API.
+
+Note: I spent 7 hours on this bug, and the margin of error was a series of quotation marks! Use diffchecker more often, kids!
+
+Issue - Unfriending method inconsistent. Ofttimes, it would unfriend the wrong friend, or just wouldn't unfriend anyone.
+
+Cause - The delete method was targeting the user's profile ID as opposed to the user's friend ID, which were not the same numbers.
+Fix - After readjusting the Friend Details Serializers, I specified the difference between a user's profile ID and their friend ID.
+
+Issue - Project Edit Form would not pass the Project's current data into the input fields, thus forcing the user to retype everything they didn't want changed all over again.
+
+Cause - Even though the project had been defined through a get request, the values of the project hadn't been assigned to the Edit Form's input values.
+
+Fix - After learning how to assign the projectData to the New formData and passing those values onto the input fields, the problem never occured again.
+
+Issue - If the user viewed their own profile page, their profile image wouldn't load.
+
+![Missing Profile Image](/src/assets/from-edit-profile-page.png)
+
+Cause - This was due to the fact that the currentUser image and a profile image were not aquired in the same way. One being entirely from a location.state and the other from a get request.
+
+Fix - After many attempts, the simplest soultion turned out to be to make two Profile Pages, one for the user's own profile, and the other for the remaining profiles. That way each page could handle the way it accepted the profileData its own way.
+
+## **Unresolved Bugs**
+
+Issue - Could not log into profile on iPhone Safari. After submitting the correct username and password, the page would refresh and remain logged out. 
+
+Temporary Fix - I did manage to get the application working on my phone, provided I turned off Prevent Cross-Site Tracking in my phone's Safari settings.
+
+Note: Personally, I am not happy with this fix, because it really inhibits client usability. It took me a long while in Slack Chats before I finally found a solution to the problem personal problem and I could test the deployed app on my phone.
+
+![Phone Bug](/src/assets/phone-bug.png)

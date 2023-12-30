@@ -19,7 +19,6 @@ import btnStyles from '../../styles/Button.module.css'
 const FriendList = () => {
   // State to manage friend data, unfriended friends, and display messages
   const [friendList, setFriendList] = useState([]);
-  const [unfriendedFriends, setUnfriendedFriends] = useState([]);
   const [showUnfriendMessage, setShowUnfriendMessage] = useState(false);
   const [dataLoaded, setDataLoaded ] = useState(null);
 
@@ -62,10 +61,6 @@ const FriendList = () => {
         setFriendList((prevFriendList) =>
           prevFriendList.filter((friend) => friend.friend_id !== friendId)
         );
-        setUnfriendedFriends((prevUnfriendedFriends) => [
-          ...prevUnfriendedFriends,
-          friendId,
-        ]);
         setShowUnfriendMessage(true);
       } else {
         console.error("Failed to unfriend");
@@ -104,13 +99,13 @@ const FriendList = () => {
                 backgroundColor: '#fff',
               }}
             >
-              <Container>
+              <Container className='pb-2'>
                 <Row>
                   <Col sm={2} md={2}>
                     {/* Display friend's avatar */}
                     <Avatar className="" src={profile.friend_image} height={50} />
                   </Col>
-                  <Col sm={8} md={4}>
+                  <Col sm={8} md={4} className='pt-1'>
                     <h2>
                       {/* Link to the friend's profile */}
                       <Link
@@ -123,7 +118,7 @@ const FriendList = () => {
                       </Link>
                     </h2>
                   </Col>
-                  <Col sm={3} md={2}>
+                  <Col xs={{span:1}} md={{span: 2, offset: 4}} className='pt-1'>
                     {/* Button to unfriend the friend */}
                     <Button
                       onClick={() => handleUnfriend(profile.friend_id)}

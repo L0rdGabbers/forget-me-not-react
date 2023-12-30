@@ -1,94 +1,94 @@
 /* Default Purple Button */
 
 .Button {
-    width: 24rem;
-    height: 4rem;
-    border-radius: 15px;
-    margin: 0.5rem;
-    background-color: #63336b;
-    border-color: #816aa2;
-    padding-bottom: 8px;
+  width: 24rem;
+  height: 4rem;
+  border-radius: 15px;
+  margin: 0.5rem;
+  background-color: #63336b;
+  border-color: #816aa2;
+  padding-bottom: 8px;
 }
 
 .Button:hover {
-    background-color: #d4af37;
-    border-color: #996515;
+  background-color: #d4af37;
+  border-color: #996515;
 }
 
 /* Red inactive Button */
 
 .DisabledButton {
-  width: 24rem;
-  height: 4rem;
-  border-radius: 15px;
-  background-color: #ffffff;
-  border-color: #ff0000;
-  margin: 0.5rem;
+width: 24rem;
+height: 4rem;
+border-radius: 15px;
+background-color: #ffffff;
+border-color: #ff0000;
+margin: 0.5rem;
 }
 
 /* Small Button Varient */
 
 .Sml {
-    width: 9rem;
-    height: 2rem;  
-    line-height: 1; 
+  width: 9rem;
+  height: 2rem;  
+  line-height: 1; 
 }
 
 /* Colour Varients for Success and Danger */
 
 .Green {
-  background-color: #14A44D;
-  border-color: #000;
+background-color: #14A44D;
+border-color: #000;
 }
 
 .Red {
-  background-color: #DC4C64;
-  border-color: #000;
+background-color: #DC4C64;
+border-color: #000;
 }
 
 /* Larger Text */
 
 .BigText {
-    font-size: 1.5rem
+  font-size: 1.5rem
 }
 
 /* Styling for BackButtonSide component */
 
 .BackButton {
-    width: 12vw;
-    position: fixed;
-    top: 9rem;
-    left: 2.5rem;
-    margin: 2px;
+  width: 12vw;
+  position: fixed;
+  top: 9rem;
+  left: 2.5rem;
+  margin: 2px;
 }
 
 /* Styling for BackButtonBottom component - Not visible at larger screen widths. */
 
 .BackButtonBottom {
-  display: none;
+display: none;
 }
 
 /* Media Queries to ensure button is not too large at small screen sizes */
 
 @media screen and (max-width: 800px) {
-  .Button {
-    width: 40vw;
-  }
+.Button {
+  width: 40vw;
+}
 }
 
 /* Media Queries to switch between BackButtonSide at large screen sizes and BackButtonBottom at smaller screen sizes */
 
 @media screen and (max-width: 1700px) {
-  .BackButton {
-    display: none;
-  }
+.BackButton {
+  display: none;
+}
 
-  .BackButtonBottom {
-    display: block;
-    width: 30vw;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    bottom: 35vw;
-  }
+.BackButtonBottom {
+  display: block;
+  width: 30vw;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  bottom: 35vw;
+}
 }
 

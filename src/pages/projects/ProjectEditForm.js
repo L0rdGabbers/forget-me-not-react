@@ -2,6 +2,7 @@
 // Component for editing project details
 
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -260,6 +261,11 @@ const ProjectEditForm = ({ location }) => {
       </Row>
     </Form>
   );
+}
+
+ProjectEditForm.propTypes = {
+  location: PropTypes.object,
+  projectId: PropTypes.number.isRequired,
 }
 
 // Exporting the ProjectEditForm component

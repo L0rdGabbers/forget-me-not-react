@@ -22,7 +22,6 @@ import CompletedProjectList from "./pages/projects/CompletedProjectList";
 import TaskCreateForm from "./pages/tasks/TaskCreateForm";
 import TaskDetail from "./pages/tasks/TaskDetail";
 import Error404 from "./pages/errors/Error404";
-import Error500 from "./pages/errors/Error500";
 import DeletedPage from "./pages/other/DeletedPage";
 import TaskEditForm from "./pages/tasks/TaskEditForm";
 import ProfilePage from "./pages/profiles/ProfilePage";
@@ -30,6 +29,7 @@ import MyProfilePage from "./pages/profiles/MyProfilePage";
 import ProfileEditForm from "./pages/profiles/ProfileEditForm";
 import BackButtonBottom from "./components/BackButtonBottom";
 import RequireAuth from "./components/RequireAuth";
+import { propTypes } from "react-bootstrap/esm/Image";
 
 function App() {
   // Main component rendering the structure of the application
@@ -61,7 +61,7 @@ function App() {
             path="/profiles/:profileId"
             render={(props) => (
               <RequireAuth>
-                <ProfilePage match={props.match} location={props.location} />
+                <ProfilePage location={props.location} />
               </RequireAuth>
             )}
           />
@@ -189,8 +189,6 @@ function App() {
               </RequireAuth>
             )}
           />
-          {/* Route for handling server error (500) */}
-          <Route exact path="/error/500" render={() => <Error500 />} />
           {/* Route for viewing a deleted page */}
           <Route
             exact
@@ -209,6 +207,11 @@ function App() {
       </Container>
     </div>
   );
+}
+
+App.propTypes = {
+  match: propTypes.object,
+  location: propTypes.object
 }
 
 // Exporting the App component

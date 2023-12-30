@@ -2,6 +2,7 @@
 // Component for rendering user profile details and managing friend requests.
 
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -18,7 +19,6 @@ import { axiosReq } from "../../api/axiosDefaults";
 function ProfilePage({ location }) {
   // State to manage profile data and loading state
   const [profileData, setProfileData] = useState(location.state?.profileData || {});
-  const [dataLoaded, setDataLoaded] = useState(false);
 
   // States for managing friend lists, project lists, friend requests, and user relations
   const [ friendList, setFriendList ] = useState([]);
@@ -30,12 +30,6 @@ function ProfilePage({ location }) {
   const [ isUnknown, setIsUnknown ] = useState(false);
   const [ friendRequestId, setFriendRequestId ] = useState(null);
   const [ useEffectCounter, setUseEffectCounter ] = useState(0)
-
-  // State for managing profile image
-  const [profileImage, setProfileImage] = useState("");
-
-  // State for managing errors
-  const [errors, setErrors] = useState();
 
   // History object from react-router-dom
   const history = useHistory();
@@ -77,17 +71,12 @@ function ProfilePage({ location }) {
 
         // Setting profile data and image
         setProfileData(location.state?.profileData || {});
-        setProfileImage(profileData.image || profileData.profile_image || '');
 
         // Checking user relation and fetching profile
         checkUserRelation();
         fetchProfile();
-        setDataLoaded(true)
       } catch (error) {
         console.error("Error fetching data:", error);
-        if (error.response?.status !== 401) {
-          setErrors(error.response?.data);
-        }
       }
     };
 
@@ -175,7 +164,7 @@ function ProfilePage({ location }) {
               profileData.bio
             ) : (
               <>
-                <p>This user hasn't written a biography yet.</p>
+                <p>This user hasn`&apos;`t written a biography yet.</p>
               </>
             )}
             <p>
@@ -279,6 +268,10 @@ function ProfilePage({ location }) {
     </Row>
   );
 }
+
+ProfilePage.propTypes = {
+  location: PropTypes.object, // Corrected PropTypes definition
+};
 
 // Exporting the ProfilePage component
 export default ProfilePage;

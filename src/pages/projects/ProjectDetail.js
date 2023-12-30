@@ -12,12 +12,12 @@ import { Link, useHistory } from 'react-router-dom';
 import styles from '../../styles/ProjectTaskDetail.module.css'
 import btnStyles from '../../styles/Button.module.css'
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
+import { propTypes } from 'react-bootstrap/esm/Image';
 
 // Component for displaying details of a project
 const ProjectDetail = ({ match }) => {
   // State to manage project details and errors
   const [project, setProject] = useState(null);
-  const [errors, setErrors] = useState();
   const currentUser = useCurrentUser();
 
   // State to manage time remaining for project due date
@@ -46,7 +46,7 @@ const ProjectDetail = ({ match }) => {
         if (!response.data.is_owner && !response.data.is_collaborator) {
           history.push('/error404')
           return;
-        };
+        }
         // Calculating time remaining for project due date
         const dueDateObject = new Date(response.data.due_date);
         const currentDate = new Date();
@@ -116,10 +116,6 @@ const ProjectDetail = ({ match }) => {
       // Navigating to a specific route after successful deletion
       history.push('/deleted');
     } catch (err) {
-      // Handling errors and setting them in the state
-      if (err.response?.status !== 401) {
-        setErrors(err.response?.data);
-      }
       // Navigating to a specific route in case of a forbidden action
       if (err.response?.status === 403) {
         history.push('/forbidden');
@@ -372,6 +368,10 @@ const ProjectDetail = ({ match }) => {
     </>
   );
 };
+
+ProjectDetail.propTypes = {
+  match: propTypes.object
+}
 
 // Exporting the ProjectDetail component
 export default ProjectDetail;

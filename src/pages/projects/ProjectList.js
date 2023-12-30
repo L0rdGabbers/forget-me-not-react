@@ -86,6 +86,7 @@ const ProjectList = () => {
               <Col>
                 <p>Tasks remaining: {project.uncompleted_task_count}</p>
                 <p>Tasks completed: {project.completed_task_count}</p>
+                <p>Collaborators: {project.collaborators.length}</p>
               </Col>
               <Col>
                 <Link to={`/projects/${project.id}`}>

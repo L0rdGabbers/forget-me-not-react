@@ -2,6 +2,7 @@
 // Component for displaying details of a specific task
 
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { axiosReq } from '../../api/axiosDefaults';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -17,7 +18,6 @@ import styles from '../../styles/ProjectTaskDetail.module.css'
 const TaskDetail = ({ match }) => {
   // States to store task details, errors, time remaining, and importance
   const [task, setTask] = useState(null);
-  const [errors, setErrors] = useState();
   const [timeRemaining, setTimeRemaining] = useState(null);
   const [importance, setImportance] = useState(null);
 
@@ -45,11 +45,12 @@ const TaskDetail = ({ match }) => {
         const response = await axiosReq.get(
           `/tasks/${match.params.taskId}`
         );
+        console.log(response.data)
         // Ensures user is a task owner or collaborator
         if (!response.data.is_owner && !response.data.is_collaborator) {
           history.push('/error404')
           return;
-        };
+        }
         // Calculating time remaining for the task
         const dueDateObject = new Date(response.data.due_date);
         const currentDate = new Date();
@@ -112,12 +113,8 @@ const TaskDetail = ({ match }) => {
       // Making a DELETE request to delete the task
       await axiosReq.delete(`/tasks/${task.id}/`);
       // Redirecting to the delete page
-      history.push("/delete");
+      history.push(`/projects/${task.project}/`);
     } catch (err) {
-      // Handling errors and updating state
-      if (err.response?.status !== 401) {
-        setErrors(err.response?.data);
-      }
       // Redirecting to the forbidden page if the user doesn't have permission
       if (err.response?.status === 403) {
         history.push("/forbidden");
@@ -246,6 +243,10 @@ const TaskDetail = ({ match }) => {
       ) : null}
     </div>
   );
+};
+
+TaskDetail.propTypes = {
+  match: PropTypes.object,
 };
 
 // Exporting the TaskDetail component

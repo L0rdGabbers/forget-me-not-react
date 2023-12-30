@@ -203,7 +203,7 @@ const FriendCreateForm = () => {
                       {/* Button to send friend request */}
                       <Button
                         className={`${btnStyles.Button}`}
-                        onClick={handleSendFriendRequest}
+                        onClick={() => handleSendFriendRequest(friend.id)}
                       >
                         Send Friend Request
                       </Button>
@@ -263,7 +263,7 @@ const FriendCreateForm = () => {
                     <Col md={12} className="d-flex justify-content-center mb-4">
                       {/* Display message for self-profile */}
                       <h4>
-                        Hey look! It's You!
+                        Hey look! It`&apos;`s You!
                       </h4>
                     </Col>
                   )}

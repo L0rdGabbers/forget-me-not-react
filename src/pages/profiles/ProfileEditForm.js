@@ -23,9 +23,6 @@ function ProfileEditForm() {
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
 
-  // State to manage the loading state
-  const [ hasLoaded, setHasLoaded ] = useState(false);
-
   // State to manage the new image, preview image, and bio
   const [ newImage, setNewImage ] = useState("");
   const [ previewImage, setPreviewImage ] = useState("") 
@@ -38,16 +35,11 @@ function ProfileEditForm() {
   useEffect(() => {
     // Checking if currentUser is not null
     if (currentUser !== null) {
-      // Setting the hasLoaded state to true
-      setHasLoaded(true);
       // Setting the newBio and previewImage states
       setNewBio(currentUser.bio)
       setPreviewImage(currentUser?.image || currentUser?.profile_image || "")
     }
     // Cleanup function to set hasLoaded to false when the component unmounts
-    return () => {
-      setHasLoaded(false);
-    };
   }, [currentUser])
 
   // Function to handle the change of the image
@@ -97,14 +89,16 @@ function ProfileEditForm() {
   const textFields = (
     <div className="text-center">
       <Form.Group>
-        <p>Click below to change Avatar</p>
-        <img className={styles.ProfilePageAvatar} src={previewImage} />
+        <img
+          className={styles.ProfilePageAvatar}
+          src={previewImage}
+          alt="Profile Avatar"
+        />
         <Col sm={12}>
           <Form.File
             id="image"
             label="Change Profile Image"
             accept="image/*"
-            style={{ display: "none" }}
             onChange={handleImageChange}
           />
         </Col>

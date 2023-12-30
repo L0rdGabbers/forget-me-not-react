@@ -367,7 +367,7 @@ const HomePage = () => {
       {/* Title and tagline */}
       <Container className={styles.TitleContainer}>
         <h1 className={`text-center ${styles.BigTitle}`}>Forget Me Not</h1>
-        <h5 className={`text-center ${styles.Title}`}>A site for organising life's big challenges into bite sized projects and tasks</h5>
+        <h5 className={`text-center ${styles.Title}`}>A site for organising life`&apos;`s big challenges into bite sized projects and tasks</h5>
       </Container>
       {/* Render content based on user status */}
       {currentUser ? renderContent() : renderSignedOut()}
