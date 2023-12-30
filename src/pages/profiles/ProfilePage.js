@@ -164,7 +164,7 @@ function ProfilePage({ location }) {
               profileData.bio
             ) : (
               <>
-                <p>This user hasn`&apos;`t written a biography yet.</p>
+                <p>This user hasn&apos;t written a biography yet.</p>
               </>
             )}
             <p>

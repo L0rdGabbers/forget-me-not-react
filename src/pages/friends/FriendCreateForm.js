@@ -263,7 +263,7 @@ const FriendCreateForm = () => {
                     <Col md={12} className="d-flex justify-content-center mb-4">
                       {/* Display message for self-profile */}
                       <h4>
-                        Hey look! It`&apos;`s You!
+                        Hey look! It&apos;s You!
                       </h4>
                     </Col>
                   )}

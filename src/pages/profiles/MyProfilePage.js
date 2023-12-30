@@ -82,7 +82,7 @@ function MyProfilePage({ location }) {
                 ) : (
                   <>
                     <p className='my-2'>
-                      You haven`&apos;`t written your bio yet, why not write one now?
+                      You haven&apos;t written your bio yet, why not write one now?
                     </p>
                   </>
                 )}
