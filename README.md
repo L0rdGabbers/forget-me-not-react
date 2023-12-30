@@ -741,6 +741,15 @@ Below is a summary of how I manually tested each user story.
 |:-------:|:--------|
 | &check; |
 
+## **Smart Phone**
+
+| Checked | **All pages display on small screen sizes in a nice arrangement.** |
+|:-------:|:--------|
+| &check; |
+
+| Checked | **iPhone 12 is capable of performing all tasks and requests.** |
+|:-------:|:--------|
+| &check; |
 
 # **Deployment**
 
