@@ -29,7 +29,6 @@ import MyProfilePage from "./pages/profiles/MyProfilePage";
 import ProfileEditForm from "./pages/profiles/ProfileEditForm";
 import BackButtonBottom from "./components/BackButtonBottom";
 import RequireAuth from "./components/RequireAuth";
-import { propTypes } from "react-bootstrap/esm/Image";
 
 function App() {
   // Main component rendering the structure of the application
@@ -207,11 +206,6 @@ function App() {
       </Container>
     </div>
   );
-}
-
-App.propTypes = {
-  match: propTypes.object,
-  location: propTypes.object
 }
 
 // Exporting the App component

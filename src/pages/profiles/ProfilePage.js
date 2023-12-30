@@ -2,7 +2,6 @@
 // Component for rendering user profile details and managing friend requests.
 
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -268,10 +267,6 @@ function ProfilePage({ location }) {
     </Row>
   );
 }
-
-ProfilePage.propTypes = {
-  location: PropTypes.object, // Corrected PropTypes definition
-};
 
 // Exporting the ProfilePage component
 export default ProfilePage;

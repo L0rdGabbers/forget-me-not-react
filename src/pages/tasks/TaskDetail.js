@@ -2,7 +2,6 @@
 // Component for displaying details of a specific task
 
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { axiosReq } from '../../api/axiosDefaults';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -240,10 +239,6 @@ const TaskDetail = ({ match }) => {
       ) : null}
     </div>
   );
-};
-
-TaskDetail.propTypes = {
-  match: PropTypes.object,
 };
 
 // Exporting the TaskDetail component

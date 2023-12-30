@@ -2,7 +2,6 @@
 // Component for editing details of a task
 
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
@@ -305,13 +304,5 @@ const TaskEditForm = ({ location }) => {
     </Form>
   );
 }
-
-TaskEditForm.propTypes = {
-  location: PropTypes.shape({
-    state: PropTypes.shape({
-      taskData: PropTypes.object,
-    }),
-  }),
-};
 
 export default TaskEditForm;

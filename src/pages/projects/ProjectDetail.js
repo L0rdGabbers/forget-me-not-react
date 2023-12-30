@@ -12,7 +12,6 @@ import { Link, useHistory } from 'react-router-dom';
 import styles from '../../styles/ProjectTaskDetail.module.css'
 import btnStyles from '../../styles/Button.module.css'
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
-import { propTypes } from 'react-bootstrap/esm/Image';
 
 // Component for displaying details of a project
 const ProjectDetail = ({ match }) => {
@@ -366,10 +365,6 @@ const ProjectDetail = ({ match }) => {
     </>
   );
 };
-
-ProjectDetail.propTypes = {
-  match: propTypes.object
-}
 
 // Exporting the ProjectDetail component
 export default ProjectDetail;

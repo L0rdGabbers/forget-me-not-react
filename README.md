@@ -4,7 +4,7 @@ Based on the creator's very real need to organise their big projects into nice l
 
 Forget me Not provides users with the ability to create projects along with assigning people from their friends list as project collaborators so that the workloads of large and intimidating projects can be shared between a team of individuals.
 
-![Responsive screenshot](assets/responsive.jpg)
+![Responsive screenshot](/src/assets/am-i-responsive.png)
 
 [Deployed site](Be sure to add a site name.)
 
@@ -188,30 +188,30 @@ To contrast when hovered, I used #d4af37, a shade of gold to stand out clearly f
 
 I had used wireframes to help imagine my application, and whilst the overall layout of the pages changed over time, the objective of each completed wireframe remained more or less the same.
 
-### **Completed wireframes**#
+### **Completed wireframes**
 
 #### **Forms**
 
 The Create and Edit Forms have largely remained the same throughout development, there are some noticable differences, for example the Project Create Page now acquires collaborators using checkboxes and not by using pop up menus.
 
-![Create Project - Wireframe](/src/assets/create-project-wireframe.png)
+![Create Project - Wireframe](/src/assets/create-project-wireframes.png)
 
 As for the Create Task Page, the original idea for an add file feature can be seen, which unfortunately did not make it to the final deployed project.
 
-![Create Task - Wireframe](/src/assets/create-task.png)
+![Create Task - Wireframe](/src/assets/create-task-wireframes.png)
 
 #### **Details**
 
 The Details Page is wildly different in terms of how it organises a project's tasks and how they are displayed to the user, but the purpose of having clear and descriptive due dates and assignees is preserved in the current Project and Task Details page.
 
 
-![Details - Wireframe](/src/assets/tasks-wireframes.png)
+![Details - Wireframe](/src/assets/projects-wireframes.png)
 
 #### **List**
 
 The List Pages, which include the Friend List Page, the Friend Request Page and both Project List pages more of less stem from this wire frame. However, they are now much less clunky and stack vertically instead of horizontally.
 
-![Project List - Wireframe](/src/assets/my-projects.png)
+![Project List - Wireframe](/src/assets/my-projects-wireframes.png)
 
 ### **Incomplete wireframes**
 
@@ -487,7 +487,7 @@ The Edit Buttons will direct the user to the Project/Task Edit Form Page.
 
 The Project Delete Button will delete the current project and redirect the user to the Deleted Page.
 
-![Project Deleter](/src/assets/project-deleted.png)
+![Project Deleted](/src/assets/project-deleted.png)
 
 The Task Delete Button will delete the current task and redirect the user to the original Project Details Page.
 
@@ -668,3 +668,23 @@ After removing all eslint warnings that appeared in my console, as shown below, 
 After passing all of the css modules through a CSS W3C validator, all of the returned No Errors found.
 
 ![CSS3 Validated](/src/assets/css-validated.png)
+
+## **Lighthouse**
+
+After running my project through lighthouse, it returned with the following results.
+
+![Lighthouse results](/src/assets/lighthouse.png)
+
+# **Manual Testing**
+
+## **User Story**
+
+Below is a summary of how I manually tested each user story.
+
+| Checked | **As a user, I can use a navbar on all pages so that I can get to any desired page.** |
+|:-------:|:--------|
+| &check; | Can access the Navbar Navlink destinations from any location.  |
+
+| Checked | **As a User, I can navigate between pages effortlessly so that I can use the website without any page refreshes.** |
+|:-------:|:--------|
+| &check; | Can access the Navbar Navlink destinations from any location.  |

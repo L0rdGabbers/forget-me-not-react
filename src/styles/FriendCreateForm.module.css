@@ -5,6 +5,13 @@
     padding-top: 6rem;
     background-color: #ffffff;
     background-size: cover;
-    min-height: 50vw;
+    min-height: 20rem;
     border: 1px solid #dadada;
+}
+
+@media screen and (max-width: 600px) {
+    .Container {
+        min-height: 30vw;
+    }
+
 }

@@ -2,7 +2,6 @@
 // Component for rendering the user's profile page.
 
 import React, { useEffect, useState } from 'react'
-import PropTypes from "prop-types";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
@@ -141,8 +140,5 @@ function MyProfilePage({ location }) {
     );
   }
 
-  MyProfilePage.propTypes = {
-    location: PropTypes.object
-  }
 
 export default MyProfilePage;
